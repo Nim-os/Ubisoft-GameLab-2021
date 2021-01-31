@@ -22,7 +22,7 @@ Classes and Methods are documented in XML detailing summary, parameters, and ret
  ///    location.</summary>
  /// <param><c>o</c> is the object to be compared to the current object.
  /// </param>
- /// <returns>True if the Points have the same location and they have
+ /// <returns>True if the <c>Point</c> objects have the same location and they have
  ///    the exact same type; otherwise, false.</returns>
  ```
  
