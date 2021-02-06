@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class PlayerPropulsion : MonoBehaviour
 {
+    public float propulsionForce;
+    public int gas;
+
     private Rigidbody rigidbody;
-    public float propulsionForce = 10f;
     private Plane plane = new Plane(Vector3.up, Vector3.zero);
 
     void Start()
@@ -16,8 +18,9 @@ public class PlayerPropulsion : MonoBehaviour
     void FixedUpdate()
     {
         // hold down mouse button
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0) && gas > 0)
         {
+            gas--;
             // use mouse location to calculate direction to apply force
             var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             float enter;

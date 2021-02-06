@@ -155,6 +155,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   propulsionForce: 0.2
+  gas: 1000
 --- !u!54 &204763594
 Rigidbody:
   m_ObjectHideFlags: 0
