@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+    Player Propulsion class
+    Contains all methods related to self propulsion
+*/
 public class PlayerPropulsion : MonoBehaviour
 {
     public float propulsionForce;
@@ -17,11 +21,14 @@ public class PlayerPropulsion : MonoBehaviour
 
     void FixedUpdate()
     {
-        // hold down mouse button
+        // On mouse button held down && not empty on gas,
+        // add force to player towards the mouse direction
         if (Input.GetMouseButton(0) && gas > 0)
         {
+            // Use up gas when propulsion
             gas--;
-            // use mouse location to calculate direction to apply force
+
+            // Use mouse location to calculate direction to apply force
             var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             float enter;
             if (plane.Raycast(ray, out enter))
@@ -33,7 +40,7 @@ public class PlayerPropulsion : MonoBehaviour
             }
         }
 
-        // reset location for testing purposes
+        // Reset location for testing purposes
         if (Input.GetKeyDown("r"))
         {
             this.GetComponent<Rigidbody>().velocity = Vector3.zero;
