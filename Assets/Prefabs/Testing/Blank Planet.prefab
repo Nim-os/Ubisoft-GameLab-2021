@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5530407054102440338}
   - component: {fileID: 7773924873004084036}
   - component: {fileID: 1641893421028846323}
+  - component: {fileID: 148985457747135399}
   m_Layer: 0
   m_Name: Blank Planet
   m_TagString: Untagged
@@ -118,10 +119,24 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4144062046564369135}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b4a9244f2dc975641977d6409b120f82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 7773924873004084036}
   G: 6.67e-11
+--- !u!114 &148985457747135399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4144062046564369135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a0e1a782760d4e6c8e30ea551a9bf35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 7773924873004084036}
+  affect_radius: 0
