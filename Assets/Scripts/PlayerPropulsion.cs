@@ -11,12 +11,12 @@ public class PlayerPropulsion : MonoBehaviour
     public float propulsionForce;
     public int gas;
 
-    private Rigidbody rigidbody;
+    private Rigidbody rb;
     private Plane plane = new Plane(Vector3.up, Vector3.zero);
 
     void Start()
     {
-        rigidbody = gameObject.GetComponent<Rigidbody>();
+        rb = gameObject.GetComponent<Rigidbody>();
     }
 
     void FixedUpdate()
@@ -36,7 +36,7 @@ public class PlayerPropulsion : MonoBehaviour
                 var hitPoint = ray.GetPoint(enter);
                 var mouseDirection = hitPoint - gameObject.transform.position;
                 mouseDirection = mouseDirection.normalized;
-                rigidbody.AddForce(mouseDirection * propulsionForce, ForceMode.Impulse);
+                rb.AddForce(mouseDirection * propulsionForce, ForceMode.Impulse);
             }
         }
 
