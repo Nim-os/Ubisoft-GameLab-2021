@@ -5,16 +5,16 @@
  - April Sada Solomon *`Programmer`*
  - Calla Lu *`Artist`*
  - Christophe Simon *`Programmer`*
- - Wenyu Li *`Artist`*
  - Moyang Chen *`Programmer`*
  - Ness Chu *`Designer/ Programmer`*
  - Sophearah Suy-Puth *`Designer/ Programmer`*
+ - Wenyu Li *`Artist`*
 
 ## Conventions
 Coding conventions follow [Microsoft C# Coding Conventions](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/inside-a-program/coding-conventions).  
 Classes and Methods are documented in XML detailing summary, parameters, and return.  
 <details>
- <summary> Example documentation </summary>
+ <summary> Example </summary>
  <p>
   
  ```
