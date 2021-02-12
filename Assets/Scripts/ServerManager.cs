@@ -28,6 +28,8 @@ public class ServerManager : MonoBehaviourPunCallbacks
 	public override void OnJoinedRoom()
 	{
 		Debug.Log("Successfully joined room");
+
+		PhotonNetwork.Instantiate("Player", new Vector3(Random.Range(-10,10), 1, Random.Range(-10, 10)), Quaternion.identity);
 	}
 
 	public override void OnJoinRoomFailed(short returnCode, string message)
