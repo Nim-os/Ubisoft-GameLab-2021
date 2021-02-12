@@ -21,30 +21,34 @@ public class PlayerPropulsion : MonoBehaviour
 
     void FixedUpdate()
     {
-        // On mouse button held down && not empty on gas,
-        // add force to player towards the mouse direction
-        if (Input.GetMouseButton(0) && gas > 0)
-        {
-            // Use up gas when propulsion
-            gas--;
-
-            // Use mouse location to calculate direction to apply force
-            var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            float enter;
-            if (plane.Raycast(ray, out enter))
+        if (gameObject.GetComponent<Photon.Pun.PhotonView>().IsMine)
+		{
+            // On mouse button held down && not empty on gas,
+            // add force to player towards the mouse direction
+            if (Input.GetMouseButton(0) && gas > 0)
             {
-                var hitPoint = ray.GetPoint(enter);
-                var mouseDirection = hitPoint - gameObject.transform.position;
-                mouseDirection = mouseDirection.normalized;
-                rb.AddForce(mouseDirection * propulsionForce, ForceMode.Impulse);
+                // Use up gas when propulsion
+                gas--;
+
+                // Use mouse location to calculate direction to apply force
+                var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                float enter;
+                if (plane.Raycast(ray, out enter))
+                {
+                    var hitPoint = ray.GetPoint(enter);
+                    var mouseDirection = hitPoint - gameObject.transform.position;
+                    mouseDirection = mouseDirection.normalized;
+                    rb.AddForce(mouseDirection * propulsionForce, ForceMode.Impulse);
+                }
+            }
+
+            // Reset location for testing purposes
+            if (Input.GetKeyDown("r"))
+            {
+                this.GetComponent<Rigidbody>().velocity = Vector3.zero;
+                this.transform.position = Vector3.zero;
             }
         }
-
-        // Reset location for testing purposes
-        if (Input.GetKeyDown("r"))
-        {
-            this.GetComponent<Rigidbody>().velocity = Vector3.zero;
-            this.transform.position = Vector3.zero;
-        }
+        
     }
 }
