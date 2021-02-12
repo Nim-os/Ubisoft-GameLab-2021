@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2547071279778171079}
   - component: {fileID: 6982444497864831288}
   - component: {fileID: 1567067883924184706}
+  - component: {fileID: 1608459974236670436}
   m_Layer: 5
   m_Name: PlayerPing
   m_TagString: Untagged
@@ -110,3 +111,15 @@ MonoBehaviour:
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &1608459974236670436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1154270346505755446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51198aa3c15e803478c481d3ce54dd00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

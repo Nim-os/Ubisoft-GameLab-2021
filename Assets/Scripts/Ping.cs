@@ -5,13 +5,28 @@ using Photon.Pun;
 
 public class Ping : MonoBehaviour
 {
+    public static Ping instance { get; private set; }
+
     public GameObject playerPing;
     public GameObject hazardPing;
     public GameObject locationPing;
     public Canvas canv;
     Camera cam;
 
-    void Start()
+	private void Awake()
+	{
+		if (instance == null)
+		{
+            instance = this;
+		}
+        else
+		{
+            Destroy(this);
+            return;
+		}
+	}
+
+	void Start()
     {
         cam = GetComponent<Camera>();
     }
@@ -42,7 +57,12 @@ public class Ping : MonoBehaviour
                 marker = Instantiate(ping, mousePos, Quaternion.identity);
             }
 
-            marker.transform.SetParent(canv.transform);
+            //marker.transform.SetParent(canv.transform);
         }
     }
+
+    public Canvas GetCanvas()
+	{
+        return canv;
+	}
 }
