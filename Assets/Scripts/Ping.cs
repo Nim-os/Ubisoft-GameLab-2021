@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class Ping : MonoBehaviour
 {
@@ -30,7 +31,17 @@ public class Ping : MonoBehaviour
                 if (hit.collider.gameObject.tag.Equals("Hazard")) ping = hazardPing;
             }
 
-            var marker = Instantiate(ping, mousePos, Quaternion.identity);
+            GameObject marker;
+
+            if (PhotonNetwork.InRoom)
+			{
+                marker = PhotonNetwork.Instantiate(ping.name, mousePos, Quaternion.identity);
+            }
+            else
+            {
+                marker = Instantiate(ping, mousePos, Quaternion.identity);
+            }
+
             marker.transform.SetParent(canv.transform);
         }
     }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using Photon.Realtime;
 
 public class ServerManager : MonoBehaviourPunCallbacks
 {
@@ -35,7 +36,7 @@ public class ServerManager : MonoBehaviourPunCallbacks
 
 		Debug.Log("Attempting to create room");
 
-		PhotonNetwork.CreateRoom(DevRoomID);
+		CreateDevRoom();
 	}
 
 	public override void OnCreatedRoom()
@@ -46,5 +47,18 @@ public class ServerManager : MonoBehaviourPunCallbacks
 	public override void OnCreateRoomFailed(short returnCode, string message)
 	{
 		Debug.Log($"Failed to create room.\nError message: {message}");
+	}
+
+
+	private void CreateDevRoom()
+	{
+		var room = new RoomOptions()
+		{
+			IsOpen = true,
+			IsVisible = false,
+			MaxPlayers = 12
+		};
+
+		PhotonNetwork.CreateRoom(DevRoomID, room);
 	}
 }
