@@ -30,8 +30,8 @@ public class PlayerPropulsion : MonoBehaviour
     {
         if (gameObject.GetComponent<Photon.Pun.PhotonView>().IsMine)
 		{
-            onPropulsion();
-            onResetLocation();
+            OnPropulsion();
+            OnResetLocation();
         }
     }
 
@@ -60,7 +60,7 @@ public class PlayerPropulsion : MonoBehaviour
     private void OnResetLocation(){
         if (Input.GetKeyDown("r"))
         {
-            this.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            rb.velocity = Vector3.zero;
             this.transform.position = Vector3.zero;
         }
     }
