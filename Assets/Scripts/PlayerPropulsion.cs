@@ -35,7 +35,7 @@ public class PlayerPropulsion : MonoBehaviour
         }
     }
 
-    private void onPropulsion(){
+    private void OnPropulsion(){
         // On mouse button held down && not empty on gas,
         // add force to player towards the mouse direction
         if (Input.GetMouseButton(0) && gas > 0)
@@ -57,7 +57,7 @@ public class PlayerPropulsion : MonoBehaviour
     }
 
     /// <summary> Reset location of player on "r". Delete later. </summary>
-    private void onResetLocation(){
+    private void OnResetLocation(){
         if (Input.GetKeyDown("r"))
         {
             this.GetComponent<Rigidbody>().velocity = Vector3.zero;
