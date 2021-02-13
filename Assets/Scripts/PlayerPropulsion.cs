@@ -30,32 +30,38 @@ public class PlayerPropulsion : MonoBehaviour
     {
         if (gameObject.GetComponent<Photon.Pun.PhotonView>().IsMine)
 		{
-            // On mouse button held down && not empty on gas,
-            // add force to player towards the mouse direction
-            if (Input.GetMouseButton(0) && gas > 0)
-            {
-                // Use up gas when propulsion
-                gas--;
+            onPropulsion();
+            onResetLocation();
+        }
+    }
 
-                // Use mouse location to calculate direction to apply force
-                var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                float enter;
-                if (plane.Raycast(ray, out enter))
-                {
-                    var hitPoint = ray.GetPoint(enter);
-                    var mouseDirection = hitPoint - gameObject.transform.position;
-                    mouseDirection = mouseDirection.normalized;
-                    rb.AddForce(mouseDirection * propulsionForce, ForceMode.Impulse);
-                }
-            }
+    private void onPropulsion(){
+        // On mouse button held down && not empty on gas,
+        // add force to player towards the mouse direction
+        if (Input.GetMouseButton(0) && gas > 0)
+        {
+            // Use up gas when propulsion
+            gas--;
 
-            // Reset location for testing purposes
-            if (Input.GetKeyDown("r"))
+            // Use mouse location to calculate direction to apply force
+            var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            float enter;
+            if (plane.Raycast(ray, out enter))
             {
-                this.GetComponent<Rigidbody>().velocity = Vector3.zero;
-                this.transform.position = Vector3.zero;
+                var hitPoint = ray.GetPoint(enter);
+                var mouseDirection = hitPoint - gameObject.transform.position;
+                mouseDirection = mouseDirection.normalized;
+                rb.AddForce(mouseDirection * propulsionForce, ForceMode.Impulse);
             }
         }
-        
+    }
+
+    /// <summary> Reset location of player on "r". Delete later. </summary>
+    private void onResetLocation(){
+        if (Input.GetKeyDown("r"))
+        {
+            this.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            this.transform.position = Vector3.zero;
+        }
     }
 }
