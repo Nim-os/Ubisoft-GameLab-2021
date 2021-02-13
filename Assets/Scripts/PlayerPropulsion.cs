@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 /*
     Player Propulsion class
@@ -17,6 +18,12 @@ public class PlayerPropulsion : MonoBehaviour
     void Start()
     {
         rb = gameObject.GetComponent<Rigidbody>();
+
+        // player inside target group for camera
+        var cameraTargetGroup = GameObject.Find("CameraTargetGroup").GetComponent<CinemachineTargetGroup>();
+
+        cameraTargetGroup.AddMember(this.transform,1,0);
+
     }
 
     void FixedUpdate()
