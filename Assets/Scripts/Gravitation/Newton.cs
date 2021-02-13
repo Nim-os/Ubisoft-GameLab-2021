@@ -13,13 +13,20 @@ public class Newton : MonoBehaviour
     // Fixed Update
     private void FixedUpdate()
     {
-        // Creates array of bodies that can attract
-        Newton[] bodies = FindObjectsOfType<Newton>();
-        foreach(Newton body in bodies)
-        {
-            // Apply third law to each body (except this) in the array
-            if (body != this) ThirdLaw(body);
+        if ((rb == null) && (gameObject.GetComponent<Rigidbody>())) {
+            rb = gameObject.GetComponent<Rigidbody>();
         }
+
+        if (rb){
+            // Creates array of bodies that can attract
+            Newton[] bodies = FindObjectsOfType<Newton>();
+            foreach(Newton body in bodies)
+            {
+                // Apply third law to each body (except this) in the array
+                if (body != this) ThirdLaw(body);
+            }
+        }
+        
     }
 
 
