@@ -11,9 +11,7 @@ public class BaseAsteroid : MonoBehaviour
     void Start(){
         // Set private variables
         rb = gameObject.GetComponent<Rigidbody>();
-
-        // why doesnt lookat work
+        
         rb.AddForce(Vector3.forward * thurst);
     }
-
 }
