@@ -17,6 +17,7 @@ public class RangeDetector : MonoBehaviour
         var hitObject = other.gameObject;
         // if gravitational object && not a planet
         if (hitObject.GetComponent<BaseGravitation>() && (hitObject.name != "BasicPlanet")){
+            Debug.Log("ADDDED " + hitObject.name);
             body.AddWithinRange(hitObject.GetComponent<BaseGravitation>());
         }
     }
