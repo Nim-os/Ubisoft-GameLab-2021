@@ -38,7 +38,15 @@ public class PlayerPropulsion : MonoBehaviour
             gas--;
 
             ApplyForceInMouseDirection();
+            RemoveMass();
+        }else if (Input.GetMouseButton(0) && gas < 1){
+            Debug.Log("ran out of gas");
         }
+    }
+
+    void RemoveMass(){
+        //rb.mass--;
+        gameObject.transform.localScale -= new Vector3(0.001f,0.001f,0.001f);
     }
 
     // Use mouse location to calculate direction to apply force
