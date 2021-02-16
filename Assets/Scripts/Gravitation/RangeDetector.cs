@@ -16,7 +16,7 @@ public class RangeDetector : MonoBehaviour
     private void OnTriggerEnter(Collider other) {
         var hitObject = other.gameObject;
         // if gravitational object && not a planet
-        if (hitObject.GetComponent<BaseGravitation>() && (hitObject.name != "BasicPlanet")){
+        if (hitObject.GetComponent<BaseGravitation>() && (hitObject.tag != "Planet")){
             body.AddWithinRange(hitObject.GetComponent<BaseGravitation>());
         }
     }
