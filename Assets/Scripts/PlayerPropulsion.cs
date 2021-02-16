@@ -3,10 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 
-/*
-    Player Propulsion class
-    Contains all methods related to self propulsion
-*/
+/// <summary> Contains all methods related to self propulsion </summary>
 public class PlayerPropulsion : MonoBehaviour
 {
     public float propulsionForce;
@@ -19,11 +16,9 @@ public class PlayerPropulsion : MonoBehaviour
     {
         rb = gameObject.GetComponent<Rigidbody>();
 
-        // player inside target group for camera
+        // Add player to cameraTargetGroup
         var cameraTargetGroup = GameObject.Find("CameraTargetGroup").GetComponent<CinemachineTargetGroup>();
-
         cameraTargetGroup.AddMember(this.transform,1,0);
-
     }
 
     void FixedUpdate()
@@ -35,9 +30,8 @@ public class PlayerPropulsion : MonoBehaviour
         }
     }
 
+    /// <summary> On mouse button held down && not empty on gas, add force to player towards the mouse direction </summary>
     private void OnPropulsion(){
-        // On mouse button held down && not empty on gas,
-        // add force to player towards the mouse direction
         if (Input.GetMouseButton(0) && gas > 0)
         {
             // Use up gas when propulsion
