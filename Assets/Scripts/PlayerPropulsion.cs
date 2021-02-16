@@ -52,6 +52,9 @@ public class PlayerPropulsion : MonoBehaviour
 
         // if not another Player && smaller
         if ((other.gameObject.tag != "Player") && (otherVolume <= thisVolume)){
+            // remove from gravity list
+            // TODO: remove from all gravity lists it's on
+            this.GetComponent<BaseGravitation>().RemoveWithinRange(other.gameObject.GetComponent<BaseGravitation>());
             // destroy eaten object
             Destroy(other.gameObject);
             // add its volume to the player
