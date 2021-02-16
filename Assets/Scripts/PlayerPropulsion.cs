@@ -37,16 +37,20 @@ public class PlayerPropulsion : MonoBehaviour
             // Use up gas when propulsion
             gas--;
 
-            // Use mouse location to calculate direction to apply force
-            var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            float enter;
-            if (plane.Raycast(ray, out enter))
-            {
-                var hitPoint = ray.GetPoint(enter);
-                var mouseDirection = hitPoint - gameObject.transform.position;
-                mouseDirection = mouseDirection.normalized;
-                rb.AddForce(mouseDirection * propulsionForce, ForceMode.Impulse);
-            }
+            ApplyForceInMouseDirection();
+        }
+    }
+
+    // Use mouse location to calculate direction to apply force
+    private void ApplyForceInMouseDirection(){
+        var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        float enter;
+        if (plane.Raycast(ray, out enter))
+        {
+            var hitPoint = ray.GetPoint(enter);
+            var mouseDirection = hitPoint - gameObject.transform.position;
+            mouseDirection = mouseDirection.normalized;
+            rb.AddForce(mouseDirection * propulsionForce, ForceMode.Impulse);
         }
     }
 
