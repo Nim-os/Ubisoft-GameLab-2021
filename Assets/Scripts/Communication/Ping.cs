@@ -12,7 +12,6 @@ public class Ping : MonoBehaviour
     public GameObject hazardPing;
     public GameObject locationPing;
     public Canvas canv;
-    Camera cam;
 
 	private void Awake()
 	{
@@ -26,11 +25,6 @@ public class Ping : MonoBehaviour
             return;
 		}
 	}
-
-	void Start()
-    {
-        cam = GetComponent<Camera>();
-    }
 
     void Update()
     {
@@ -46,22 +40,17 @@ public class Ping : MonoBehaviour
         GameObject ping = locationPing;
 
         Ray ray = Camera.main.ScreenPointToRay(mousePos);
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, 100f, layer, QueryTriggerInteraction.Ignore))
+
+        if (Physics.Raycast(ray, out RaycastHit hit, 100f, layer, QueryTriggerInteraction.Ignore))
         {
             if (hit.collider.gameObject.tag.Equals("Player")) ping = playerPing;
             if (hit.collider.gameObject.tag.Equals("Hazard")) ping = hazardPing;
         }
 
-        GameObject marker;
 
         if (PhotonNetwork.InRoom)
         {
-            marker = PhotonNetwork.Instantiate(ping.name, ray.origin, Quaternion.identity);
-        }
-        else
-        {
-            marker = Instantiate(ping, ray.origin, Quaternion.identity);
+            PhotonNetwork.Instantiate(ping.name, ray.origin, Quaternion.identity);
         }
     }
 
