@@ -41,6 +41,14 @@ public class @InputSystem : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Reset"",
+                    ""type"": ""Button"",
+                    ""id"": ""bfacf034-09c8-4222-a42f-76e9a83e820a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -76,6 +84,17 @@ public class @InputSystem : IInputActionCollection, IDisposable
                     ""action"": ""Ping"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5923d8cb-714d-4505-b53e-4ed47d160beb"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard & Mouse"",
+                    ""action"": ""Reset"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -104,6 +123,7 @@ public class @InputSystem : IInputActionCollection, IDisposable
         m_Game_Primary = m_Game.FindAction("Primary", throwIfNotFound: true);
         m_Game_Secondary = m_Game.FindAction("Secondary", throwIfNotFound: true);
         m_Game_Ping = m_Game.FindAction("Ping", throwIfNotFound: true);
+        m_Game_Reset = m_Game.FindAction("Reset", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -156,6 +176,7 @@ public class @InputSystem : IInputActionCollection, IDisposable
     private readonly InputAction m_Game_Primary;
     private readonly InputAction m_Game_Secondary;
     private readonly InputAction m_Game_Ping;
+    private readonly InputAction m_Game_Reset;
     public struct GameActions
     {
         private @InputSystem m_Wrapper;
@@ -163,6 +184,7 @@ public class @InputSystem : IInputActionCollection, IDisposable
         public InputAction @Primary => m_Wrapper.m_Game_Primary;
         public InputAction @Secondary => m_Wrapper.m_Game_Secondary;
         public InputAction @Ping => m_Wrapper.m_Game_Ping;
+        public InputAction @Reset => m_Wrapper.m_Game_Reset;
         public InputActionMap Get() { return m_Wrapper.m_Game; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -181,6 +203,9 @@ public class @InputSystem : IInputActionCollection, IDisposable
                 @Ping.started -= m_Wrapper.m_GameActionsCallbackInterface.OnPing;
                 @Ping.performed -= m_Wrapper.m_GameActionsCallbackInterface.OnPing;
                 @Ping.canceled -= m_Wrapper.m_GameActionsCallbackInterface.OnPing;
+                @Reset.started -= m_Wrapper.m_GameActionsCallbackInterface.OnReset;
+                @Reset.performed -= m_Wrapper.m_GameActionsCallbackInterface.OnReset;
+                @Reset.canceled -= m_Wrapper.m_GameActionsCallbackInterface.OnReset;
             }
             m_Wrapper.m_GameActionsCallbackInterface = instance;
             if (instance != null)
@@ -194,6 +219,9 @@ public class @InputSystem : IInputActionCollection, IDisposable
                 @Ping.started += instance.OnPing;
                 @Ping.performed += instance.OnPing;
                 @Ping.canceled += instance.OnPing;
+                @Reset.started += instance.OnReset;
+                @Reset.performed += instance.OnReset;
+                @Reset.canceled += instance.OnReset;
             }
         }
     }
@@ -212,5 +240,6 @@ public class @InputSystem : IInputActionCollection, IDisposable
         void OnPrimary(InputAction.CallbackContext context);
         void OnSecondary(InputAction.CallbackContext context);
         void OnPing(InputAction.CallbackContext context);
+        void OnReset(InputAction.CallbackContext context);
     }
 }
