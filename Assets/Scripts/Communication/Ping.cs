@@ -7,6 +7,7 @@ public class Ping : MonoBehaviour
 {
     public static Ping instance { get; private set; }
 
+    public LayerMask layer;
     public GameObject playerPing;
     public GameObject hazardPing;
     public GameObject locationPing;
@@ -35,29 +36,32 @@ public class Ping : MonoBehaviour
     {
         if (Input.GetKeyDown("space"))
         {
-            Vector2 mousePos = Input.mousePosition;
-            GameObject ping = locationPing;
+            SendPing();
+        }
+    }
 
-            Ray ray = Camera.main.ScreenPointToRay(mousePos);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit))
-            {
-                if (hit.collider.gameObject.tag.Equals("Player")) ping = playerPing;
-                if (hit.collider.gameObject.tag.Equals("Hazard")) ping = hazardPing;
-            }
+    void SendPing()
+	{
+        Vector2 mousePos = Input.mousePosition;
+        GameObject ping = locationPing;
 
-            GameObject marker;
+        Ray ray = Camera.main.ScreenPointToRay(mousePos);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, 100f, layer, QueryTriggerInteraction.Ignore))
+        {
+            if (hit.collider.gameObject.tag.Equals("Player")) ping = playerPing;
+            if (hit.collider.gameObject.tag.Equals("Hazard")) ping = hazardPing;
+        }
 
-            if (PhotonNetwork.InRoom)
-			{
-                marker = PhotonNetwork.Instantiate(ping.name, mousePos, Quaternion.identity);
-            }
-            else
-            {
-                marker = Instantiate(ping, mousePos, Quaternion.identity);
-            }
+        GameObject marker;
 
-            //marker.transform.SetParent(canv.transform);
+        if (PhotonNetwork.InRoom)
+        {
+            marker = PhotonNetwork.Instantiate(ping.name, ray.origin, Quaternion.identity);
+        }
+        else
+        {
+            marker = Instantiate(ping, ray.origin, Quaternion.identity);
         }
     }
 
