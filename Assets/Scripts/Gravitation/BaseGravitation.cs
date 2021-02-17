@@ -10,16 +10,23 @@ public class BaseGravitation : MonoBehaviour
 
     private List<BaseGravitation> ObjectsWithinRange = new List<BaseGravitation>();
     private Rigidbody rb;
+    private bool isPlayer;
 
     private void Start(){
         rb = gameObject.GetComponent<Rigidbody>();
+        isPlayer = gameObject.tag == "Player" ? true : false;
     }
     
     private void FixedUpdate()
     {
         // Updates force on objects that are within this object's range
         foreach (BaseGravitation o in ObjectsWithinRange){
-            AttractMass(o);
+            // if not a player
+            // is a player && holding down right mouse button
+            // attract
+            if (!(o.isPlayer) || (o.isPlayer && Input.GetMouseButton(1))){
+                AttractMass(o);
+            }
         }
     }
 
