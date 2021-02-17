@@ -229,7 +229,7 @@ GameObject:
   - component: {fileID: 435499433}
   - component: {fileID: 435499436}
   - component: {fileID: 435499435}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Hazard
   m_TagString: Hazard
   m_Icon: {fileID: 0}
@@ -322,8 +322,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4a9244f2dc975641977d6409b120f82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: 0}
-  G: 0.02
 --- !u!54 &435499434
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -395,7 +393,7 @@ GameObject:
   - component: {fileID: 436050726}
   - component: {fileID: 436050729}
   - component: {fileID: 436050728}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Hazard (1)
   m_TagString: Hazard
   m_Icon: {fileID: 0}
@@ -504,8 +502,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4a9244f2dc975641977d6409b120f82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: 436050726}
-  G: 0.02
 --- !u!114 &436050728
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1104,6 +1100,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64387ae3a204b9e4cbe588a7cfaeb21b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  layer:
+    serializedVersion: 2
+    m_Bits: 512
   playerPing: {fileID: 1154270346505755446, guid: 4fc7f78abf7231c46b0d385a6709b758,
     type: 3}
   hazardPing: {fileID: 5017430080585463926, guid: ef529b43b98950d4a8badb854a12c744,
