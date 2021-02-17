@@ -25,12 +25,7 @@ public class BaseGravitation : MonoBehaviour
             // is a player && holding down right mouse button
             // attract
             if (!(o.isPlayer) || (o.isPlayer && Input.GetMouseButton(1))){
-                if (o.isPlayer){
-                    Debug.Log("PLAYER IS AFFECTED BY GRAVITY");
-                }
                 AttractMass(o);
-            }else{
-                Debug.Log("PLAYER NOT AFFECTED BY GRAVITY");
             }
         }
     }
