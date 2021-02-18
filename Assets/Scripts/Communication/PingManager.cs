@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class Ping : MonoBehaviour
+public class PingManager : MonoBehaviour
 {
-    public static Ping instance { get; private set; }
+    public static PingManager instance { get; private set; }
 
     public InputSystem input;
 

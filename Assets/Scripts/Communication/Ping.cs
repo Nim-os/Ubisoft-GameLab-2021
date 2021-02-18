@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PingTimeOut : MonoBehaviour
+public class Ping : MonoBehaviour
 {
     Image img;
     Color clr;
 
     void Awake()
     {
-        gameObject.transform.SetParent(Ping.instance.GetCanvas().transform);
+        gameObject.transform.SetParent(PingManager.instance.GetCanvas().transform);
 
         transform.position = Camera.main.WorldToScreenPoint(transform.position);
     }
