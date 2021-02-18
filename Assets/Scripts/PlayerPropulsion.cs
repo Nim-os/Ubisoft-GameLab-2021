@@ -20,12 +20,18 @@ public class PlayerPropulsion : MonoBehaviour
 
 	void Awake()
 	{
-        input = new InputSystem();
-
-        input.Game.Primary.performed += x => OnPropulsion();
-        input.Game.Reset.performed += x => OnResetLocation();
+        // Can we just destroy this script if it isn't the player? Message Christophe before removing this comment
 
         isMe = gameObject.GetComponent<Photon.Pun.PhotonView>().IsMine;
+
+        if (isMe)
+        {
+            input = new InputSystem();
+
+            input.Game.Primary.performed += x => OnPropulsion(x.ReadValue<Vector2>());
+            input.Game.Reset.performed += x => OnResetLocation();
+        }
+
     }
 
 	void Start()
@@ -48,16 +54,16 @@ public class PlayerPropulsion : MonoBehaviour
         
     }
 
-    /// <summary> On mouse button held down && not empty on gas, add force to player towards the mouse direction </summary>
-    private void OnPropulsion()
+    /// <summary> On mouse button held down && not empty on gas, add force to player towards the mouse direction. </summary>
+    private void OnPropulsion(Vector2 position)
     {
-        if (isMe && gas > 0)
+        if (gas > 0)
         {
             // Use up gas when propulsion
             gas--;
 
             // Use mouse location to calculate direction to apply force
-            var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            var ray = Camera.main.ScreenPointToRay(position);
 
             if (plane.Raycast(ray, out float enter))
             {
@@ -73,10 +79,19 @@ public class PlayerPropulsion : MonoBehaviour
     /// <summary> Reset location of player on "r". Delete later. </summary>
     private void OnResetLocation()
     {
-        if (isMe)
-        {
-            rb.velocity = Vector3.zero;
-            this.transform.position = Vector3.zero;
-        }
+        rb.velocity = Vector3.zero;
+        this.transform.position = Vector3.zero;
     }
+
+
+    private void OnEnable()
+    {
+        input.Enable();
+    }
+
+	private void OnDisable()
+	{
+        input.Disable();
+	}
+
 }
