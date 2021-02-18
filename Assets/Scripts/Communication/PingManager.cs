@@ -34,10 +34,6 @@ public class PingManager : MonoBehaviour
 
     void SendPing()
 	{
-        Debug.Log("Pressed0");
-        Debug.Log("Pressed1");
-        Debug.Log("Pressed2");
-        Debug.Log("Pressed3");
         GameObject ping = locationPing;
 
         Ray ray = Camera.main.ScreenPointToRay(UnityEngine.InputSystem.Mouse.current.position.ReadValue());
@@ -59,4 +55,13 @@ public class PingManager : MonoBehaviour
 	{
         return canv;
 	}
+    private void OnEnable()
+    {
+        input.Enable();
+    }
+
+    private void OnDisable()
+    {
+        input.Disable();
+    }
 }
