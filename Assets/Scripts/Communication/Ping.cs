@@ -7,6 +7,8 @@ public class Ping : MonoBehaviour
 {
     public static Ping instance { get; private set; }
 
+    public InputSystem input;
+
     public LayerMask layer;
     public GameObject playerPing;
     public GameObject hazardPing;
@@ -24,22 +26,21 @@ public class Ping : MonoBehaviour
             Destroy(this);
             return;
 		}
-	}
 
-    void Update()
-    {
-        if (Input.GetKeyDown("space"))
-        {
-            SendPing();
-        }
-    }
+        input = new InputSystem();
+
+        input.Game.Ping.performed += x => SendPing();
+	}
 
     void SendPing()
 	{
-        Vector2 mousePos = Input.mousePosition;
+        Debug.Log("Pressed0");
+        Debug.Log("Pressed1");
+        Debug.Log("Pressed2");
+        Debug.Log("Pressed3");
         GameObject ping = locationPing;
 
-        Ray ray = Camera.main.ScreenPointToRay(mousePos);
+        Ray ray = Camera.main.ScreenPointToRay(UnityEngine.InputSystem.Mouse.current.position.ReadValue());
 
         if (Physics.Raycast(ray, out RaycastHit hit, 100f, layer, QueryTriggerInteraction.Ignore))
         {
