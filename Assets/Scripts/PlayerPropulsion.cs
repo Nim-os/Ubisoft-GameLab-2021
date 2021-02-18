@@ -14,9 +14,8 @@ public class PlayerPropulsion : MonoBehaviour
     private Rigidbody rb;
     private Plane plane = new Plane(Vector3.up, Vector3.zero);
 
-    private bool isMe;
+    private bool isMe, propulsing;
 
-    private Vector3 force = Vector3.zero;
 
 	void Awake()
 	{
@@ -28,7 +27,9 @@ public class PlayerPropulsion : MonoBehaviour
         {
             input = new InputSystem();
 
-            input.Game.Primary.performed += x => OnPropulsion(x.ReadValue<Vector2>());
+            input.Game.Primary.performed += x => propulsing = true;
+            input.Game.Primary.canceled += x => propulsing = false;
+
             input.Game.Reset.performed += x => OnResetLocation();
         }
 
@@ -45,17 +46,15 @@ public class PlayerPropulsion : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (isMe && force != Vector3.zero)
+        if (propulsing)
 		{
-            rb.AddForce(force, ForceMode.Impulse);
-
-            force = Vector3.zero;
+            OnPropulsion();
 		}
         
     }
 
     /// <summary> On mouse button held down && not empty on gas, add force to player towards the mouse direction. </summary>
-    private void OnPropulsion(Vector2 position)
+    private void OnPropulsion()
     {
         if (gas > 0)
         {
@@ -63,16 +62,16 @@ public class PlayerPropulsion : MonoBehaviour
             gas--;
 
             // Use mouse location to calculate direction to apply force
-            var ray = Camera.main.ScreenPointToRay(position);
+            var ray = Camera.main.ScreenPointToRay(UnityEngine.InputSystem.Mouse.current.position.ReadValue());
 
             if (plane.Raycast(ray, out float enter))
             {
                 var hitPoint = ray.GetPoint(enter);
                 var mouseDirection = hitPoint - gameObject.transform.position;
-                mouseDirection = mouseDirection.normalized;
 
-                force = mouseDirection * propulsionForce;
+                rb.AddForce(mouseDirection.normalized * propulsionForce, ForceMode.Impulse);
             }
+
         }
     }
 
