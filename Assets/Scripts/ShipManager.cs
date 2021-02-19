@@ -43,7 +43,7 @@ public class ShipManager : MonoBehaviour
         }
 
         // Move towards the player to stay within a certain range.
-        moveTimer -= Time.fixedDeltaTime;
+        moveTimer -= Time.deltaTime;
         if (moveTimer <= 0)
         {
             fired = false; // Reset fire timer.
