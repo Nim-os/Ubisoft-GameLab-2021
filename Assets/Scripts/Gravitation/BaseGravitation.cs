@@ -5,14 +5,24 @@ using UnityEngine;
 /// <summary> Basic gravitational script </summary>
 public class BaseGravitation : MonoBehaviour
 {
+    public InputSystem input;
+
     public float G = 60f;
     public bool freezePosition = false;
 
     private List<BaseGravitation> ObjectsWithinRange = new List<BaseGravitation>();
     private Rigidbody rb;
-    private bool isPlayer;
+    private bool isPlayer, holdingRMB = false;
 
-    private void Start(){
+	private void Awake()
+	{
+        input = new InputSystem();
+
+        input.Game.Secondary.performed += x => holdingRMB = true;
+        input.Game.Secondary.canceled += x => holdingRMB = false;
+    }
+
+	private void Start(){
         rb = gameObject.GetComponent<Rigidbody>();
         isPlayer = gameObject.tag == "Player" ? true : false;
     }
@@ -24,7 +34,7 @@ public class BaseGravitation : MonoBehaviour
             // if not a player
             // is a player && holding down right mouse button
             // attract
-            if (!(o.isPlayer) || (o.isPlayer && Input.GetMouseButton(1))){
+            if (!(o.isPlayer) || (o.isPlayer && holdingRMB)){
                 AttractMass(o);
             }
         }
@@ -57,5 +67,14 @@ public class BaseGravitation : MonoBehaviour
         if (freezePosition){
             rb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ;
         }
+    }
+    private void OnEnable()
+    {
+        input.Enable();
+    }
+
+    private void OnDisable()
+    {
+        input.Disable();
     }
 }
