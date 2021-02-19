@@ -23,9 +23,10 @@ public class PlayerPropulsion : MonoBehaviour
 
         isMe = gameObject.GetComponent<Photon.Pun.PhotonView>().IsMine;
 
+        input = new InputSystem();
+
         if (isMe)
         {
-            input = new InputSystem();
 
             input.Game.Primary.performed += x => propulsing = true;
             input.Game.Primary.canceled += x => propulsing = false;
