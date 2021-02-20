@@ -234,7 +234,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a835b0a3bd34bf44489ba14db3dce51c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  propulsionForce: 0.2
+  propulsionForce: 1
   gas: 100
   holdingPower: 0
   rockPrefab: {fileID: 2682222205282339131, guid: 9c81ee6cad40bef428bf18990e458408,
@@ -290,5 +290,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f65fc4a78354324a9346398c2f6a922, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  G: 0.1
   freezePosition: 0

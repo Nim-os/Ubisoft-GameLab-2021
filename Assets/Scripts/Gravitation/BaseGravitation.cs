@@ -5,9 +5,9 @@ using UnityEngine;
 /// <summary> Basic gravitational script </summary>
 public class BaseGravitation : MonoBehaviour
 {
-    public float G = 60f;
     public bool freezePosition = false;
 
+    private float G = 1f;
     private List<BaseGravitation> ObjectsWithinRange = new List<BaseGravitation>();
     private Rigidbody rb;
     private bool isPlayer;
