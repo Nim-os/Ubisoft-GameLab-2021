@@ -90,9 +90,9 @@ public class PlayerPropulsion : MonoBehaviour
     private void OnPropulsion(){
         if (Input.GetMouseButton(0) && gas > 0)
         {
-            // move camera height
-            cameraHeight = cameraHeight - (float) 0.05;
-            SetCameraHeight(cameraHeight);
+            // move camera height, commented out for now to be less annoying when testing/developing base gameplay
+            // cameraHeight = cameraHeight - (float) 0.05;
+            // SetCameraHeight(cameraHeight);
 
             // Use up gas when propulsion
             gas--;
