@@ -4,14 +4,18 @@ using UnityEngine;
 
 public class BaseAsteroid : MonoBehaviour
 {
-    public int thurst;
+    public float xthurst;
+    public float zthrust;
 
     private Rigidbody rb;
 
     void Start(){
         // Set private variables
         rb = gameObject.GetComponent<Rigidbody>();
-        
-        rb.AddForce(Vector3.forward * thurst);
+    }
+
+    private void Update()
+    {
+        rb.AddForce(new Vector3 (xthurst, 1, zthrust));
     }
 }
