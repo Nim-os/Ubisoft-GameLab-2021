@@ -24,7 +24,8 @@ public class BaseGravitation : MonoBehaviour
             // if not a player
             // is a player && holding down right mouse button
             // attract
-            if (!(o.isPlayer) || (o.isPlayer && Input.GetMouseButton(1))){
+
+            if ((o != null) && (!(o.isPlayer) || (o.isPlayer && Input.GetMouseButton(1)))){
                 AttractMass(o);
             }
         }

@@ -12,6 +12,7 @@ public class PlayerPropulsion : MonoBehaviour
 
     [SerializeField]
     private GameObject rockPrefab;
+    private float rockDespawnTime = 10;
     private Rigidbody rb;
     private Plane plane = new Plane(Vector3.up, Vector3.zero);
     private CinemachineTransposer cameraTransposer;
@@ -67,6 +68,8 @@ public class PlayerPropulsion : MonoBehaviour
             rock.GetComponent<Rigidbody>().AddForce(-mouseDir * propulsionForce * holdingPower, ForceMode.Impulse);
             
             holdingPower = 0;
+
+            Destroy(rock, rockDespawnTime);
         }
     }
 
