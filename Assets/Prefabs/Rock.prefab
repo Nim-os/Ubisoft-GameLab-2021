@@ -121,7 +121,7 @@ GameObject:
   - component: {fileID: 2682222205282339128}
   - component: {fileID: 2682222205282339129}
   - component: {fileID: 2682222205282339130}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Rock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -231,5 +231,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f65fc4a78354324a9346398c2f6a922, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  G: 3
   freezePosition: 0

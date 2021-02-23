@@ -121,7 +121,7 @@ GameObject:
   - component: {fileID: 1828997230809920391}
   - component: {fileID: 1828997230809920387}
   - component: {fileID: 1828997230809920386}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: BasicPlanet
   m_TagString: Planet
   m_Icon: {fileID: 0}
@@ -215,7 +215,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f65fc4a78354324a9346398c2f6a922, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  G: 0.2
   freezePosition: 1
 --- !u!54 &1828997230809920386
 Rigidbody:
