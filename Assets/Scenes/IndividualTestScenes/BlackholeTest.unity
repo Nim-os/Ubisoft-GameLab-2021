@@ -280,6 +280,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1828997230809920386, guid: 5b4d614869cef1d4e8c72f17e69defb5,
+        type: 3}
+      propertyPath: m_AngularDrag
+      value: 0.08
+      objectReference: {fileID: 0}
     - target: {fileID: 1828997230809920388, guid: 5b4d614869cef1d4e8c72f17e69defb5,
         type: 3}
       propertyPath: m_RootOrder
@@ -288,7 +293,7 @@ PrefabInstance:
     - target: {fileID: 1828997230809920388, guid: 5b4d614869cef1d4e8c72f17e69defb5,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 9.12
+      value: 18.52
       objectReference: {fileID: 0}
     - target: {fileID: 1828997230809920388, guid: 5b4d614869cef1d4e8c72f17e69defb5,
         type: 3}
@@ -540,7 +545,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41facd282e3bc439e9a1c3b26ddc1fa3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  forceAdd: 0.001
+  forceAdd: 0.005
   swallowRange: 2
 --- !u!65 &1778844074
 BoxCollider:
