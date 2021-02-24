@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary> General utility methods </summary>
 public static class Utils {
     /// <summary> Returns Vector3 position of mouse on plane</summary>
     public static Vector3 mousePositionOnPlane(){
@@ -33,5 +34,13 @@ public static class Utils {
         }
         // did not hit
         return Vector3.zero;
+    }
+
+    /// <summary> Gets distance between mouse and GameObject </summary>
+    public static float DistanceMouseObj(GameObject obj){
+        if ((mousePositionOnPlane() != Vector3.zero)){
+            return Vector3.Distance(mousePositionOnPlane(),obj.transform.position);
+        }
+        return 0f;
     }
 }

@@ -36,9 +36,6 @@ public class PlayerPropulsion : MonoBehaviour
             // Hold down mouse button to build up force, let go to launch
             OnHold();
             OnLetGo();
-
-            // Test input methods
-            TestInputs();
         }
     }
 
@@ -93,27 +90,5 @@ public class PlayerPropulsion : MonoBehaviour
 
     private void SetCameraHeight(float height){
         cameraTransposer.m_FollowOffset.y = height;
-    }
-
-    /// <summary> Reset location of player on "r". Delete later. </summary>
-    private void OnResetLocation(){
-        if (Input.GetKeyDown("r"))
-        {
-            rb.velocity = Vector3.zero;
-            this.transform.position = Vector3.zero;
-        }
-    }
-
-    /// <summary> Reset location of player on "g". Delete later. </summary>
-    private void OnFillUpGas(){
-        if (Input.GetKeyDown("g"))
-        {
-            gas = 100;
-        }
-    }
-
-    private void TestInputs(){
-        OnResetLocation();
-        OnFillUpGas();
     }
 }
