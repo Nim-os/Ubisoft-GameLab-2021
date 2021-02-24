@@ -55,7 +55,8 @@ public class PlayerPropulsion : MonoBehaviour
     /// <summary> When "let go" applies force to player in mouse direction according to force built up & creates a rock and applies force on it in the opposite direction of the mouse</summary>
     private void OnLetGo(){
         Vector3 mouseDir;
-        if (!Input.GetMouseButton(0) && holdingPower != 0 && ((mouseDir = GetMouseDirection()) != Vector3.zero)){
+        
+        if (!Input.GetMouseButton(0) && holdingPower != 0 && ((mouseDir = Utils.GetMouseDirection(gameObject)) != Vector3.zero)){
             // apply force on the player
             rb.AddForce(mouseDir * propulsionForce * holdingPower, ForceMode.Impulse);
 
@@ -73,22 +74,6 @@ public class PlayerPropulsion : MonoBehaviour
         }
     }
 
-    /// <summary> Gets mouse direction </summary>
-    private Vector3 GetMouseDirection(){
-        var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        float enter;
-
-        if (plane.Raycast(ray, out enter))
-        {
-            var hitPoint = ray.GetPoint(enter);
-            var mouseDirection = hitPoint - gameObject.transform.position;
-            mouseDirection = mouseDirection.normalized;
-            return mouseDirection;
-        }
-        // did not hit
-        return Vector3.zero;
-    }
-
     /// <summary> On mouse button held down && not empty on gas, add force to player towards the mouse direction </summary>
     private void OnPropulsion(){
         if (Input.GetMouseButton(0) && gas > 0)
@@ -100,16 +85,9 @@ public class PlayerPropulsion : MonoBehaviour
             // Use up gas when propulsion
             gas--;
 
-            // Use mouse location to calculate direction to apply force
-            var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            float enter;
-            if (plane.Raycast(ray, out enter))
-            {
-                var hitPoint = ray.GetPoint(enter);
-                var mouseDirection = hitPoint - gameObject.transform.position;
-                mouseDirection = mouseDirection.normalized;
-                rb.AddForce(mouseDirection * propulsionForce, ForceMode.Impulse);
-            }
+            Vector3 mouseDirection = Utils.GetMouseDirection(gameObject);
+            // Ok to add 0 force
+            rb.AddForce(mouseDirection * propulsionForce, ForceMode.Impulse);
         }
     }
 
