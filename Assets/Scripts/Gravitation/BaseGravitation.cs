@@ -6,6 +6,7 @@ using UnityEngine;
 public class BaseGravitation : MonoBehaviour
 {
     public bool freezePosition = false;
+    public bool playerSelected = false;
 
     private float G = 1f;
     private List<BaseGravitation> ObjectsWithinRange = new List<BaseGravitation>();
@@ -33,11 +34,18 @@ public class BaseGravitation : MonoBehaviour
 
     /// <summary> Add new object to ObjectsWithinRange list </summary>
     public void AddWithinRange(BaseGravitation collider){
+        //if new object is a player, add this object to player's gravity check list
+        if (collider.gameObject.tag == "Player"){
+            collider.gameObject.GetComponent<PlayerGravitation>().AddToGravityCheck(this);
+        }
         ObjectsWithinRange.Add(collider);
     }
 
     /// <summary> Remove object in ObjectsWithinRange list </summary>
     public void RemoveWithinRange(BaseGravitation collider){
+        if (collider && collider.gameObject.tag == "Player"){
+            collider.gameObject.GetComponent<PlayerGravitation>().RemoveFromGravityCheck(this);
+        }
         ObjectsWithinRange.Remove(collider);
     }
 

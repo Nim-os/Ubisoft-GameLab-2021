@@ -125,6 +125,7 @@ GameObject:
   - component: {fileID: -4349265480166907863}
   - component: {fileID: 3329302069819961951}
   - component: {fileID: 683876101074707695}
+  - component: {fileID: 6205053968602867674}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -293,6 +294,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   freezePosition: 0
+  playerSelected: 0
 --- !u!114 &683876101074707695
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -305,6 +307,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd06319d2dde4534ca8cb57b300a6833, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6205053968602867674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4120421440658146743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 729c0a30e8dd5814099882d681c5f419, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerGravityCheckList: []
+  currentSelection: {fileID: 0}
 --- !u!1 &6006040373670806936
 GameObject:
   m_ObjectHideFlags: 0
