@@ -7,7 +7,7 @@ public class PlayerGravitation : MonoBehaviour
 {
     public List<BaseGravitation> playerGravityCheckList = new List<BaseGravitation>();
     public BaseGravitation currentSelection = null;
-    
+
     private float range = 10f; // mouse position hold range
 
      void FixedUpdate()
@@ -18,39 +18,31 @@ public class PlayerGravitation : MonoBehaviour
         }
     }
 
-    /// <summary> Adds planet to playerGravityCheck list</summary>
+    /// <summary> Adds gravitational object to playerGravityCheck list</summary>
     public void AddToGravityCheck(BaseGravitation p){
         playerGravityCheckList.Add(p);
     }
 
-    /// <summary> Removes planet from playerGravityCheck list</summary>
+    /// <summary> Removes gravitational object from playerGravityCheck list</summary>
     public void RemoveFromGravityCheck(BaseGravitation p){
         playerGravityCheckList.Remove(p);
     }
 
+    /// <summary> Removes gravitational object from playerGravityCheck list</summary>
     private void ToggleOnGravity(){
         // holding RMB
         if (Input.GetMouseButton(1)){
             BaseGravitation o = SelectGravitationalObject();
 
+            // if selects an object
             if (o != null){
                 o.playerSelected = true;
                 currentSelection = o;
-                Debug.Log("Attached to " + o.gameObject.name);
-            }else{
-                Debug.Log("Nothing to attach to");
-                if (currentSelection != null){
-                    currentSelection.playerSelected = false;
-                }
-                currentSelection = null;
             }
-        // not holding RMB
-        }else{
-            if (currentSelection != null){
-                currentSelection.playerSelected = false;
-            }
-            currentSelection = null;
         }
+        // else not holding RMB OR no objects to select
+        currentSelection.playerSelected = currentSelection != null ? false : currentSelection.playerSelected;
+        currentSelection = null;
     }
 
     private BaseGravitation SelectGravitationalObject(){
