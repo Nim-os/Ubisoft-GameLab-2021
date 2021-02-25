@@ -3,7 +3,9 @@ guid: 559a87d9cfe0fa04fade747cab6e0807
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - p2_1: {instanceID: 0}
+  - p2_1_mat: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

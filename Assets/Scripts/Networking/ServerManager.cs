@@ -7,8 +7,10 @@ using Photon.Realtime;
 public class ServerManager : MonoBehaviourPunCallbacks
 {
 	public const string DevRoomID = "dev";
+    public Mesh p2_1;
+    public Material p2_1_mat;
 
-	void Start()
+    void Start()
 	{
 		Debug.Log("Attempting to connect");
 
@@ -29,8 +31,14 @@ public class ServerManager : MonoBehaviourPunCallbacks
 	{
 		Debug.Log("Successfully joined room");
 
-		PhotonNetwork.Instantiate("Player", new Vector3(Random.Range(-10,10), 1, Random.Range(-10, 10)), Quaternion.identity);
-	}
+		GameObject player = PhotonNetwork.Instantiate("Player", new Vector3(Random.Range(-10,10), 1, Random.Range(-10, 10)), Quaternion.identity);
+        if (Random.Range(0, 2) == 1)
+        {
+            Mesh p2_1_inst = Instantiate(p2_1);
+            player.GetComponent<MeshFilter>().mesh = p2_1_inst;
+            player.GetComponent<MeshRenderer>().material = p2_1_mat;
+        }
+    }
 
 	public override void OnJoinRoomFailed(short returnCode, string message)
 	{
