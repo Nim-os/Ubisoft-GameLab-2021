@@ -20,6 +20,11 @@ public class PlayerTestMethods : MonoBehaviour
             OnFillUpGas();
             OnGetMousePosition();
         }
+
+        if (rb.velocity.magnitude > 10)
+        {
+            rb.velocity = Vector3.Normalize(rb.velocity) * 10;
+        }
     }
 
     /// <summary> Reset location of player on "r".</summary>

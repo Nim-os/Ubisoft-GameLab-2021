@@ -39,10 +39,13 @@ public class PlayerGravitation : MonoBehaviour
                 o.playerSelected = true;
                 currentSelection = o;
             }
-        }
         // else not holding RMB OR no objects to select
-        currentSelection.playerSelected = currentSelection != null ? false : currentSelection.playerSelected;
-        currentSelection = null;
+        }else {
+            if (currentSelection != null){
+                currentSelection.playerSelected = false;
+            }
+            currentSelection = null;
+        }
     }
 
     private BaseGravitation SelectGravitationalObject(){
