@@ -41,7 +41,9 @@ public class PlayerGravitation : MonoBehaviour
             }
         }
         // else not holding RMB OR no objects to select
-        currentSelection.playerSelected = currentSelection != null ? false : currentSelection.playerSelected;
+        if (currentSelection != null){
+            currentSelection.playerSelected = false;
+        }
         currentSelection = null;
     }
 
