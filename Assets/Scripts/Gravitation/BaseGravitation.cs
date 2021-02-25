@@ -9,7 +9,7 @@ public class BaseGravitation : MonoBehaviour
     public bool playerSelected = false;
 
     private float G = 1f;
-    private List<BaseGravitation> ObjectsWithinRange = new List<BaseGravitation>();
+    public List<BaseGravitation> ObjectsWithinRange = new List<BaseGravitation>();
     private Rigidbody rb;
     private bool isPlayer;
 
@@ -20,17 +20,29 @@ public class BaseGravitation : MonoBehaviour
     
     private void FixedUpdate()
     {
-        // Updates force on objects that are within this object's range
-        foreach (BaseGravitation o in ObjectsWithinRange){
-            // if not a player
-            // is a player && holding down right mouse button
-            // attract
-
+        for (int i = ObjectsWithinRange.Count-1; i >= 0; i--)
+        {
+            var o = ObjectsWithinRange[i];
             if ((o != null) && (!(o.isPlayer) || (o.isPlayer && Input.GetMouseButton(1)))){
-
                 AttractMass(o);
+            }else if (o == null){
+                RemoveWithinRange(o);
             }
         }
+
+        // Updates force on objects that are within this object's range
+        // foreach (BaseGravitation o in ObjectsWithinRange){
+        //     // if not a player
+        //     // is a player && holding down right mouse button
+        //     // attract
+
+        //     // backwards for loop
+        //     if ((o != null) && (!(o.isPlayer) || (o.isPlayer && Input.GetMouseButton(1)))){
+        //         AttractMass(o);
+        //     }else if (o == null){
+        //         RemoveWithinRange(o);
+        //     }
+        // }
     }
 
     /// <summary> Add new object to ObjectsWithinRange list </summary>
@@ -46,6 +58,7 @@ public class BaseGravitation : MonoBehaviour
     public void RemoveWithinRange(BaseGravitation collider){
         if (collider && collider.gameObject.tag == "Player"){
             collider.gameObject.GetComponent<PlayerGravitation>().RemoveFromGravityCheck(this);
+            playerSelected = false;
         }
         ObjectsWithinRange.Remove(collider);
     }
@@ -67,5 +80,35 @@ public class BaseGravitation : MonoBehaviour
         if (freezePosition){
             rb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ;
         }
+    }
+
+    /*
+    remove itself from any gravity lists
+    */
+    private void OnDestroy() {
+        for (int i = ObjectsWithinRange.Count-1; i >= 0; i--)
+        {
+            var o = ObjectsWithinRange[i];
+            
+            // if one of the objects within range is a player
+            if (o.isPlayer){
+                // remove this object from its range
+                o.GetComponent<PlayerGravitation>().RemoveFromGravityCheck(this.GetComponent<BaseGravitation>());
+            }
+            RemoveWithinRange(o);
+        }
+
+
+
+        // backwards list
+        // // Updates force on objects that are within this object's range
+        // foreach (BaseGravitation o in ObjectsWithinRange){
+        //     // if one of the objects within range is a player
+        //     if (o.isPlayer){
+        //         // remove this object from its range
+        //         o.GetComponent<PlayerGravitation>().RemoveFromGravityCheck(this.GetComponent<BaseGravitation>());
+        //     }
+        //     RemoveWithinRange(o);
+        // }
     }
 }
