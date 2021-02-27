@@ -49,9 +49,10 @@ public class PlayerGravitation : MonoBehaviour
     }
 
     private BaseGravitation SelectGravitationalObject(){
+        BaseGravitation selectedObj = null;
         // if there is only one to check && it is within distance, pick this one
         if ((playerGravityCheckList.Count == 1) && (Utils.DistanceMouseObj(playerGravityCheckList[0].gameObject) <= range)){
-            return playerGravityCheckList[0];
+            selectedObj = playerGravityCheckList[0];
         
         // if there are multiple to check
         }else if (playerGravityCheckList.Count > 1){
@@ -68,9 +69,9 @@ public class PlayerGravitation : MonoBehaviour
             }
             
             if (lowestDistObj != null){
-                return lowestDistObj;
+                selectedObj = lowestDistObj;
             }
         }
-        return null;
+        return selectedObj != null? selectedObj : null;
     }
 }

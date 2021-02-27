@@ -23,26 +23,12 @@ public class BaseGravitation : MonoBehaviour
         for (int i = ObjectsWithinRange.Count-1; i >= 0; i--)
         {
             var o = ObjectsWithinRange[i];
-            if ((o != null) && (!(o.isPlayer) || (o.isPlayer && Input.GetMouseButton(1)))){
+            if ((o != null) && (!(o.isPlayer) || (o.isPlayer && Input.GetMouseButton(1) && playerSelected))){
                 AttractMass(o);
             }else if (o == null){
                 RemoveWithinRange(o);
             }
         }
-
-        // Updates force on objects that are within this object's range
-        // foreach (BaseGravitation o in ObjectsWithinRange){
-        //     // if not a player
-        //     // is a player && holding down right mouse button
-        //     // attract
-
-        //     // backwards for loop
-        //     if ((o != null) && (!(o.isPlayer) || (o.isPlayer && Input.GetMouseButton(1)))){
-        //         AttractMass(o);
-        //     }else if (o == null){
-        //         RemoveWithinRange(o);
-        //     }
-        // }
     }
 
     /// <summary> Add new object to ObjectsWithinRange list </summary>
@@ -97,18 +83,5 @@ public class BaseGravitation : MonoBehaviour
             }
             RemoveWithinRange(o);
         }
-
-
-
-        // backwards list
-        // // Updates force on objects that are within this object's range
-        // foreach (BaseGravitation o in ObjectsWithinRange){
-        //     // if one of the objects within range is a player
-        //     if (o.isPlayer){
-        //         // remove this object from its range
-        //         o.GetComponent<PlayerGravitation>().RemoveFromGravityCheck(this.GetComponent<BaseGravitation>());
-        //     }
-        //     RemoveWithinRange(o);
-        // }
     }
 }
