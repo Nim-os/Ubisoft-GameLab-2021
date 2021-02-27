@@ -4,27 +4,23 @@ using UnityEngine;
 
 public class SpawnAsteroids : MonoBehaviour
 {
-    public GameObject asteroid;
-    public float spawnTimerMax = 10;
-    float spawnTimer;
+    public float waitTime = 10f;
+    
+    [SerializeField]
+    private GameObject asteroid;
 
     void Start()
     {
-        spawnTimer = spawnTimerMax;
+        StartCoroutine(SpawnAsteroid(waitTime));
     }
 
-    void Update()
+    IEnumerator SpawnAsteroid(float wait)
     {
-        spawnTimer -= Time.deltaTime;
-        if (spawnTimer <= 0)
-        {
-            spawnTimer = spawnTimerMax;
+        GameObject ast = Instantiate(asteroid, transform.position, Quaternion.identity);
+        ast.GetComponent<BaseAsteroid>().xthurst = 10;
+        ast.GetComponent<BaseAsteroid>().zthrust = -15;
+        Destroy(ast, 30);
 
-            GameObject ast = Instantiate(asteroid, transform.position, Quaternion.identity);
-            ast.GetComponent<BaseAsteroid>().xthurst = 10;
-            ast.GetComponent<BaseAsteroid>().zthrust = -15;
-
-            Destroy(ast, 30); // Destroy asteroids after 30 seconds.
-        }
+        yield return new WaitForSeconds(wait);
     }
 }
