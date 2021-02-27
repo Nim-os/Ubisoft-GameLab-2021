@@ -6,10 +6,16 @@ using UnityEngine;
 public class PlayerTestMethods : MonoBehaviour
 {
     private Rigidbody rb;
+    private int initGas;
+    private float initMass;
+    private Vector3 initScale;
 
     void Start()
     {
         rb = gameObject.GetComponent<Rigidbody>();
+        initGas = this.GetComponent<PlayerPropulsion>().gas;
+        initMass = rb.mass;
+        initScale = this.transform.localScale;
     }
 
     void FixedUpdate()
@@ -40,7 +46,9 @@ public class PlayerTestMethods : MonoBehaviour
     private void OnFillUpGas(){
         if (Input.GetKeyDown("g"))
         {
-            gameObject.GetComponent<PlayerPropulsion>().gas = 100;
+            gameObject.GetComponent<PlayerPropulsion>().gas = initGas;
+            rb.mass = initMass;
+            transform.localScale = initScale;
         }
     }
 

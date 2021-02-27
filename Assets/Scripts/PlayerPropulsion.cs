@@ -17,12 +17,14 @@ public class PlayerPropulsion : MonoBehaviour
     private Plane plane = new Plane(Vector3.up, Vector3.zero);
     private CinemachineTransposer cameraTransposer;
     private float cameraHeight;
+    private ParticleSystem propulsionParticles;
 
     void Start()
     {
         rb = gameObject.GetComponent<Rigidbody>();
         cameraTransposer = GameObject.Find("CM vcam1").GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineTransposer>();
         cameraHeight = cameraTransposer.m_FollowOffset.y;
+        propulsionParticles = this.GetComponent<ParticleSystem>();
 
         // Add player to cameraTargetGroup
         var cameraTargetGroup = GameObject.Find("CameraTargetGroup").GetComponent<CinemachineTargetGroup>();
@@ -33,9 +35,9 @@ public class PlayerPropulsion : MonoBehaviour
     {
         if (gameObject.GetComponent<Photon.Pun.PhotonView>().IsMine)
 		{
-            // Hold down mouse button to build up force, let go to launch
-            OnHold();
-            OnLetGo();
+            StartParticles(); 
+            OnPropulsion();
+            StopParticles();
         }
     }
 
@@ -81,10 +83,24 @@ public class PlayerPropulsion : MonoBehaviour
 
             // Use up gas when propulsion
             gas--;
-
+            rb.mass -= 0.01f;
+            transform.localScale -= new Vector3(0.01f,0.01f,0.01f);
+            
             Vector3 mouseDirection = Utils.GetMouseDirection(gameObject);
-            // Ok to add 0 force
             rb.AddForce(mouseDirection * propulsionForce, ForceMode.Impulse);
+        }
+        
+    }
+    
+    private void StartParticles(){
+        if (Input.GetMouseButtonDown(0) && gas > 0){
+            propulsionParticles.Play();
+        }
+    }
+    
+    private void StopParticles(){
+        if (Input.GetMouseButtonUp(0) && gas > 0){
+            propulsionParticles.Stop();
         }
     }
 
