@@ -327,6 +327,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   freezePosition: 0
   playerSelected: 0
+  beginRotating: 1
   ObjectsWithinRange: []
 --- !u!1 &6320323762123837009
 GameObject:

@@ -7,6 +7,7 @@ public class BaseGravitation : MonoBehaviour
 {
     public bool freezePosition = false;
     public bool playerSelected = false;
+    public bool beginRotating = false;
 
     private float G = 1f;
     public List<BaseGravitation> ObjectsWithinRange = new List<BaseGravitation>();
@@ -16,6 +17,13 @@ public class BaseGravitation : MonoBehaviour
     private void Start(){
         rb = gameObject.GetComponent<Rigidbody>();
         isPlayer = gameObject.tag == "Player" ? true : false;
+
+        StartCoroutine(PassiveStartRotation());
+        
+        RigidbodyConstraints frozenPosition = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ;
+        RigidbodyConstraints frozenY = RigidbodyConstraints.FreezePositionY;
+
+        rb.constraints = freezePosition ? frozenPosition : frozenY;
     }
     
     private void FixedUpdate()
@@ -23,26 +31,12 @@ public class BaseGravitation : MonoBehaviour
         for (int i = ObjectsWithinRange.Count-1; i >= 0; i--)
         {
             var o = ObjectsWithinRange[i];
-            if ((o != null) && (!(o.isPlayer) || (o.isPlayer && Input.GetMouseButton(1)))){
+            if ((o != null) && (!(o.isPlayer) || (o.isPlayer && Input.GetMouseButton(1) && playerSelected))){
                 AttractMass(o);
             }else if (o == null){
                 RemoveWithinRange(o);
             }
         }
-
-        // Updates force on objects that are within this object's range
-        // foreach (BaseGravitation o in ObjectsWithinRange){
-        //     // if not a player
-        //     // is a player && holding down right mouse button
-        //     // attract
-
-        //     // backwards for loop
-        //     if ((o != null) && (!(o.isPlayer) || (o.isPlayer && Input.GetMouseButton(1)))){
-        //         AttractMass(o);
-        //     }else if (o == null){
-        //         RemoveWithinRange(o);
-        //     }
-        // }
     }
 
     /// <summary> Add new object to ObjectsWithinRange list </summary>
@@ -76,10 +70,6 @@ public class BaseGravitation : MonoBehaviour
         //rb.AddForce(forceVector); // this body goes towards other
         //otherRb.AddForce(forceVector); // other goes away from this
         otherRb.AddForce(-forceVector); // other goes towards this
-        
-        if (freezePosition){
-            rb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ;
-        }
     }
 
     /*
@@ -97,18 +87,16 @@ public class BaseGravitation : MonoBehaviour
             }
             RemoveWithinRange(o);
         }
+    }
 
-
-
-        // backwards list
-        // // Updates force on objects that are within this object's range
-        // foreach (BaseGravitation o in ObjectsWithinRange){
-        //     // if one of the objects within range is a player
-        //     if (o.isPlayer){
-        //         // remove this object from its range
-        //         o.GetComponent<PlayerGravitation>().RemoveFromGravityCheck(this.GetComponent<BaseGravitation>());
-        //     }
-        //     RemoveWithinRange(o);
-        // }
+    IEnumerator PassiveStartRotation(){
+        if (beginRotating){
+            rb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ;
+       
+            Vector3 force = new Vector3(Random.Range(50,100),Random.Range(50,100),Random.Range(50,100));
+            rb.AddTorque(force*100);
+        }
+        
+        yield return new WaitForSeconds(5);
     }
 }

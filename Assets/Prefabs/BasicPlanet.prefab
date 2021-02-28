@@ -311,6 +311,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   freezePosition: 1
   playerSelected: 0
+  beginRotating: 1
   ObjectsWithinRange: []
 --- !u!54 &1828997230809920386
 Rigidbody:
