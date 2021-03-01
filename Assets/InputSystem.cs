@@ -41,14 +41,6 @@ public class @InputSystem : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
-                },
-                {
-                    ""name"": ""Reset"",
-                    ""type"": ""Button"",
-                    ""id"": ""bfacf034-09c8-4222-a42f-76e9a83e820a"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -84,15 +76,69 @@ public class @InputSystem : IInputActionCollection, IDisposable
                     ""action"": ""Ping"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Game Debug"",
+            ""id"": ""9072d1ef-ea4f-4ffc-9ed6-44136781a83e"",
+            ""actions"": [
+                {
+                    ""name"": ""GasUp"",
+                    ""type"": ""Button"",
+                    ""id"": ""4e6ab874-068e-4ddf-9454-22356ae893d4"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 },
                 {
+                    ""name"": ""LogPos"",
+                    ""type"": ""Button"",
+                    ""id"": ""f7688bf5-ce82-470f-9532-aed078648c45"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""ResetPos"",
+                    ""type"": ""Button"",
+                    ""id"": ""86059ab5-2e65-408e-bb9b-f6699f3f6a45"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
                     ""name"": """",
-                    ""id"": ""5923d8cb-714d-4505-b53e-4ed47d160beb"",
+                    ""id"": ""9deabf5a-dde5-4ba9-ae98-126fa135a7a4"",
                     ""path"": ""<Keyboard>/r"",
                     ""interactions"": """",
                     ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ResetPos"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""dac1ea2c-de4f-40f6-980e-679af395322f"",
+                    ""path"": ""<Keyboard>/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
                     ""groups"": ""Keyboard & Mouse"",
-                    ""action"": ""Reset"",
+                    ""action"": ""LogPos"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4b01ffec-7bfb-4c28-a7a9-dafe97477838"",
+                    ""path"": ""<Keyboard>/g"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard & Mouse"",
+                    ""action"": ""GasUp"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -123,7 +169,11 @@ public class @InputSystem : IInputActionCollection, IDisposable
         m_Game_Primary = m_Game.FindAction("Primary", throwIfNotFound: true);
         m_Game_Secondary = m_Game.FindAction("Secondary", throwIfNotFound: true);
         m_Game_Ping = m_Game.FindAction("Ping", throwIfNotFound: true);
-        m_Game_Reset = m_Game.FindAction("Reset", throwIfNotFound: true);
+        // Game Debug
+        m_GameDebug = asset.FindActionMap("Game Debug", throwIfNotFound: true);
+        m_GameDebug_GasUp = m_GameDebug.FindAction("GasUp", throwIfNotFound: true);
+        m_GameDebug_LogPos = m_GameDebug.FindAction("LogPos", throwIfNotFound: true);
+        m_GameDebug_ResetPos = m_GameDebug.FindAction("ResetPos", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -176,7 +226,6 @@ public class @InputSystem : IInputActionCollection, IDisposable
     private readonly InputAction m_Game_Primary;
     private readonly InputAction m_Game_Secondary;
     private readonly InputAction m_Game_Ping;
-    private readonly InputAction m_Game_Reset;
     public struct GameActions
     {
         private @InputSystem m_Wrapper;
@@ -184,7 +233,6 @@ public class @InputSystem : IInputActionCollection, IDisposable
         public InputAction @Primary => m_Wrapper.m_Game_Primary;
         public InputAction @Secondary => m_Wrapper.m_Game_Secondary;
         public InputAction @Ping => m_Wrapper.m_Game_Ping;
-        public InputAction @Reset => m_Wrapper.m_Game_Reset;
         public InputActionMap Get() { return m_Wrapper.m_Game; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -203,9 +251,6 @@ public class @InputSystem : IInputActionCollection, IDisposable
                 @Ping.started -= m_Wrapper.m_GameActionsCallbackInterface.OnPing;
                 @Ping.performed -= m_Wrapper.m_GameActionsCallbackInterface.OnPing;
                 @Ping.canceled -= m_Wrapper.m_GameActionsCallbackInterface.OnPing;
-                @Reset.started -= m_Wrapper.m_GameActionsCallbackInterface.OnReset;
-                @Reset.performed -= m_Wrapper.m_GameActionsCallbackInterface.OnReset;
-                @Reset.canceled -= m_Wrapper.m_GameActionsCallbackInterface.OnReset;
             }
             m_Wrapper.m_GameActionsCallbackInterface = instance;
             if (instance != null)
@@ -219,13 +264,59 @@ public class @InputSystem : IInputActionCollection, IDisposable
                 @Ping.started += instance.OnPing;
                 @Ping.performed += instance.OnPing;
                 @Ping.canceled += instance.OnPing;
-                @Reset.started += instance.OnReset;
-                @Reset.performed += instance.OnReset;
-                @Reset.canceled += instance.OnReset;
             }
         }
     }
     public GameActions @Game => new GameActions(this);
+
+    // Game Debug
+    private readonly InputActionMap m_GameDebug;
+    private IGameDebugActions m_GameDebugActionsCallbackInterface;
+    private readonly InputAction m_GameDebug_GasUp;
+    private readonly InputAction m_GameDebug_LogPos;
+    private readonly InputAction m_GameDebug_ResetPos;
+    public struct GameDebugActions
+    {
+        private @InputSystem m_Wrapper;
+        public GameDebugActions(@InputSystem wrapper) { m_Wrapper = wrapper; }
+        public InputAction @GasUp => m_Wrapper.m_GameDebug_GasUp;
+        public InputAction @LogPos => m_Wrapper.m_GameDebug_LogPos;
+        public InputAction @ResetPos => m_Wrapper.m_GameDebug_ResetPos;
+        public InputActionMap Get() { return m_Wrapper.m_GameDebug; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(GameDebugActions set) { return set.Get(); }
+        public void SetCallbacks(IGameDebugActions instance)
+        {
+            if (m_Wrapper.m_GameDebugActionsCallbackInterface != null)
+            {
+                @GasUp.started -= m_Wrapper.m_GameDebugActionsCallbackInterface.OnGasUp;
+                @GasUp.performed -= m_Wrapper.m_GameDebugActionsCallbackInterface.OnGasUp;
+                @GasUp.canceled -= m_Wrapper.m_GameDebugActionsCallbackInterface.OnGasUp;
+                @LogPos.started -= m_Wrapper.m_GameDebugActionsCallbackInterface.OnLogPos;
+                @LogPos.performed -= m_Wrapper.m_GameDebugActionsCallbackInterface.OnLogPos;
+                @LogPos.canceled -= m_Wrapper.m_GameDebugActionsCallbackInterface.OnLogPos;
+                @ResetPos.started -= m_Wrapper.m_GameDebugActionsCallbackInterface.OnResetPos;
+                @ResetPos.performed -= m_Wrapper.m_GameDebugActionsCallbackInterface.OnResetPos;
+                @ResetPos.canceled -= m_Wrapper.m_GameDebugActionsCallbackInterface.OnResetPos;
+            }
+            m_Wrapper.m_GameDebugActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @GasUp.started += instance.OnGasUp;
+                @GasUp.performed += instance.OnGasUp;
+                @GasUp.canceled += instance.OnGasUp;
+                @LogPos.started += instance.OnLogPos;
+                @LogPos.performed += instance.OnLogPos;
+                @LogPos.canceled += instance.OnLogPos;
+                @ResetPos.started += instance.OnResetPos;
+                @ResetPos.performed += instance.OnResetPos;
+                @ResetPos.canceled += instance.OnResetPos;
+            }
+        }
+    }
+    public GameDebugActions @GameDebug => new GameDebugActions(this);
     private int m_KeyboardMouseSchemeIndex = -1;
     public InputControlScheme KeyboardMouseScheme
     {
@@ -240,6 +331,11 @@ public class @InputSystem : IInputActionCollection, IDisposable
         void OnPrimary(InputAction.CallbackContext context);
         void OnSecondary(InputAction.CallbackContext context);
         void OnPing(InputAction.CallbackContext context);
-        void OnReset(InputAction.CallbackContext context);
+    }
+    public interface IGameDebugActions
+    {
+        void OnGasUp(InputAction.CallbackContext context);
+        void OnLogPos(InputAction.CallbackContext context);
+        void OnResetPos(InputAction.CallbackContext context);
     }
 }

@@ -28,14 +28,6 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
-                },
-                {
-                    "name": "Reset",
-                    "type": "Button",
-                    "id": "bfacf034-09c8-4222-a42f-76e9a83e820a",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -71,15 +63,69 @@
                     "action": "Ping",
                     "isComposite": false,
                     "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Game Debug",
+            "id": "9072d1ef-ea4f-4ffc-9ed6-44136781a83e",
+            "actions": [
+                {
+                    "name": "GasUp",
+                    "type": "Button",
+                    "id": "4e6ab874-068e-4ddf-9454-22356ae893d4",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 },
                 {
+                    "name": "LogPos",
+                    "type": "Button",
+                    "id": "f7688bf5-ce82-470f-9532-aed078648c45",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "ResetPos",
+                    "type": "Button",
+                    "id": "86059ab5-2e65-408e-bb9b-f6699f3f6a45",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
                     "name": "",
-                    "id": "5923d8cb-714d-4505-b53e-4ed47d160beb",
+                    "id": "9deabf5a-dde5-4ba9-ae98-126fa135a7a4",
                     "path": "<Keyboard>/r",
                     "interactions": "",
                     "processors": "",
+                    "groups": "",
+                    "action": "ResetPos",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "dac1ea2c-de4f-40f6-980e-679af395322f",
+                    "path": "<Keyboard>/y",
+                    "interactions": "",
+                    "processors": "",
                     "groups": "Keyboard & Mouse",
-                    "action": "Reset",
+                    "action": "LogPos",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4b01ffec-7bfb-4c28-a7a9-dafe97477838",
+                    "path": "<Keyboard>/g",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard & Mouse",
+                    "action": "GasUp",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
