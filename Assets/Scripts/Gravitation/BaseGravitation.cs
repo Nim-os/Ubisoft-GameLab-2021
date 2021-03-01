@@ -11,7 +11,7 @@ public class BaseGravitation : MonoBehaviour
     public bool playerSelected = false;
     public bool beginRotating = false;
 
-    private float G = 1f;
+    private readonly float G = 1f;
     public List<BaseGravitation> ObjectsWithinRange = new List<BaseGravitation>();
     private Rigidbody rb;
     private bool isPlayer, holdingRMB = false;
