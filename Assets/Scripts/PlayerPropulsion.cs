@@ -21,6 +21,8 @@ public class PlayerPropulsion : MonoBehaviour
     private float cameraHeight;
     private ParticleSystem propulsionParticles;
 
+    private Vector2 mousePos = Vector2.zero;
+
     private bool isMe, propulsing;
 
 
@@ -34,11 +36,10 @@ public class PlayerPropulsion : MonoBehaviour
 
         if (isMe)
         {
-
             input.Game.Primary.performed += x => propulsing = true;
             input.Game.Primary.canceled += x => propulsing = false;
 
-            input.Game.Reset.performed += x => OnResetLocation();
+            input.Game.MousePosition.performed += x => mousePos = x.ReadValue<Vector2>();
         }
 
     }
@@ -79,7 +80,7 @@ public class PlayerPropulsion : MonoBehaviour
     private void OnLetGo(){
         Vector3 mouseDir;
         
-        if (!propulsing && holdingPower != 0 && ((mouseDir = Utils.GetMouseDirection(gameObject)) != Vector3.zero)){
+        if (!propulsing && holdingPower != 0 && ((mouseDir = GetMouseDirection(gameObject)) != Vector3.zero)){
             // apply force on the player
             rb.AddForce(mouseDir * propulsionForce * holdingPower, ForceMode.Impulse);
 
@@ -111,33 +112,47 @@ public class PlayerPropulsion : MonoBehaviour
             rb.mass -= 0.01f;
             transform.localScale -= new Vector3(0.01f,0.01f,0.01f);
             
-            Vector3 mouseDirection = Utils.GetMouseDirection(gameObject);
+            Vector3 mouseDirection = GetMouseDirection(gameObject);
             rb.AddForce(mouseDirection * propulsionForce, ForceMode.Impulse);
         }
         
     }
-
-    /// <summary> Reset location of player on "r". Delete later. </summary>
-    private void OnResetLocation()
-    {
-        rb.velocity = Vector3.zero;
-        this.transform.position = Vector3.zero;
-    }
     
     private void StartParticles(){
-        if (Input.GetMouseButtonDown(0) && gas > 0){
+        if (propulsing && gas > 0){
             propulsionParticles.Play();
         }
     }
     
     private void StopParticles(){
-        if (Input.GetMouseButtonUp(0) && gas > 0){
+        if (propulsing && gas > 0){
             propulsionParticles.Stop();
         }
     }
 
     private void SetCameraHeight(float height){
         cameraTransposer.m_FollowOffset.y = height;
+    }
+
+    /// <summary>
+    /// Custom helper to use in place of Utils.GetMouseDirection(..) due to input limitations
+    /// </summary>
+    /// <param name="gameObject">The <c>GameObject</c> to test against</param>
+    /// <returns>The mouse direction, whatever that means</returns>
+    private Vector3 GetMouseDirection(GameObject gameObject)
+	{
+        Plane plane = new Plane(Vector3.up, Vector3.zero);
+        var ray = Camera.main.ScreenPointToRay(mousePos);
+
+        if (plane.Raycast(ray, out float enter))
+        {
+            var hitPoint = ray.GetPoint(enter);
+            var mouseDirection = hitPoint - gameObject.transform.position;
+            mouseDirection = mouseDirection.normalized;
+            return mouseDirection;
+        }
+        // did not hit
+        return Vector3.zero;
     }
 
     private void OnEnable()

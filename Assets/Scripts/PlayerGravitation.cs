@@ -5,14 +5,30 @@ using UnityEngine;
 /// <summary> Basic gravitational script </summary>
 public class PlayerGravitation : MonoBehaviour
 {
+    public InputSystem input;
+
     public List<BaseGravitation> playerGravityCheckList = new List<BaseGravitation>();
     public BaseGravitation currentSelection = null;
 
     private float range = 10f; // mouse position hold range
+    private bool isMe, holdingRMB = false;
 
-     void FixedUpdate()
+    void Awake()
+	{
+        isMe = gameObject.GetComponent<Photon.Pun.PhotonView>().IsMine;
+
+        input = new InputSystem();
+
+        if (isMe)
+		{
+            input.Game.Secondary.performed += x => holdingRMB = true;
+            input.Game.Secondary.canceled += x => holdingRMB = false;
+        }
+    }
+
+	void FixedUpdate()
     {
-        if (gameObject.GetComponent<Photon.Pun.PhotonView>().IsMine)
+        if (isMe)
 		{
             ToggleOnGravity();
         }
@@ -31,7 +47,8 @@ public class PlayerGravitation : MonoBehaviour
     /// <summary> Removes gravitational object from playerGravityCheck list</summary>
     private void ToggleOnGravity(){
         // holding RMB
-        if (Input.GetMouseButton(1)){
+        if (holdingRMB)
+        {
             BaseGravitation o = SelectGravitationalObject();
 
             // if selects an object
@@ -73,5 +90,14 @@ public class PlayerGravitation : MonoBehaviour
             }
         }
         return selectedObj != null? selectedObj : null;
+    }
+    private void OnEnable()
+    {
+        input.Enable();
+    }
+
+    private void OnDisable()
+    {
+        input.Disable();
     }
 }
