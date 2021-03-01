@@ -15,6 +15,8 @@ public class PingManager : MonoBehaviour
     public GameObject locationPing;
     public Canvas canv;
 
+    private Vector2 mousePos;
+
 	private void Awake()
 	{
 		if (instance == null)
@@ -30,18 +32,19 @@ public class PingManager : MonoBehaviour
         input = new InputSystem();
 
         input.Game.Ping.performed += x => SendPing();
+        input.Game.MousePosition.performed += x => mousePos = x.ReadValue<Vector2>();
 	}
 
     void SendPing()
 	{
         GameObject ping = locationPing;
 
-        Ray ray = Camera.main.ScreenPointToRay(UnityEngine.InputSystem.Mouse.current.position.ReadValue());
+        Ray ray = Camera.main.ScreenPointToRay(mousePos);
 
         if (Physics.Raycast(ray, out RaycastHit hit, 100f, layer, QueryTriggerInteraction.Ignore))
         {
-            if (hit.collider.gameObject.tag.Equals("Player")) ping = playerPing;
-            if (hit.collider.gameObject.tag.Equals("Hazard")) ping = hazardPing;
+            if (hit.collider.gameObject.CompareTag("Player")) ping = playerPing;
+            if (hit.collider.gameObject.CompareTag("Hazard")) ping = hazardPing;
         }
 
 
@@ -55,6 +58,7 @@ public class PingManager : MonoBehaviour
 	{
         return canv;
 	}
+
     private void OnEnable()
     {
         input.Enable();

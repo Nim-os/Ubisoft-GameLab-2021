@@ -23,7 +23,8 @@ public class Ping : MonoBehaviour
 
     void Update()
     {
-        img.color = new Color(clr.r, clr.g, clr.b, img.color.a - (0.5f*Time.fixedDeltaTime));
-        if (GetComponent<Image>().color.a <= 0) Destroy(gameObject);
+        img.color = new Color(clr.r, clr.g, clr.b, img.color.a - (0.5f * Time.deltaTime));
+
+        if (img.color.a <= 0) Destroy(gameObject);
     }
 }
