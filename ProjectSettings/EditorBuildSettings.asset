@@ -45,10 +45,10 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Photon/PhotonUnityNetworking/Demos/PunCockpit/PunCockpit-Scene.unity
     guid: 9d6d60c803e244e51ba945a84b88757d
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/IndividualTestScenes/ChristophePing.unity
     guid: cd691f6531059814ebed36b265f3f7f2
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/IndividualTestScenes/CombinedGame.unity
     guid: b22eb4712880ebc46912ba20aa7297bd
   m_configObjects: {}
