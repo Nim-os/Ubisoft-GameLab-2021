@@ -5,6 +5,8 @@ using UnityEngine;
 /// <summary> Script with inputs for testing purposes </summary>
 public class PlayerTestMethods : MonoBehaviour
 {
+    public InputSystem input;
+
     private Rigidbody rb;
     private int initGas;
     private float initMass;
@@ -12,22 +14,29 @@ public class PlayerTestMethods : MonoBehaviour
 
     void Start()
     {
+        if (!gameObject.GetComponent<Photon.Pun.PhotonView>().IsMine)
+		{
+            Destroy(this);
+            return;
+		}
+
         rb = gameObject.GetComponent<Rigidbody>();
         initGas = this.GetComponent<PlayerPropulsion>().gas;
         initMass = rb.mass;
         initScale = this.transform.localScale;
+
+        input = new InputSystem();
+
+        
     }
 
     void FixedUpdate()
     {
-        if (gameObject.GetComponent<Photon.Pun.PhotonView>().IsMine)
-		{
-            OnResetLocation();
-            OnFillUpGas();
-            OnGetMousePosition();
-        }
+        OnResetLocation();
+        OnFillUpGas();
+        OnGetMousePosition();
 
-        if (rb.velocity.magnitude > 10)
+        if (rb.velocity.magnitude > 10) // What is this condition's purpose? Is it relevant to testing?
         {
             rb.velocity = Vector3.Normalize(rb.velocity) * 10;
         }
