@@ -36,21 +36,22 @@ public class PingManager : MonoBehaviour
 	}
 
     void SendPing()
-	{
-        GameObject ping = locationPing;
-
-        Ray ray = Camera.main.ScreenPointToRay(mousePos);
-
-        if (Physics.Raycast(ray, out RaycastHit hit, 100f, layer, QueryTriggerInteraction.Ignore))
-        {
-            if (hit.collider.gameObject.CompareTag("Player")) ping = playerPing;
-            if (hit.collider.gameObject.CompareTag("Hazard")) ping = hazardPing;
-        }
-
-
+    {
         if (PhotonNetwork.InRoom)
         {
-            PhotonNetwork.Instantiate(ping.name, ray.origin, Quaternion.identity);
+            GameObject ping = locationPing;
+
+            Ray ray = Camera.main.ScreenPointToRay(mousePos);
+
+            if (Physics.Raycast(ray, out RaycastHit hit, 100f, layer, QueryTriggerInteraction.Ignore))
+            {
+                if (hit.collider.gameObject.CompareTag("Player")) ping = playerPing;
+                if (hit.collider.gameObject.CompareTag("Hazard")) ping = hazardPing;
+            }
+
+            // Don't use ray.origin for placing the pings
+            // That position is where the camera is placed and not the point the player wants to ping
+            PhotonNetwork.Instantiate(ping.name, ray.GetPoint(Camera.main.transform.position.y), Quaternion.identity);
         }
     }
 
