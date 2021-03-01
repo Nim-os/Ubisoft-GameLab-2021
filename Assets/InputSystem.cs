@@ -41,6 +41,14 @@ public class @InputSystem : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""MousePosition"",
+                    ""type"": ""Value"",
+                    ""id"": ""d93ca531-3a24-4484-8a6a-bd422e105760"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -74,6 +82,17 @@ public class @InputSystem : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard & Mouse"",
                     ""action"": ""Ping"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ffb863e8-c57f-414f-9875-9b261be510f7"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MousePosition"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -169,6 +188,7 @@ public class @InputSystem : IInputActionCollection, IDisposable
         m_Game_Primary = m_Game.FindAction("Primary", throwIfNotFound: true);
         m_Game_Secondary = m_Game.FindAction("Secondary", throwIfNotFound: true);
         m_Game_Ping = m_Game.FindAction("Ping", throwIfNotFound: true);
+        m_Game_MousePosition = m_Game.FindAction("MousePosition", throwIfNotFound: true);
         // Game Debug
         m_GameDebug = asset.FindActionMap("Game Debug", throwIfNotFound: true);
         m_GameDebug_GasUp = m_GameDebug.FindAction("GasUp", throwIfNotFound: true);
@@ -226,6 +246,7 @@ public class @InputSystem : IInputActionCollection, IDisposable
     private readonly InputAction m_Game_Primary;
     private readonly InputAction m_Game_Secondary;
     private readonly InputAction m_Game_Ping;
+    private readonly InputAction m_Game_MousePosition;
     public struct GameActions
     {
         private @InputSystem m_Wrapper;
@@ -233,6 +254,7 @@ public class @InputSystem : IInputActionCollection, IDisposable
         public InputAction @Primary => m_Wrapper.m_Game_Primary;
         public InputAction @Secondary => m_Wrapper.m_Game_Secondary;
         public InputAction @Ping => m_Wrapper.m_Game_Ping;
+        public InputAction @MousePosition => m_Wrapper.m_Game_MousePosition;
         public InputActionMap Get() { return m_Wrapper.m_Game; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -251,6 +273,9 @@ public class @InputSystem : IInputActionCollection, IDisposable
                 @Ping.started -= m_Wrapper.m_GameActionsCallbackInterface.OnPing;
                 @Ping.performed -= m_Wrapper.m_GameActionsCallbackInterface.OnPing;
                 @Ping.canceled -= m_Wrapper.m_GameActionsCallbackInterface.OnPing;
+                @MousePosition.started -= m_Wrapper.m_GameActionsCallbackInterface.OnMousePosition;
+                @MousePosition.performed -= m_Wrapper.m_GameActionsCallbackInterface.OnMousePosition;
+                @MousePosition.canceled -= m_Wrapper.m_GameActionsCallbackInterface.OnMousePosition;
             }
             m_Wrapper.m_GameActionsCallbackInterface = instance;
             if (instance != null)
@@ -264,6 +289,9 @@ public class @InputSystem : IInputActionCollection, IDisposable
                 @Ping.started += instance.OnPing;
                 @Ping.performed += instance.OnPing;
                 @Ping.canceled += instance.OnPing;
+                @MousePosition.started += instance.OnMousePosition;
+                @MousePosition.performed += instance.OnMousePosition;
+                @MousePosition.canceled += instance.OnMousePosition;
             }
         }
     }
@@ -331,6 +359,7 @@ public class @InputSystem : IInputActionCollection, IDisposable
         void OnPrimary(InputAction.CallbackContext context);
         void OnSecondary(InputAction.CallbackContext context);
         void OnPing(InputAction.CallbackContext context);
+        void OnMousePosition(InputAction.CallbackContext context);
     }
     public interface IGameDebugActions
     {
