@@ -57,7 +57,7 @@ public class PlayerPropulsion : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (propulsing && isMine)
+        if (propulsing && isMe)
 		{
             StartParticles(); 
             OnPropulsion();
