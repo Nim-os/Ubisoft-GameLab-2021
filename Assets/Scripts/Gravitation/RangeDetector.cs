@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class RangeDetector : MonoBehaviour
 {
+    [SerializeField]
     private BaseGravitation body;
     private Rigidbody rb;
 

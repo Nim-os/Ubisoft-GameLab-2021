@@ -7,10 +7,12 @@ public class BaseGravitation : MonoBehaviour
 {
     public InputSystem input;
 
-    public float G = 60f;
     public bool freezePosition = false;
+    public bool playerSelected = false;
+    public bool beginRotating = false;
 
-    private List<BaseGravitation> ObjectsWithinRange = new List<BaseGravitation>();
+    private float G = 1f;
+    public List<BaseGravitation> ObjectsWithinRange = new List<BaseGravitation>();
     private Rigidbody rb;
     private bool isPlayer, holdingRMB = false;
 
@@ -25,28 +27,43 @@ public class BaseGravitation : MonoBehaviour
 	private void Start(){
         rb = gameObject.GetComponent<Rigidbody>();
         isPlayer = gameObject.tag == "Player" ? true : false;
+
+        StartCoroutine(PassiveStartRotation());
+        
+        RigidbodyConstraints frozenPosition = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ;
+        RigidbodyConstraints frozenY = RigidbodyConstraints.FreezePositionY;
+
+        rb.constraints = freezePosition ? frozenPosition : frozenY;
     }
     
     private void FixedUpdate()
     {
-        // Updates force on objects that are within this object's range
-        foreach (BaseGravitation o in ObjectsWithinRange){
-            // if not a player
-            // is a player && holding down right mouse button
-            // attract
-            if (!(o.isPlayer) || (o.isPlayer && holdingRMB)){
+        for (int i = ObjectsWithinRange.Count-1; i >= 0; i--)
+        {
+            var o = ObjectsWithinRange[i];
+            if ((o != null) && (!(o.isPlayer) || (o.isPlayer && holdingRMB && playerSelected))){
                 AttractMass(o);
+            }else if (o == null){
+                RemoveWithinRange(o);
             }
         }
     }
 
     /// <summary> Add new object to ObjectsWithinRange list </summary>
     public void AddWithinRange(BaseGravitation collider){
+        //if new object is a player, add this object to player's gravity check list
+        if (collider.gameObject.tag == "Player"){
+            collider.gameObject.GetComponent<PlayerGravitation>().AddToGravityCheck(this);
+        }
         ObjectsWithinRange.Add(collider);
     }
 
     /// <summary> Remove object in ObjectsWithinRange list </summary>
     public void RemoveWithinRange(BaseGravitation collider){
+        if (collider && collider.gameObject.tag == "Player"){
+            collider.gameObject.GetComponent<PlayerGravitation>().RemoveFromGravityCheck(this);
+            playerSelected = false;
+        }
         ObjectsWithinRange.Remove(collider);
     }
 
@@ -63,10 +80,34 @@ public class BaseGravitation : MonoBehaviour
         //rb.AddForce(forceVector); // this body goes towards other
         //otherRb.AddForce(forceVector); // other goes away from this
         otherRb.AddForce(-forceVector); // other goes towards this
-        
-        if (freezePosition){
-            rb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ;
+    }
+
+    /*
+    remove itself from any gravity lists
+    */
+    private void OnDestroy() {
+        for (int i = ObjectsWithinRange.Count-1; i >= 0; i--)
+        {
+            var o = ObjectsWithinRange[i];
+            
+            // if one of the objects within range is a player
+            if (o.isPlayer){
+                // remove this object from its range
+                o.GetComponent<PlayerGravitation>().RemoveFromGravityCheck(this.GetComponent<BaseGravitation>());
+            }
+            RemoveWithinRange(o);
         }
+    }
+
+    IEnumerator PassiveStartRotation(){
+        if (beginRotating){
+            rb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ;
+       
+            Vector3 force = new Vector3(Random.Range(50,100),Random.Range(50,100),Random.Range(50,100));
+            rb.AddTorque(force*100);
+        }
+        
+        yield return new WaitForSeconds(5);
     }
     private void OnEnable()
     {
