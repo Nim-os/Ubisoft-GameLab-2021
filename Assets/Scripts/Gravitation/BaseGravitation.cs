@@ -5,16 +5,26 @@ using UnityEngine;
 /// <summary> Basic gravitational script </summary>
 public class BaseGravitation : MonoBehaviour
 {
+    public InputSystem input;
+
     public bool freezePosition = false;
     public bool playerSelected = false;
     public bool beginRotating = false;
 
-    private float G = 1f;
+    private readonly float G = 1f;
     public List<BaseGravitation> ObjectsWithinRange = new List<BaseGravitation>();
     private Rigidbody rb;
-    private bool isPlayer;
+    private bool isPlayer, holdingRMB = false;
 
-    private void Start(){
+	private void Awake()
+	{
+        input = new InputSystem();
+
+        input.Game.Secondary.performed += x => holdingRMB = true;
+        input.Game.Secondary.canceled += x => holdingRMB = false;
+    }
+
+	private void Start(){
         rb = gameObject.GetComponent<Rigidbody>();
         isPlayer = gameObject.tag == "Player" ? true : false;
 
@@ -31,7 +41,7 @@ public class BaseGravitation : MonoBehaviour
         for (int i = ObjectsWithinRange.Count-1; i >= 0; i--)
         {
             var o = ObjectsWithinRange[i];
-            if ((o != null) && (!(o.isPlayer) || (o.isPlayer && Input.GetMouseButton(1) && playerSelected))){
+            if ((o != null) && (!(o.isPlayer) || (o.isPlayer && holdingRMB && playerSelected))){
                 AttractMass(o);
             }else if (o == null){
                 RemoveWithinRange(o);
@@ -98,5 +108,14 @@ public class BaseGravitation : MonoBehaviour
         }
         
         yield return new WaitForSeconds(5);
+    }
+    private void OnEnable()
+    {
+        input.Enable();
+    }
+
+    private void OnDisable()
+    {
+        input.Disable();
     }
 }

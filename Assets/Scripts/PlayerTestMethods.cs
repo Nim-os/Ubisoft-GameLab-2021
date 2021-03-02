@@ -5,12 +5,36 @@ using UnityEngine;
 /// <summary> Script with inputs for testing purposes </summary>
 public class PlayerTestMethods : MonoBehaviour
 {
+    public InputSystem input;
+
     private Rigidbody rb;
     private int initGas;
     private float initMass;
     private Vector3 initScale;
 
-    void Start()
+    private Vector2 mousePos = Vector2.zero;
+
+    private void Awake()
+    {
+        input = new InputSystem();
+
+        // If we don't own this script, we can safely remove it to prevent other players from influencing the wrong player gameobject
+        if (!gameObject.GetComponent<Photon.Pun.PhotonView>().IsMine)
+        {
+            Destroy(this);
+            return;
+        }
+        
+        // Subscribe all relevant input
+
+        input.Game.MousePosition.performed += x => mousePos = x.ReadValue<Vector2>();
+        input.GameDebug.GasUp.performed += x => OnFillUpGas();
+        input.GameDebug.LogPos.performed += x => OnGetMousePosition();
+        input.GameDebug.ResetPos.performed += x => OnResetLocation();
+    }
+
+
+	void Start()
     {
         rb = gameObject.GetComponent<Rigidbody>();
         initGas = this.GetComponent<PlayerPropulsion>().gas;
@@ -20,13 +44,6 @@ public class PlayerTestMethods : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (gameObject.GetComponent<Photon.Pun.PhotonView>().IsMine)
-		{
-            OnResetLocation();
-            OnFillUpGas();
-            OnGetMousePosition();
-        }
-
         if (rb.velocity.magnitude > 10)
         {
             rb.velocity = Vector3.Normalize(rb.velocity) * 10;
@@ -34,28 +51,33 @@ public class PlayerTestMethods : MonoBehaviour
     }
 
     /// <summary> Reset location of player on "r".</summary>
-    private void OnResetLocation(){
-        if (Input.GetKeyDown("r"))
-        {
-            rb.velocity = Vector3.zero;
-            this.transform.position = Vector3.zero;
-        }
+    private void OnResetLocation()
+    {
+        rb.velocity = Vector3.zero;
+        this.transform.position = Vector3.zero;
     }
 
     /// <summary> Reset location of player on "g".</summary>
-    private void OnFillUpGas(){
-        if (Input.GetKeyDown("g"))
-        {
-            gameObject.GetComponent<PlayerPropulsion>().gas = initGas;
-            rb.mass = initMass;
-            transform.localScale = initScale;
-        }
+    private void OnFillUpGas()
+    {
+        gameObject.GetComponent<PlayerPropulsion>().gas = initGas;
+        rb.mass = initMass;
+        transform.localScale = initScale;
     }
 
     /// <summary> Print out Vector3 mouse position</summary>
-    private void OnGetMousePosition(){
-        if (Input.GetKeyDown("y")){
-            Debug.Log(Utils.mousePositionOnPlane());
-        }
+    private void OnGetMousePosition()
+    {
+        Debug.Log(mousePos);
+    }
+
+    private void OnEnable()
+    {
+        input.Enable();
+    }
+
+    private void OnDisable()
+    {
+        input.Disable();
     }
 }
