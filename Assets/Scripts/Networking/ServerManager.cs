@@ -17,6 +17,13 @@ public class ServerManager : MonoBehaviourPunCallbacks
 		PhotonNetwork.ConnectUsingSettings();
 	}
 
+    void Update()
+    {
+        if (Input.GetKey("escape"))
+        {
+            Application.Quit();
+        }
+    }
 
 	public override void OnConnectedToMaster()
 	{
