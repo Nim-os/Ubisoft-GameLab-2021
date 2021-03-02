@@ -12,7 +12,22 @@ public class PlayerTestMethods : MonoBehaviour
     private float initMass;
     private Vector3 initScale;
 
-    void Start()
+    private Vector2 mousePos = Vector2.zero;
+
+    private void Awake()
+	{
+        // Add input system and subscribe all functions
+
+        input = new InputSystem();
+
+        input.Game.MousePosition.performed += x => mousePos = x.ReadValue<Vector2>();
+        input.GameDebug.GasUp.performed += x => OnFillUpGas();
+        input.GameDebug.LogPos.performed += x => OnGetMousePosition();
+        input.GameDebug.ResetPos.performed += x => OnResetLocation();
+    }
+
+
+	void Start()
     {
         // If we don't own this script, we don't need it
         if (!gameObject.GetComponent<Photon.Pun.PhotonView>().IsMine)
@@ -26,14 +41,6 @@ public class PlayerTestMethods : MonoBehaviour
         initMass = rb.mass;
         initScale = this.transform.localScale;
 
-
-        // Add input system and subscribe all functions
-
-        input = new InputSystem();
-
-        input.GameDebug.GasUp.performed += x => OnFillUpGas();
-        input.GameDebug.LogPos.performed += x => OnGetMousePosition();
-        input.GameDebug.ResetPos.performed += x => OnResetLocation();
     }
 
     void FixedUpdate()
@@ -62,6 +69,16 @@ public class PlayerTestMethods : MonoBehaviour
     /// <summary> Print out Vector3 mouse position</summary>
     private void OnGetMousePosition()
     {
-        Debug.Log(Utils.mousePositionOnPlane());
+        Debug.Log(mousePos);
+    }
+
+    private void OnEnable()
+    {
+        input.Enable();
+    }
+
+    private void OnDisable()
+    {
+        input.Disable();
     }
 }
