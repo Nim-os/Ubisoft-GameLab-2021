@@ -15,7 +15,14 @@ public class PlayerTestMethods : MonoBehaviour
     private Vector2 mousePos = Vector2.zero;
 
     private void Awake()
-	{
+    {
+        // If we don't own this script, we can safely remove it to prevent other players from influencing the wrong player gameobject
+        if (!gameObject.GetComponent<Photon.Pun.PhotonView>().IsMine)
+        {
+            Destroy(this);
+            return;
+        }
+        
         // Add input system and subscribe all functions
 
         input = new InputSystem();
@@ -29,23 +36,15 @@ public class PlayerTestMethods : MonoBehaviour
 
 	void Start()
     {
-        // If we don't own this script, we don't need it
-        if (!gameObject.GetComponent<Photon.Pun.PhotonView>().IsMine)
-		{
-            Destroy(this);
-            return;
-		}
-
         rb = gameObject.GetComponent<Rigidbody>();
         initGas = this.GetComponent<PlayerPropulsion>().gas;
         initMass = rb.mass;
         initScale = this.transform.localScale;
-
     }
 
     void FixedUpdate()
     {
-        if (rb.velocity.magnitude > 10) // What is this condition's purpose? Is it relevant to testing?
+        if (rb.velocity.magnitude > 10)
         {
             rb.velocity = Vector3.Normalize(rb.velocity) * 10;
         }
