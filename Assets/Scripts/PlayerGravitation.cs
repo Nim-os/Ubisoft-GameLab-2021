@@ -96,11 +96,6 @@ public class PlayerGravitation : MonoBehaviour
         return selectedObj != null? selectedObj : null;
     }
 
-    private float DistanceMouseObject(GameObject gameObject)
-	{
-        return 0;
-	}
-
     private void OnEnable()
     {
         input.Enable();
