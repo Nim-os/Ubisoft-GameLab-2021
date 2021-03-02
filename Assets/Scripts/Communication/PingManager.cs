@@ -45,8 +45,8 @@ public class PingManager : MonoBehaviour
 
             if (Physics.Raycast(ray, out RaycastHit hit, 100f, layer, QueryTriggerInteraction.Ignore))
             {
-                if (hit.collider.gameObject.CompareTag("Player")) ping = playerPing;
-                if (hit.collider.gameObject.CompareTag("Hazard")) ping = hazardPing;
+                if (hit.transform.gameObject.CompareTag("Player")) ping = playerPing;
+                if (hit.transform.gameObject.CompareTag("Hazard")) ping = hazardPing;
             }
 
             // Don't use ray.origin for placing the pings
