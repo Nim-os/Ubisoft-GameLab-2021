@@ -16,6 +16,8 @@ public class PlayerTestMethods : MonoBehaviour
 
     private void Awake()
     {
+        input = new InputSystem();
+
         // If we don't own this script, we can safely remove it to prevent other players from influencing the wrong player gameobject
         if (!gameObject.GetComponent<Photon.Pun.PhotonView>().IsMine)
         {
@@ -23,9 +25,7 @@ public class PlayerTestMethods : MonoBehaviour
             return;
         }
         
-        // Add input system and subscribe all functions
-
-        input = new InputSystem();
+        // Subscribe all relevant input
 
         input.Game.MousePosition.performed += x => mousePos = x.ReadValue<Vector2>();
         input.GameDebug.GasUp.performed += x => OnFillUpGas();

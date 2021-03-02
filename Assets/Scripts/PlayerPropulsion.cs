@@ -27,7 +27,9 @@ public class PlayerPropulsion : MonoBehaviour
 
 
 	void Awake()
-	{
+    {
+        input = new InputSystem();
+
         // If we don't own this script, we can safely remove it to prevent other players from influencing the wrong player gameobject
         if (!gameObject.GetComponent<Photon.Pun.PhotonView>().IsMine)
         {
@@ -35,7 +37,6 @@ public class PlayerPropulsion : MonoBehaviour
             return;
         }
 
-        input = new InputSystem();
 
         input.Game.Primary.performed += x => propulsing = true;
         input.Game.Primary.canceled += x => propulsing = false;
