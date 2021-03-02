@@ -13,6 +13,8 @@ public class PlayerGravitation : MonoBehaviour
     private float range = 10f; // mouse position hold range
     private bool isMe, holdingRMB = false;
 
+    private Vector2 mousePos = Vector2.zero;
+
     void Awake()
 	{
         isMe = gameObject.GetComponent<Photon.Pun.PhotonView>().IsMine;
@@ -23,6 +25,8 @@ public class PlayerGravitation : MonoBehaviour
 		{
             input.Game.Secondary.performed += x => holdingRMB = true;
             input.Game.Secondary.canceled += x => holdingRMB = false;
+
+            input.Game.MousePosition.performed += x => mousePos = x.ReadValue<Vector2>();
         }
     }
 
@@ -68,7 +72,7 @@ public class PlayerGravitation : MonoBehaviour
     private BaseGravitation SelectGravitationalObject(){
         BaseGravitation selectedObj = null;
         // if there is only one to check && it is within distance, pick this one
-        if ((playerGravityCheckList.Count == 1) && (Utils.DistanceMouseObj(playerGravityCheckList[0].gameObject) <= range)){
+        if ((playerGravityCheckList.Count == 1) && (Utils.DistanceMouseObj(mousePos, playerGravityCheckList[0].gameObject) <= range)){
             selectedObj = playerGravityCheckList[0];
         
         // if there are multiple to check
@@ -79,7 +83,7 @@ public class PlayerGravitation : MonoBehaviour
             // for each gravitational object to check
             foreach (BaseGravitation gravObj in playerGravityCheckList) {
                 // if within range && less than current range
-                var distObjMouse = Utils.DistanceMouseObj(gravObj.gameObject);
+                var distObjMouse = Utils.DistanceMouseObj(mousePos, gravObj.gameObject);
                 if ((distObjMouse <= range) && (distObjMouse < lowestDist)){
                     lowestDistObj = gravObj;
                 }
@@ -91,6 +95,12 @@ public class PlayerGravitation : MonoBehaviour
         }
         return selectedObj != null? selectedObj : null;
     }
+
+    private float DistanceMouseObject(GameObject gameObject)
+	{
+        return 0;
+	}
+
     private void OnEnable()
     {
         input.Enable();

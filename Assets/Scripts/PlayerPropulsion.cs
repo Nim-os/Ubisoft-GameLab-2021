@@ -81,7 +81,7 @@ public class PlayerPropulsion : MonoBehaviour
     private void OnLetGo(){
         Vector3 mouseDir;
         
-        if (!propulsing && holdingPower != 0 && ((mouseDir = GetMouseDirection(gameObject)) != Vector3.zero)){
+        if (!propulsing && holdingPower != 0 && ((mouseDir = Utils.GetMouseDirection(mousePos, gameObject)) != Vector3.zero)){
             // apply force on the player
             rb.AddForce(mouseDir * propulsionForce * holdingPower, ForceMode.Impulse);
 
@@ -113,7 +113,7 @@ public class PlayerPropulsion : MonoBehaviour
             rb.mass -= 0.01f;
             transform.localScale -= new Vector3(0.01f,0.01f,0.01f);
             
-            Vector3 mouseDirection = GetMouseDirection(gameObject);
+            Vector3 mouseDirection = Utils.GetMouseDirection(mousePos, gameObject);
             rb.AddForce(mouseDirection * propulsionForce, ForceMode.Impulse);
         }
         
@@ -133,27 +133,6 @@ public class PlayerPropulsion : MonoBehaviour
 
     private void SetCameraHeight(float height){
         cameraTransposer.m_FollowOffset.y = height;
-    }
-
-    /// <summary>
-    /// Custom helper to use in place of Utils.GetMouseDirection(..) due to input limitations
-    /// </summary>
-    /// <param name="gameObject">The <c>GameObject</c> to test against</param>
-    /// <returns>The mouse direction, whatever that means</returns>
-    private Vector3 GetMouseDirection(GameObject gameObject)
-	{
-        Plane plane = new Plane(Vector3.up, Vector3.zero);
-        var ray = Camera.main.ScreenPointToRay(mousePos);
-
-        if (plane.Raycast(ray, out float enter))
-        {
-            var hitPoint = ray.GetPoint(enter);
-            var mouseDirection = hitPoint - gameObject.transform.position;
-            mouseDirection = mouseDirection.normalized;
-            return mouseDirection;
-        }
-        // did not hit
-        return Vector3.zero;
     }
 
     private void OnEnable()
