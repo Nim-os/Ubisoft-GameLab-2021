@@ -6,6 +6,8 @@ using Cinemachine;
 /// <summary> Contains all methods related to self propulsion </summary>
 public class PlayerPropulsion : MonoBehaviour
 {
+    public InputSystem input;
+
     public float propulsionForce;
     public int gas;
     public int holdingPower;
@@ -19,7 +21,31 @@ public class PlayerPropulsion : MonoBehaviour
     private float cameraHeight;
     private ParticleSystem propulsionParticles;
 
-    void Start()
+    private Vector2 mousePos = Vector2.zero;
+
+    private bool propulsing;
+
+
+	void Awake()
+    {
+        input = new InputSystem();
+
+        // If we don't own this script, we can safely remove it to prevent other players from influencing the wrong player gameobject
+        if (!gameObject.GetComponent<Photon.Pun.PhotonView>().IsMine)
+        {
+            Destroy(this);
+            return;
+        }
+
+
+        input.Game.Primary.performed += x => propulsing = true;
+        input.Game.Primary.canceled += x => propulsing = false;
+
+        input.Game.MousePosition.performed += x => mousePos = x.ReadValue<Vector2>();
+
+    }
+
+	void Start()
     {
         rb = gameObject.GetComponent<Rigidbody>();
         cameraTransposer = GameObject.Find("CM vcam1").GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineTransposer>();
@@ -33,7 +59,7 @@ public class PlayerPropulsion : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (gameObject.GetComponent<Photon.Pun.PhotonView>().IsMine)
+        if (propulsing)
 		{
             StartParticles(); 
             OnPropulsion();
@@ -44,7 +70,7 @@ public class PlayerPropulsion : MonoBehaviour
     // rename this method better
     /// <summary> When "holding", builds up force for the player to use when they let go </summary>
     private void OnHold(){
-        if (Input.GetMouseButton(0) && gas > 0){
+        if (propulsing && gas > 0){
             holdingPower++;
             gas--;
         }
@@ -55,7 +81,7 @@ public class PlayerPropulsion : MonoBehaviour
     private void OnLetGo(){
         Vector3 mouseDir;
         
-        if (!Input.GetMouseButton(0) && holdingPower != 0 && ((mouseDir = Utils.GetMouseDirection(gameObject)) != Vector3.zero)){
+        if (!propulsing && holdingPower != 0 && ((mouseDir = Utils.GetMouseDirection(mousePos, gameObject)) != Vector3.zero)){
             // apply force on the player
             rb.AddForce(mouseDir * propulsionForce * holdingPower, ForceMode.Impulse);
 
@@ -73,9 +99,10 @@ public class PlayerPropulsion : MonoBehaviour
         }
     }
 
-    /// <summary> On mouse button held down && not empty on gas, add force to player towards the mouse direction </summary>
-    private void OnPropulsion(){
-        if (Input.GetMouseButton(0) && gas > 0)
+    /// <summary> On mouse button held down && not empty on gas, add force to player towards the mouse direction. </summary>
+    private void OnPropulsion()
+    {
+        if (gas > 0)
         {
             // move camera height, commented out for now to be less annoying when testing/developing base gameplay
             // cameraHeight = cameraHeight - (float) 0.05;
@@ -86,20 +113,20 @@ public class PlayerPropulsion : MonoBehaviour
             rb.mass -= 0.01f;
             transform.localScale -= new Vector3(0.01f,0.01f,0.01f);
             
-            Vector3 mouseDirection = Utils.GetMouseDirection(gameObject);
+            Vector3 mouseDirection = Utils.GetMouseDirection(mousePos, gameObject);
             rb.AddForce(mouseDirection * propulsionForce, ForceMode.Impulse);
         }
         
     }
     
     private void StartParticles(){
-        if (Input.GetMouseButtonDown(0) && gas > 0){
+        if (propulsing && gas > 0){
             propulsionParticles.Play();
         }
     }
     
     private void StopParticles(){
-        if (Input.GetMouseButtonUp(0) && gas > 0){
+        if (propulsing && gas > 0){
             propulsionParticles.Stop();
         }
     }
@@ -107,4 +134,14 @@ public class PlayerPropulsion : MonoBehaviour
     private void SetCameraHeight(float height){
         cameraTransposer.m_FollowOffset.y = height;
     }
+
+    private void OnEnable()
+    {
+        input.Enable();
+    }
+
+	private void OnDisable()
+	{
+        input.Disable();
+	}
 }

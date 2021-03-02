@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 64387ae3a204b9e4cbe588a7cfaeb21b
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - playerPing: {fileID: 1154270346505755446, guid: 4fc7f78abf7231c46b0d385a6709b758,
+      type: 3}
+  - hazardPing: {fileID: 5017430080585463926, guid: ef529b43b98950d4a8badb854a12c744,
+      type: 3}
+  - locationPing: {fileID: 6373903220945805045, guid: 834244821549e12468c910de56903707,
+      type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
