@@ -23,24 +23,24 @@ public class PlayerPropulsion : MonoBehaviour
 
     private Vector2 mousePos = Vector2.zero;
 
-    private bool isMe, propulsing;
+    private bool propulsing;
 
 
 	void Awake()
 	{
-        // Can we just destroy this script if it isn't the player? Message Christophe before removing this comment
-
-        isMe = gameObject.GetComponent<Photon.Pun.PhotonView>().IsMine;
+        // If we don't own this script, we can safely remove it to prevent other players from influencing the wrong player gameobject
+        if (!gameObject.GetComponent<Photon.Pun.PhotonView>().IsMine)
+        {
+            Destroy(this);
+            return;
+        }
 
         input = new InputSystem();
 
-        if (isMe)
-        {
-            input.Game.Primary.performed += x => propulsing = true;
-            input.Game.Primary.canceled += x => propulsing = false;
+        input.Game.Primary.performed += x => propulsing = true;
+        input.Game.Primary.canceled += x => propulsing = false;
 
-            input.Game.MousePosition.performed += x => mousePos = x.ReadValue<Vector2>();
-        }
+        input.Game.MousePosition.performed += x => mousePos = x.ReadValue<Vector2>();
 
     }
 
@@ -58,7 +58,7 @@ public class PlayerPropulsion : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (propulsing && isMe)
+        if (propulsing)
 		{
             StartParticles(); 
             OnPropulsion();
