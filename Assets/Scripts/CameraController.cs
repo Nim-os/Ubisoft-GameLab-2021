@@ -8,31 +8,31 @@ public class CameraController : MonoBehaviour
     public GameObject[] players;
     private CinemachineTransposer cameraTransposer;
     private float cameraHeight;
+    public float minDistance;
 
     void Start()
     {
         cameraTransposer = GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineTransposer>();
-        cameraHeight = cameraTransposer.m_FollowOffset.y;
+        cameraHeight = 25;
+        SetCameraHeight(cameraHeight);
     }
 
     void Update()
     {
         players = GameObject.FindGameObjectsWithTag("Player");
-        float minDistance = Vector3.Distance(Camera.main.ScreenToWorldPoint(Vector3.zero), Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height, 0))); // Get smallest distance required to be visible.
-        float buffer = 5; // Applies buffer between planets and edge of screen.
+        minDistance = Vector3.Distance(Camera.main.ScreenToWorldPoint(new Vector3(0, 0, cameraHeight)), Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height, cameraHeight))); ; // Get smallest distance required to be visible.
 
-        for (int i = 0; i < players.Length - 1; i++) // Moves the camera up (away) or down (closer) to keep players on-screen.
-        // TODO: Test this.
+        // Moves the camera up (away) or down (closer) to keep players on-screen.
+        float distance = Vector3.Distance(players[0].transform.position, players[1].transform.position);
+        if ((distance < (0.75f * minDistance)) && (cameraHeight >= 25))
         {
-            if (players[i].GetComponent<Renderer>().isVisible)
-            {
-                for (int j = 0; j < players.Length; j++)
-                {
-                    if (i == j || !(players[i].GetComponent<Renderer>().isVisible) || !(players[j].GetComponent<Renderer>().isVisible)) continue;
-                    if (minDistance > Vector3.Distance(players[i].transform.position, players[j].transform.position) + buffer) SetCameraHeight(cameraHeight - 0.05f);
-                }
-            }
-            else SetCameraHeight(cameraHeight + 0.05f);
+            cameraHeight = cameraHeight - 0.5f;
+            SetCameraHeight(cameraHeight);
+        }
+        else if ((distance > (minDistance)) && (cameraHeight <= 500))
+        {
+            cameraHeight = cameraHeight + 0.5f;
+            SetCameraHeight(cameraHeight);
         }
     }
 
