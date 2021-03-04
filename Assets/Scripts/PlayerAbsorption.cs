@@ -15,7 +15,12 @@ public class PlayerAbsorption : MonoBehaviour
     }
 
     void OnCollisionEnter(Collision collision){
-        //increase the counter by 1
+        //check if the collision is between 2 players
+        if(collision.rigidbody.gameObject.tag=="Player"){
+            //then it would be the end of the game
+            //TODO: game over function should be here
+            print("Game Over!!!");
+        }
         
 
         //destroy the rigidbody
