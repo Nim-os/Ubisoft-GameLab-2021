@@ -8,13 +8,27 @@ using Photon.Realtime;
 
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
+	private enum ConnectionState
+	{
+		Idle,
+		Connecting,
+		Joined,
+		Host
+	}
+
 	public const string DevRoomID = "dev";
 
+	public Button createButton;
+	public Button joinButton;
+	public Button playButton;
+	public Button leaveButton;
+
+	public TMP_InputField roomCodeInputField;
 
 	public TextMeshProUGUI logPanel;
-	public TextMeshProUGUI roomCode;
+	public TextMeshProUGUI roomCodeText;
 
-	private string code = "";
+	private string roomCode = "";
 
 	//public Mesh p2_1;
 	//public Material p2_1_mat;
@@ -32,9 +46,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 			MaxPlayers = 2
 		};
 
-		code = GetRandomCode().ToString();
+		roomCode = GetRandomCode().ToString();
 
-		PhotonNetwork.CreateRoom(code, room);
+		Debug.Log(roomCode);
+
+		PhotonNetwork.CreateRoom(roomCode, room);
 	}
 
 	public void CreateDevRoom()
@@ -48,17 +64,17 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 			MaxPlayers = 12
 		};
 
-		code = DevRoomID;
+		roomCode = DevRoomID;
 
 		PhotonNetwork.CreateRoom(DevRoomID, room);
 	}
 
 	public void JoinRoom()
 	{
-		Log($"Joining room {roomCode.text}...");
+		Log($"Joining room {roomCodeText.text}...");
 
 
-		PhotonNetwork.JoinRoom(roomCode.text);
+		PhotonNetwork.JoinRoom(roomCodeText.text);
 	}
 
 	public void PlayGame()
@@ -68,6 +84,13 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 		// TODO Players and min player checking
 	}
 
+	public void LeaveRoom()
+	{
+		Log("Left room.");
+
+		// TODO
+	}
+
 	#endregion
 
 
@@ -75,9 +98,9 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
 	public override void OnCreatedRoom()
 	{
-		roomCode.SetText(code);
+		roomCodeText.SetText(roomCode);
 
-		Log($"Created room {code} !");
+		Log($"Created room {roomCode} !");
 	}
 
 	public override void OnCreateRoomFailed(short returnCode, string message)
@@ -97,7 +120,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
 	public override void OnJoinedRoom()
 	{
-		Log($"Joined room {roomCode.text} !");
+		Log($"Joined room {roomCodeText.text} !");
 
 
 
