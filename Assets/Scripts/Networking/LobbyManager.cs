@@ -33,6 +33,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 	//public Mesh p2_1;
 	//public Material p2_1_mat;
 
+	private void Start()
+	{
+		Log("Connecting to game server...");
+	}
+
 	#region Room Logic
 
 	public void CreateRoom()
@@ -49,8 +54,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 		};
 
 		roomCode = GetRandomCode().ToString();
-
-		Debug.Log(roomCode);
 
 		PhotonNetwork.CreateRoom(roomCode, room);
 	}
@@ -114,7 +117,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
 	public override void OnCreatedRoom()
 	{
-		roomCodeText.SetText(roomCode);
+		//roomCodeText.SetText(roomCode);
+		roomCodeInputField.SetTextWithoutNotify(roomCode);
 
 		Log($"Created room {roomCode} !");
 	}
@@ -139,7 +143,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
 	public override void OnJoinedRoom()
 	{
-		Log($"Joined room {roomCodeText.text} !");
+		Log($"Joined room {roomCode} !");
 
 		SetConnectionState(ConnectionState.Joined);
 
@@ -188,13 +192,12 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 	private void Log(string text)
 	{
 		// TODO Make it more console like, messages don't overwrite but instead add themselves
-		//logPanel.text = text;
 		logPanel.SetText(text);
 	}
 
-	private short GetRandomCode()
+	private ushort GetRandomCode()
 	{
-		short code = (short) Random.Range(0x0000, 0xFFFF);
+		ushort code = (ushort) Random.Range(0x2710, 0xFFFF);
 
 		return code;
 	}
