@@ -13,7 +13,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 		Idle,
 		Connecting,
 		Joined,
-		Host
+		Started
 	}
 
 	public const string DevRoomID = "dev";
@@ -39,10 +39,12 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 	{
 		Log($"Creating room...");
 
+		SetConnectionState(ConnectionState.Connecting);
+
 		var room = new RoomOptions()
 		{
 			IsOpen = true,
-			IsVisible = false,
+			IsVisible = true,
 			MaxPlayers = 2
 		};
 
@@ -56,6 +58,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 	public void CreateDevRoom()
 	{
 		Log("Creating dev room...");
+
+		SetConnectionState(ConnectionState.Connecting);
 
 		var room = new RoomOptions()
 		{
@@ -73,6 +77,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 	{
 		Log($"Joining room {roomCodeText.text}...");
 
+		SetConnectionState(ConnectionState.Connecting);
 
 		PhotonNetwork.JoinRoom(roomCodeText.text);
 	}
@@ -81,20 +86,31 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 	{
 		Log("Starting game...");
 
-		// TODO Players and min player checking
+		SetConnectionState(ConnectionState.Started);
+
+		PhotonNetwork.LoadLevel(1); // TODO Change this to whatever scene, the number is the scene index in the build settings
 	}
 
 	public void LeaveRoom()
 	{
 		Log("Left room.");
 
-		// TODO
+		SetConnectionState(ConnectionState.Connecting);
+
+		PhotonNetwork.LeaveRoom();
 	}
 
 	#endregion
 
 
 	#region Callbacks
+
+	public override void OnConnectedToMaster()
+	{
+		Log("Connected to the master server!");
+
+		SetConnectionState(ConnectionState.Idle);
+	}
 
 	public override void OnCreatedRoom()
 	{
@@ -114,7 +130,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 		else
 		{
 			Debug.LogError($"Failed to create room.\n{returnCode}: {message}");
+
 			Log("Failed to create room.");
+
+			SetConnectionState(ConnectionState.Idle);
 		}
 	}
 
@@ -122,6 +141,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 	{
 		Log($"Joined room {roomCodeText.text} !");
 
+		SetConnectionState(ConnectionState.Joined);
 
 
 		/*
@@ -155,6 +175,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 				Log("Could not join room.");
 				break;
 		}
+
+		SetConnectionState(ConnectionState.Idle);
 	}
 
 	#endregion
@@ -175,5 +197,42 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 		short code = (short) Random.Range(0x0000, 0xFFFF);
 
 		return code;
+	}
+
+	private void SetConnectionState(ConnectionState state)
+	{
+		switch (state)
+		{
+			case ConnectionState.Idle:
+				roomCodeInputField.interactable = true;
+
+				createButton.interactable = true;
+				joinButton.interactable = true;
+
+				playButton.interactable = false;
+				leaveButton.interactable = false;
+
+				break;
+
+			case ConnectionState.Connecting:
+				roomCodeInputField.interactable = false;
+
+				createButton.interactable = false;
+				joinButton.interactable = false;
+
+				break;
+
+			case ConnectionState.Joined:
+				playButton.interactable = true;
+				leaveButton.interactable = true;
+
+				break;
+
+			case ConnectionState.Started:
+				playButton.interactable = false;
+				leaveButton.interactable = false;
+
+				break;
+		}
 	}
 }
