@@ -8,9 +8,6 @@ public class ServerManager : MonoBehaviourPunCallbacks
 {
 	private static ServerManager instance;
 
-	public const string DevRoomID = "dev";
-    public Mesh p2_1;
-    public Material p2_1_mat;
 
 	void Awake()
 	{
@@ -33,53 +30,20 @@ public class ServerManager : MonoBehaviourPunCallbacks
 
 		PhotonNetwork.ConnectUsingSettings();
 	}
+
+	#region Exposed Functions
+
 	
-	public override void OnConnectedToMaster()
-	{
-		Debug.Log("Successfully connected to Photon server");
-
-		Debug.Log("Attempting to join room");
-
-		PhotonNetwork.JoinRoom(DevRoomID);
-	}
-
-	public override void OnJoinedRoom()
-	{
-		Debug.Log("Successfully joined room");
-
-		GameObject player = PhotonNetwork.Instantiate("Player", new Vector3(Random.Range(-10,10), 1, Random.Range(-10, 10)), Quaternion.identity);
-        if (Random.Range(0, 2) == 1)
-        {
-            Mesh p2_1_inst = Instantiate(p2_1);
-            player.GetComponent<MeshFilter>().mesh = p2_1_inst;
-            player.GetComponent<MeshRenderer>().material = p2_1_mat;
-        }
-    }
-
-	public override void OnJoinRoomFailed(short returnCode, string message)
-	{
-		Debug.Log($"Failed to join room.\nError message: {returnCode}, {message}");
-
-		Debug.Log("Attempting to create room");
-
-		CreateDevRoom();
-	}
-
-	public override void OnCreatedRoom()
-	{
-		Debug.Log("Successfully created room");
-	}
-
-	public override void OnCreateRoomFailed(short returnCode, string message)
-	{
-		Debug.LogError($"Failed to create room.\nError message: {message}");
-	}
 
 	#endregion
 
 
-	#region Helper
+	#region Callbacks
 
+	public override void OnConnectedToMaster()
+	{
+		Debug.Log("Successfully connected to Photon server");
+	}
 
 
 	#endregion
