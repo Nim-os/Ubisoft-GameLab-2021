@@ -22,11 +22,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 	public Button joinButton;
 	public Button playButton;
 	public Button leaveButton;
+	public Button devButton;
 
-	public TMP_InputField roomCodeInputField;
+	public TMP_InputField inputField;
 
 	public TextMeshProUGUI logPanel;
-	public TextMeshProUGUI roomCodeText;
 
 	private string roomCode = "";
 
@@ -58,7 +58,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 		PhotonNetwork.CreateRoom(roomCode, room);
 	}
 
-	public void CreateDevRoom()
+	public void JoinDevRoom()
 	{
 		Log("Creating dev room...");
 
@@ -78,11 +78,18 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
 	public void JoinRoom()
 	{
-		Log($"Joining room {roomCodeText.text}...");
+		if (string.IsNullOrWhiteSpace(inputField.text))
+		{
+			Log("Must provide a room to join.");
+		}
+		else
+		{
+			Log($"Joining room {inputField.text}...");
 
-		SetConnectionState(ConnectionState.Connecting);
+			SetConnectionState(ConnectionState.Connecting);
 
-		PhotonNetwork.JoinRoom(roomCodeText.text);
+			PhotonNetwork.JoinRoom(inputField.text);
+		}
 	}
 
 	public void PlayGame()
@@ -117,27 +124,33 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
 	public override void OnCreatedRoom()
 	{
-		//roomCodeText.SetText(roomCode);
-		roomCodeInputField.SetTextWithoutNotify(roomCode);
+		inputField.SetTextWithoutNotify(roomCode);
 
 		Log($"Created room {roomCode} !");
 	}
 
 	public override void OnCreateRoomFailed(short returnCode, string message)
 	{
-		if (returnCode == 32766)
+		if (roomCode.Equals(DevRoomID))
 		{
-			Debug.Log("Recreating room, created duplicate.");
-
-			CreateRoom();
+			PhotonNetwork.JoinRoom(roomCode);
 		}
 		else
 		{
-			Debug.LogError($"Failed to create room.\n{returnCode}: {message}");
+			if (returnCode == 32766)
+			{
+				Debug.Log("Recreating room, created duplicate.");
 
-			Log("Failed to create room.");
+				CreateRoom();
+			}
+			else
+			{
+				Debug.LogError($"Failed to create room.\n{returnCode}: {message}");
 
-			SetConnectionState(ConnectionState.Idle);
+				Log("Failed to create room.");
+
+				SetConnectionState(ConnectionState.Idle);
+			}
 		}
 	}
 
@@ -161,12 +174,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
 	public override void OnJoinRoomFailed(short returnCode, string message)
 	{
-		Debug.LogError($"Failed to join room.\n{returnCode}: {message}");
-
 		switch (returnCode)
 		{
 			case 32758:
-				Log("Room code not found.");
+				Log("Room not found.");
 
 				break;
 
@@ -176,11 +187,23 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 				break;
 
 			default:
-				Log("Could not join room.");
+				Debug.LogError($"Failed to join room.\n{returnCode}: {message}");
+
+				Log("Unable to join room.");
 				break;
 		}
 
 		SetConnectionState(ConnectionState.Idle);
+	}
+
+	public override void OnLeftRoom()
+	{
+		inputField.SetTextWithoutNotify("");
+	}
+
+	public override void OnPlayerLeftRoom(Player otherPlayer)
+	{
+		// TODO Make game unstartable
 	}
 
 	#endregion
@@ -207,10 +230,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 		switch (state)
 		{
 			case ConnectionState.Idle:
-				roomCodeInputField.interactable = true;
+				inputField.interactable = true;
 
 				createButton.interactable = true;
 				joinButton.interactable = true;
+				devButton.interactable = true;
 
 				playButton.interactable = false;
 				leaveButton.interactable = false;
@@ -218,10 +242,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 				break;
 
 			case ConnectionState.Connecting:
-				roomCodeInputField.interactable = false;
+				inputField.interactable = false;
 
 				createButton.interactable = false;
 				joinButton.interactable = false;
+				devButton.interactable = false;
 
 				break;
 
