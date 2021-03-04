@@ -28,9 +28,23 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 			MaxPlayers = 2
 		};
 
-		// TODO
+		// TODO Generate random code
 
 		PhotonNetwork.CreateRoom("aa", room);
+	}
+
+	public void CreateDevRoom()
+	{
+		Log("Creating dev room...");
+
+		var room = new RoomOptions()
+		{
+			IsOpen = true,
+			IsVisible = false,
+			MaxPlayers = 12
+		};
+
+		PhotonNetwork.CreateRoom(DevRoomID, room);
 	}
 
 	public void JoinRoom()
@@ -48,20 +62,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 		// TODO Players and min player checking
 	}
 
-	public string CreateDevRoom()
-	{
-		var room = new RoomOptions()
-		{
-			IsOpen = true,
-			IsVisible = false,
-			MaxPlayers = 12
-		};
-
-		PhotonNetwork.CreateRoom(DevRoomID, room);
-
-		return DevRoomID;
-	}
-
 	#endregion
 
 
@@ -71,7 +71,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 	{
 		Debug.Log("Successfully created room");
 
-		Log($"Created room ");
+		Log($"Created room {roomCode.text}!");
 	}
 
 	public override void OnCreateRoomFailed(short returnCode, string message)
@@ -100,9 +100,24 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
 	public override void OnJoinRoomFailed(short returnCode, string message)
 	{
-		Debug.Log($"Failed to join room.\nError message: {returnCode}, {message}");
+		Debug.LogError($"Failed to join room.\nError message: {returnCode}, {message}");
 
+		switch (returnCode)
+		{
+			case 32758:
+				Log("Room code not found.");
 
+				break;
+
+			case 32765:
+				Log("Unable to join room, room is full.");
+
+				break;
+
+			default:
+				Log("Could not join room.");
+				break;
+		}
 	}
 
 	#endregion
