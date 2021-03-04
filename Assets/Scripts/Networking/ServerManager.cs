@@ -6,20 +6,37 @@ using Photon.Realtime;
 
 public class ServerManager : MonoBehaviourPunCallbacks
 {
+	private static ServerManager instance;
+
 	public const string DevRoomID = "dev";
     public Mesh p2_1;
     public Material p2_1_mat;
 
-    void Start()
+	void Awake()
 	{
-		Debug.Log("Attempting to connect");
+		// Keep ServerManager as an instance that carries over to multiple scenes
+		if (instance == null)
+		{
+			instance = this;
+			DontDestroyOnLoad(instance);
+		}
+		else
+		{
+			Destroy(this);
+			return;
+		}
+	}
+
+	void Start()
+	{
+		Debug.Log("Attempting to connect to Server");
 
 		PhotonNetwork.ConnectUsingSettings();
 	}
-
+	
 	public override void OnConnectedToMaster()
 	{
-		Debug.Log("Connected to Photon master server");
+		Debug.Log("Successfully connected to Photon server");
 
 		Debug.Log("Attempting to join room");
 
@@ -55,19 +72,16 @@ public class ServerManager : MonoBehaviourPunCallbacks
 
 	public override void OnCreateRoomFailed(short returnCode, string message)
 	{
-		Debug.Log($"Failed to create room.\nError message: {message}");
+		Debug.LogError($"Failed to create room.\nError message: {message}");
 	}
 
+	#endregion
 
-	private void CreateDevRoom()
-	{
-		var room = new RoomOptions()
-		{
-			IsOpen = true,
-			IsVisible = false,
-			MaxPlayers = 12
-		};
 
-		PhotonNetwork.CreateRoom(DevRoomID, room);
-	}
+	#region Helper
+
+
+
+	#endregion
+
 }
