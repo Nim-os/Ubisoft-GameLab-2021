@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 using Photon.Pun;
 using Photon.Realtime;
@@ -9,13 +10,16 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 {
 	public const string DevRoomID = "dev";
 
+
 	public TextMeshProUGUI logPanel;
 	public TextMeshProUGUI roomCode;
+
+	private string code = "";
 
 	//public Mesh p2_1;
 	//public Material p2_1_mat;
 
-	#region Buttons
+	#region Room Logic
 
 	public void CreateRoom()
 	{
@@ -28,9 +32,9 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 			MaxPlayers = 2
 		};
 
-		// TODO Generate random code
+		code = GetRandomCode().ToString();
 
-		PhotonNetwork.CreateRoom("aa", room);
+		PhotonNetwork.CreateRoom(code, room);
 	}
 
 	public void CreateDevRoom()
@@ -43,6 +47,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 			IsVisible = false,
 			MaxPlayers = 12
 		};
+
+		code = DevRoomID;
 
 		PhotonNetwork.CreateRoom(DevRoomID, room);
 	}
@@ -69,21 +75,29 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
 	public override void OnCreatedRoom()
 	{
-		Debug.Log("Successfully created room");
+		roomCode.SetText(code);
 
-		Log($"Created room {roomCode.text}!");
+		Log($"Created room {code} !");
 	}
 
 	public override void OnCreateRoomFailed(short returnCode, string message)
 	{
-		Debug.LogError($"Failed to create room.\nError message: {message}");
+		if (returnCode == 32766)
+		{
+			Debug.Log("Recreating room, created duplicate.");
 
-		Log("Failed to create room.");
+			CreateRoom();
+		}
+		else
+		{
+			Debug.LogError($"Failed to create room.\n{returnCode}: {message}");
+			Log("Failed to create room.");
+		}
 	}
 
 	public override void OnJoinedRoom()
 	{
-		Log($"Joined room {roomCode.text}!");
+		Log($"Joined room {roomCode.text} !");
 
 
 
@@ -100,7 +114,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
 	public override void OnJoinRoomFailed(short returnCode, string message)
 	{
-		Debug.LogError($"Failed to join room.\nError message: {returnCode}, {message}");
+		Debug.LogError($"Failed to join room.\n{returnCode}: {message}");
 
 		switch (returnCode)
 		{
@@ -131,5 +145,12 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 		// TODO Make it more console like, messages don't overwrite but instead add themselves
 		//logPanel.text = text;
 		logPanel.SetText(text);
+	}
+
+	private short GetRandomCode()
+	{
+		short code = (short) Random.Range(0x0000, 0xFFFF);
+
+		return code;
 	}
 }
