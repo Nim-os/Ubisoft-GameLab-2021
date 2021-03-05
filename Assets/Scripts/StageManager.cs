@@ -74,6 +74,6 @@ public class StageManager : MonoBehaviour
 	private Vector3 PickSpawnPosition()
 	{
 
-		return spawns[0].position;
+		return Vector3.zero;
 	}
 }

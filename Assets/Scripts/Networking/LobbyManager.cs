@@ -30,9 +30,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
 	private string roomCode = "";
 
-	//public Mesh p2_1;
-	//public Material p2_1_mat;
-
 	private void Start()
 	{
 		Log("Connecting to game server...");
@@ -149,6 +146,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 		// Set the input field to the room's code for clarity
 		inputField.SetTextWithoutNotify(roomCode);
 
+		ServerManager.instance.isHost = true;
+
 		Log($"Created room {roomCode} !");
 	}
 
@@ -186,16 +185,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
 		SetConnectionState(ConnectionState.Joined);
 
-
-		/*
-		GameObject player = PhotonNetwork.Instantiate("Player", new Vector3(Random.Range(-10, 10), 1, Random.Range(-10, 10)), Quaternion.identity);
-		if (Random.Range(0, 2) == 1)
-		{
-			Mesh p2_1_inst = Instantiate(p2_1);
-			player.GetComponent<MeshFilter>().mesh = p2_1_inst;
-			player.GetComponent<MeshRenderer>().material = p2_1_mat;
-		}
-		*/
+		ServerManager.instance.players.Clear();
+		ServerManager.instance.players.AddRange(PhotonNetwork.PlayerList);
 	}
 
 	public override void OnJoinRoomFailed(short returnCode, string message)
@@ -227,8 +218,12 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
 	public override void OnLeftRoom()
 	{
+		ServerManager.instance.isHost = false;
+
 		// Clears the input field whenever we leave a room
 		inputField.SetTextWithoutNotify("");
+
+		ServerManager.instance.players.Clear();
 	}
 
 	public override void OnPlayerLeftRoom(Player otherPlayer)

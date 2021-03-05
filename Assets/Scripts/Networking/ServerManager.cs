@@ -6,8 +6,11 @@ using Photon.Realtime;
 
 public class ServerManager : MonoBehaviourPunCallbacks
 {
-	private static ServerManager instance;
+	public static ServerManager instance;
 
+	public bool isHost = false;
+
+	public List<Player> players { get; private set; }
 
 	void Awake()
 	{
@@ -22,6 +25,8 @@ public class ServerManager : MonoBehaviourPunCallbacks
 			Destroy(this);
 			return;
 		}
+
+		players = new List<Player>();
 	}
 
 	void Start()
@@ -31,12 +36,11 @@ public class ServerManager : MonoBehaviourPunCallbacks
 		PhotonNetwork.ConnectUsingSettings();
 	}
 
-	#region Exposed Functions
+	#region Logic
 
 	
 
 	#endregion
-
 
 	#region Callbacks
 
