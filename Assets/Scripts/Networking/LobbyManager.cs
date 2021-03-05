@@ -244,8 +244,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 	/// <param name="text">The text to add</param>
 	private void Log(string text)
 	{
-		// TODO Make it more console like, messages don't overwrite but instead add themselves
-		logPanel.SetText(text);
+		logPanel.text += $"\n{text}";
 	}
 
 	/// <summary>
