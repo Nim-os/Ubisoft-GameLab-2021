@@ -112,7 +112,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 	/// </summary>
 	public void PlayGame()
 	{
-		if (!ServerManager.instance.isHost)
+		if (!ServerManager.isHost)
 		{
 			Log("Cannot start game, you are not the host.");
 		}
@@ -128,7 +128,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
 				SetConnectionState(ConnectionState.Started);
 
-				// Loads the initial level.
+				// Loads the initial level
 				PhotonNetwork.LoadLevel(1); // TODO Change this to whatever scene, the number is the scene index in the build settings
 			}
 		}
@@ -163,7 +163,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 		// Set the input field to the room's code for clarity
 		inputField.SetTextWithoutNotify(roomCode);
 
-		ServerManager.instance.isHost = true;
+		ServerManager.isHost = true;
 
 		Log($"Created room {roomCode} !");
 	}
@@ -201,9 +201,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 		Log($"Joined room {roomCode} !");
 
 		SetConnectionState(ConnectionState.Joined);
-
-		ServerManager.instance.players.Clear();
-		ServerManager.instance.players.AddRange(PhotonNetwork.PlayerList);
 	}
 
 	public override void OnJoinRoomFailed(short returnCode, string message)
@@ -235,22 +232,21 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
 	public override void OnLeftRoom()
 	{
-		ServerManager.instance.isHost = false;
+		ServerManager.isHost = false;
 
 		// Clears the input field whenever we leave a room
 		inputField.SetTextWithoutNotify("");
-
-		ServerManager.instance.players.Clear();
 	}
 
 	public override void OnPlayerEnteredRoom(Player newPlayer)
 	{
-		Log($"Player {newPlayer.NickName} joined");
+		Log($"Player {newPlayer.NickName} joined.");
 	}
 
 	public override void OnPlayerLeftRoom(Player otherPlayer)
 	{
-		// TODO Make game unstartable
+
+		Log($"Player {otherPlayer.NickName} left.");
 	}
 
 	#endregion

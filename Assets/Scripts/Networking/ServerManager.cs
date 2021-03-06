@@ -6,11 +6,9 @@ using Photon.Realtime;
 
 public class ServerManager : MonoBehaviourPunCallbacks
 {
-	public static ServerManager instance;
+	private static ServerManager instance;
 
-	public bool isHost = false;
-
-	public List<Player> players { get; private set; }
+	public static bool isHost = false;
 
 	void Awake()
 	{
@@ -25,8 +23,6 @@ public class ServerManager : MonoBehaviourPunCallbacks
 			Destroy(this);
 			return;
 		}
-
-		players = new List<Player>();
 	}
 
 	void Start()

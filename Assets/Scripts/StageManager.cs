@@ -15,6 +15,8 @@ public class StageManager : MonoBehaviour
 	public Mesh p2_1;
 	public Material p2_1_mat;
 
+	private List<Player> players;
+
 	private void Awake()
 	{
 		// Might be able to put this inside same if block as start since we don't need to do spawn positions
@@ -28,13 +30,15 @@ public class StageManager : MonoBehaviour
 		}
 
 		chosenSpawns = new bool[spawns.Count];
+
+		players = new List<Player>(PhotonNetwork.PlayerList);
 	}
 
 	private void Start()
 	{
-		if (ServerManager.instance.isHost)
+		if (ServerManager.isHost)
 		{
-			if (ServerManager.instance.players.Count == 0)
+			if (players.Count == 0)
 			{
 				Debug.LogError("No players in server manager. Did you try to run this scene directly? Use a lobby scene instead.");
 			}
@@ -49,7 +53,7 @@ public class StageManager : MonoBehaviour
 	{
 		int index = 0;
 
-		foreach (Player player in ServerManager.instance.players)
+		foreach (Player player in players)
 		{
 			GameObject obj = GeneratePlayerGameObject(index);
 
