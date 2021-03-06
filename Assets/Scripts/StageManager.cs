@@ -9,6 +9,8 @@ public class StageManager : MonoBehaviour
     public GameObject spawnsParent;
 
 	private List<Transform> spawns;
+	private bool[] chosenSpawns;
+	private int spawnCount = 0;
 
 	public Mesh p2_1;
 	public Material p2_1_mat;
@@ -24,6 +26,8 @@ public class StageManager : MonoBehaviour
 		{
 			spawns.Add(spawnsParent.transform.GetChild(i));
 		}
+
+		chosenSpawns = new bool[spawns.Count];
 	}
 
 	private void Start()
@@ -73,7 +77,27 @@ public class StageManager : MonoBehaviour
 
 	private Vector3 PickSpawnPosition()
 	{
+		int pos = Random.Range(0, spawns.Count);
 
-		return Vector3.zero;
+		if (spawnCount < spawns.Count)
+		{
+			while (chosenSpawns[pos])
+			{
+				// Comment next line and uncomment next line if supporting many players and plenty of spawns.
+
+				pos = Random.Range(0, spawns.Count);
+
+				//pos = (pos + 1) % spawns.Count;
+			}
+
+			chosenSpawns[pos] = true;
+			spawnCount += 1;
+		}
+		else
+		{
+			Debug.LogWarning("Not enough spawn positions for players.");
+		}
+
+		return spawns[pos].position;
 	}
 }
