@@ -28,6 +28,9 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
 	public TextMeshProUGUI logPanel;
 
+	[Header("DEBUG")]
+	public bool forceStart = false;
+
 	private string roomCode = "";
 
 	private void Start()
@@ -109,12 +112,26 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 	/// </summary>
 	public void PlayGame()
 	{
-		Log("Starting game...");
+		if (!ServerManager.instance.isHost)
+		{
+			Log("Cannot start game, you are not the host.");
+		}
+		else
+		{
+			if (PhotonNetwork.PlayerList.Length < 2 && !roomCode.Equals(DevRoomID) && !forceStart)
+			{
+				Log("Cannot start game, not enough players.");
+			}
+			else
+			{
+				Log("Starting game...");
 
-		SetConnectionState(ConnectionState.Started);
+				SetConnectionState(ConnectionState.Started);
 
-		// Loads the initial level.
-		PhotonNetwork.LoadLevel(1); // TODO Change this to whatever scene, the number is the scene index in the build settings
+				// Loads the initial level.
+				PhotonNetwork.LoadLevel(1); // TODO Change this to whatever scene, the number is the scene index in the build settings
+			}
+		}
 	}
 
 	/// <summary>
@@ -224,6 +241,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 		inputField.SetTextWithoutNotify("");
 
 		ServerManager.instance.players.Clear();
+	}
+
+	public override void OnPlayerEnteredRoom(Player newPlayer)
+	{
+		Log($"Player {newPlayer.NickName} joined");
 	}
 
 	public override void OnPlayerLeftRoom(Player otherPlayer)
