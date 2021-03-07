@@ -32,10 +32,7 @@ public class StageManager : MonoBehaviour
 		chosenSpawns = new bool[spawns.Count];
 
 		players = new List<Player>(PhotonNetwork.PlayerList);
-	}
 
-	private void Start()
-	{
 		if (ServerManager.isHost)
 		{
 			if (players.Count == 0)
