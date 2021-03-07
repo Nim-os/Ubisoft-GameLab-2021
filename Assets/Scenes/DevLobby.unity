@@ -2647,6 +2647,7 @@ MonoBehaviour:
   playButton: {fileID: 684012364}
   leaveButton: {fileID: 1756482801}
   devButton: {fileID: 452561510}
+  messageButton: {fileID: 1845133553}
   inputField: {fileID: 771341951}
   logPanel: {fileID: 1838543513}
   forceStart: 0

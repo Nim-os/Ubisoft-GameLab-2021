@@ -25,6 +25,7 @@ public class StageManager : MonoBehaviourPun
 
 		spawns = new List<Transform>(spawnsParent.transform.childCount);
 
+		// Retrieve all children of spawn gameobject that represent spawn points
 		for (int i = 0; i < spawnsParent.transform.childCount; i++)
 		{
 			spawns.Add(spawnsParent.transform.GetChild(i));
@@ -52,17 +53,24 @@ public class StageManager : MonoBehaviourPun
 
 	private void SpawnPlayers()
 	{
+		// Indicates to each player to spawn their player character at a point
 		foreach (Player player in players)
 		{
 			photonView.RPC("GeneratePlayer", player, new object[] { PickSpawnPosition() });
 		}
 	}
 
+	/// <summary>
+	/// RPC Call that spawns a client owned player.
+	/// </summary>
+	/// <param name="spawnPos">Point to spawn at</param>
 	[PunRPC]
 	private void GeneratePlayer(Vector3 spawnPos)
 	{
 		GameObject player = PhotonNetwork.Instantiate("Player", spawnPos, Quaternion.identity);
 
+		// Issue with this is it only changes it client side
+		// Workarounds are either create a new prefab for a second player or have all clients update the mesh
 		if (PhotonNetwork.IsMasterClient)
 		{
 			Mesh p2_1_inst = Instantiate(p2_1);
@@ -71,21 +79,26 @@ public class StageManager : MonoBehaviourPun
 		}
 	}
 
+	/// <summary>
+	/// Function that picks a point based on the data of previous choices.
+	/// Ensures that, given enough spawn points, all players will spawn in unique locations.
+	/// </summary>
+	/// <returns>The spawn point</returns>
 	private Vector3 PickSpawnPosition()
 	{
+		// Get first potential position
 		int pos = Random.Range(0, spawns.Count);
 
+		// Check if there are even enough spawn points for players
 		if (spawnCount < spawns.Count)
 		{
+			// While we haven't found an unoccupied spot
 			while (chosenSpawns[pos])
 			{
-				// Comment next line and uncomment next line if supporting many players and plenty of spawns.
-
 				pos = Random.Range(0, spawns.Count);
-
-				//pos = (pos + 1) % spawns.Count;
 			}
 
+			// Mark our chosen spot as taken
 			chosenSpawns[pos] = true;
 			spawnCount += 1;
 		}

@@ -23,6 +23,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 	public Button playButton;
 	public Button leaveButton;
 	public Button devButton;
+	public Button messageButton;
 
 	public TMP_InputField inputField;
 
@@ -149,23 +150,37 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 		PhotonNetwork.LeaveRoom();
 	}
 
+	/// <summary>
+	/// Changes the name of the client player.
+	/// </summary>
+	/// <param name="name">The name to change to</param>
 	public void ChangeName(string name)
 	{
 		PhotonNetwork.LocalPlayer.NickName = name;
 	}
 
+	/// <summary>
+	/// Sends a console message to all players in a room.
+	/// </summary>
 	public void SendMessage()
 	{
-		photonView.RPC("RecieveMessage", RpcTarget.All, new object[] { PhotonNetwork.LocalPlayer, "Hi !" });
+		photonView.RPC("RecieveMessage", RpcTarget.All, new object[] { PhotonNetwork.LocalPlayer, "Hi!" });
 	}
 
 	#endregion
 
+
+	/// <summary>
+	/// Recieves a message from other players and logs it to the console.
+	/// </summary>
+	/// <param name="player">The sender of the message</param>
+	/// <param name="message">The message recieved</param>
 	[PunRPC]
 	private void RecieveMessage(Player player, string message)
 	{
 		Log($"{player.NickName}: {message}");
 	}
+
 
 	#region Callbacks
 
@@ -256,6 +271,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 	{
 		isHost = false;
 
+		SetConnectionState(ConnectionState.Idle);
+
 		// Clears the input field whenever we leave a room
 		inputField.SetTextWithoutNotify("");
 	}
@@ -319,6 +336,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
 				playButton.interactable = false;
 				leaveButton.interactable = false;
+				messageButton.interactable = false;
 
 				break;
 
@@ -329,17 +347,23 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 				joinButton.interactable = false;
 				devButton.interactable = false;
 
+				playButton.interactable = false;
+				leaveButton.interactable = false;
+				messageButton.interactable = false;
+
 				break;
 
 			case ConnectionState.Joined:
 				playButton.interactable = true;
 				leaveButton.interactable = true;
+				messageButton.interactable = true;
 
 				break;
 
 			case ConnectionState.Started:
 				playButton.interactable = false;
 				leaveButton.interactable = false;
+				messageButton.interactable = false;
 
 				break;
 		}
