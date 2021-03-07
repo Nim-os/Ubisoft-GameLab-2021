@@ -8,8 +8,6 @@ public class ServerManager : MonoBehaviourPunCallbacks
 {
 	private static ServerManager instance;
 
-	public static bool isHost = false;
-
 	void Awake()
 	{
 		// Keep ServerManager as an instance that carries over to multiple scenes

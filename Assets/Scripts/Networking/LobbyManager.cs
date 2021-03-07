@@ -33,6 +33,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
 	private string roomCode = "";
 
+	private bool isHost = false;
+
 	private void Start()
 	{
 		Log("Connecting to game server...");
@@ -112,7 +114,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 	/// </summary>
 	public void PlayGame()
 	{
-		if (!ServerManager.isHost)
+		if (!PhotonNetwork.IsMasterClient)
 		{
 			Log("Cannot start game, you are not the host.");
 		}
@@ -127,6 +129,9 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 				Log("Starting game...");
 
 				SetConnectionState(ConnectionState.Started);
+
+				// Might be able to create an AppSettings for connection and put this elsewhere
+				PhotonNetwork.AutomaticallySyncScene = true;
 
 				// Loads the initial level
 				PhotonNetwork.LoadLevel(1); // TODO Change this to whatever scene, the number is the scene index in the build settings
@@ -163,9 +168,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 		// Set the input field to the room's code for clarity
 		inputField.SetTextWithoutNotify(roomCode);
 
-		ServerManager.isHost = true;
+		isHost = true;
 
 		Log($"Created room {roomCode} !");
+		Log($"You are the host.");
 	}
 
 	public override void OnCreateRoomFailed(short returnCode, string message)
@@ -198,7 +204,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
 	public override void OnJoinedRoom()
 	{
-		Log($"Joined room {roomCode} !");
+		if (!isHost)
+		{
+			Log($"Joined room {roomCode} !");
+		}
 
 		SetConnectionState(ConnectionState.Joined);
 	}
@@ -232,7 +241,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
 	public override void OnLeftRoom()
 	{
-		ServerManager.isHost = false;
+		isHost = false;
 
 		// Clears the input field whenever we leave a room
 		inputField.SetTextWithoutNotify("");
@@ -245,8 +254,14 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
 	public override void OnPlayerLeftRoom(Player otherPlayer)
 	{
-
 		Log($"Player {otherPlayer.NickName} left.");
+
+		// Here so that we do not say that the client is the host if they were previously told that they were the host
+		if (!isHost && PhotonNetwork.IsMasterClient)
+		{
+			isHost = true;
+			Log("You are now the host.");
+		}
 	}
 
 	#endregion

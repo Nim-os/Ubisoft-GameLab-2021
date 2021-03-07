@@ -33,7 +33,7 @@ public class StageManager : MonoBehaviour
 
 		players = new List<Player>(PhotonNetwork.PlayerList);
 
-		if (ServerManager.isHost)
+		if (PhotonNetwork.IsMasterClient)
 		{
 			if (players.Count == 0)
 			{
