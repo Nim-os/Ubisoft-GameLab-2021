@@ -130,8 +130,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
 				SetConnectionState(ConnectionState.Started);
 
-				// Might be able to create an AppSettings for connection and put this elsewhere
-				PhotonNetwork.AutomaticallySyncScene = true;
 
 				// Loads the initial level
 				PhotonNetwork.LoadLevel(1); // TODO Change this to whatever scene, the number is the scene index in the build settings
@@ -151,8 +149,23 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 		PhotonNetwork.LeaveRoom();
 	}
 
+	public void ChangeName(string name)
+	{
+		PhotonNetwork.LocalPlayer.NickName = name;
+	}
+
+	public void SendMessage()
+	{
+		photonView.RPC("RecieveMessage", RpcTarget.All, new object[] { PhotonNetwork.LocalPlayer, "Hi !" });
+	}
+
 	#endregion
 
+	[PunRPC]
+	private void RecieveMessage(Player player, string message)
+	{
+		Log($"{player.NickName}: {message}");
+	}
 
 	#region Callbacks
 
