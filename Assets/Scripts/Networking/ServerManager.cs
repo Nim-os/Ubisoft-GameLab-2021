@@ -27,6 +27,9 @@ public class ServerManager : MonoBehaviourPunCallbacks
 	{
 		Debug.Log("Attempting to connect to Server");
 
+		// Might be able to create an AppSettings for connection and put this elsewhere
+		PhotonNetwork.AutomaticallySyncScene = true;
+
 		PhotonNetwork.ConnectUsingSettings();
 	}
 
