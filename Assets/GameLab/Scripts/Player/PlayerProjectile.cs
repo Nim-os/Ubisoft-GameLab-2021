@@ -44,13 +44,17 @@ public class PlayerProjectile : MonoBehaviour
 
     /// <summary> When "let go" releases projectile in mouse direction</summary>
     private void OnLetGo(){
-        Vector3 mouseDir;
+        Vector3 mouseDir = Utils.GetMouseDirection(mousePos, gameObject);
+        bool isLetGo = !holding;
+        bool hasHoldingPower = holdingPower != 0;
+        bool hasMouseDir = mouseDir != Vector3.zero;
         
-        if (!holding && holdingPower != 0 && ((mouseDir = Utils.GetMouseDirection(mousePos, gameObject)) != Vector3.zero)){
+        if (isLetGo && hasHoldingPower && hasMouseDir) {
+            float playerSize = transform.localScale.x;
             propulsionScript.ChangeMass(-holdingPower);
             
             // create rock
-            GameObject rock = Instantiate(rockPrefab, transform.position + mouseDir*2, transform.rotation);
+            GameObject rock = Instantiate(rockPrefab, transform.position + mouseDir*(playerSize+2), transform.rotation);
             float length = holdingPower*0.05f;
             rock.transform.localScale = new Vector3(length, length, length);
 
