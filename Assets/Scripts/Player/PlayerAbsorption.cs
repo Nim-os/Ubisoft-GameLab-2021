@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerAbsorption : MonoBehaviour
 {
-    // Start is called before the first frame update
+    [SerializeField]
     Rigidbody rb;
     private PlayerPropulsion propulsionScript;
 
@@ -15,9 +15,11 @@ public class PlayerAbsorption : MonoBehaviour
     }
 
     void OnCollisionEnter(Collision collision){
-        bool isGravitationalObj = collision.gameObject.GetComponent<BaseGravitation>();
-        bool hasLowerMass = (collision.rigidbody ? true : false) && (collision.rigidbody.mass < rb.mass);
-
+        bool isGameObj = collision.gameObject;
+        bool hasRigidBody = collision.rigidbody;
+        bool isGravitationalObj = (isGameObj) && (collision.gameObject.GetComponent<BaseGravitation>());
+        bool hasLowerMass = (hasRigidBody) && (collision.rigidbody.mass < rb.mass);
+        
         if (isGravitationalObj && hasLowerMass){
             float colliderMass = collision.rigidbody.mass;
             if (collision.gameObject.tag == "Player"){
