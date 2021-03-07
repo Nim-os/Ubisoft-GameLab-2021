@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 
+[RequireComponent(typeof(PhotonView))]
 public class StageManager : MonoBehaviourPun
 {
     public GameObject spawnsParent;
@@ -33,28 +34,34 @@ public class StageManager : MonoBehaviourPun
 
 		players = new List<Player>(PhotonNetwork.PlayerList);
 
+	}
+
+	private void Start()
+	{
+		if (!PhotonNetwork.InRoom)
+		{
+			Debug.LogError("Not inside a room. Did you run this scene correctly? Try running from the lobby scene instead.");
+
+		}
+
 		if (PhotonNetwork.IsMasterClient)
 		{
-			if (players.Count == 0)
-			{
-				Debug.LogError("No players in server manager. Did you try to run this scene directly? Use a lobby scene instead.");
-			}
-			else
-			{
-				SpawnPlayers();
-			}
+			SpawnPlayers();
 		}
 	}
 
 	private void SpawnPlayers()
-	{		
-		photonView.RPC("GeneratePlayer", RpcTarget.All, null);
+	{
+		foreach (Player player in players)
+		{
+			photonView.RPC("GeneratePlayer", player, new object[] { PickSpawnPosition() });
+		}
 	}
 
 	[PunRPC]
-	private void GeneratePlayer()
+	private void GeneratePlayer(Vector3 spawnPos)
 	{
-		GameObject player = PhotonNetwork.Instantiate("Player", PickSpawnPosition(), Quaternion.identity);
+		GameObject player = PhotonNetwork.Instantiate("Player", spawnPos, Quaternion.identity);
 
 		if (PhotonNetwork.IsMasterClient)
 		{
