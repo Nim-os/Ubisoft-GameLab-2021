@@ -17,7 +17,6 @@ public class ServerManager : MonoBehaviourPunCallbacks
 		PhotonNetwork.ConnectUsingSettings();
 	}
 
-
 	public override void OnConnectedToMaster()
 	{
 		Debug.Log("Connected to Photon master server");

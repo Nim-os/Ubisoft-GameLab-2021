@@ -104,10 +104,6 @@ public class PlayerPropulsion : MonoBehaviour
     {
         if (gas > 0)
         {
-            // move camera height, commented out for now to be less annoying when testing/developing base gameplay
-            // cameraHeight = cameraHeight - (float) 0.05;
-            // SetCameraHeight(cameraHeight);
-
             // Use up gas when propulsion
             gas--;
             rb.mass -= 0.01f;
