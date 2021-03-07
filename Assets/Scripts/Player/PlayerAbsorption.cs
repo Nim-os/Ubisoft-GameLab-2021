@@ -6,36 +6,26 @@ public class PlayerAbsorption : MonoBehaviour
 {
     // Start is called before the first frame update
     Rigidbody rb;
-    int counter;
-    public float startLogAt = 0;
+    private PlayerPropulsion propulsionScript;
 
     void Start()
     {
         rb = gameObject.GetComponent<Rigidbody>();
-        counter = 0;
+        propulsionScript = this.GetComponent<PlayerPropulsion>();
     }
 
     void OnCollisionEnter(Collision collision){
-        //check if the collision is between 2 players
-        if(collision.rigidbody.gameObject.tag == "Player"){
-            print("Game Over!!!");
-        }
-        
-        //destroy the rigidbody
-        float mass = 0;
-        if(collision.rigidbody){
-            mass = collision.rigidbody.mass;
-            Destroy(collision.rigidbody.gameObject);
-        }
+        bool isGravitationalObj = collision.gameObject.GetComponent<BaseGravitation>();
+        bool hasLowerMass = (collision.rigidbody ? true : false) && (collision.rigidbody.mass < rb.mass);
 
-        //add the mass to the rigidbody
-        //mimic logarithmic growth
-        if(rb.mass >= startLogAt){
-            //start log once the mass pass the threshold
-            counter++;
-            rb.mass += mass * (1/counter);
-        }else{
-            rb.mass += mass;
+        if (isGravitationalObj && hasLowerMass){
+            float colliderMass = collision.rigidbody.mass;
+            if (collision.gameObject.tag == "Player"){
+                print("hit player");
+            }
+
+            Destroy(collision.gameObject);
+            propulsionScript.ChangeMass((int) colliderMass);
         }
     }
 }
