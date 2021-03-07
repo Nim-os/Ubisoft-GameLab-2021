@@ -4,7 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class StageManager : MonoBehaviour
+public class StageManager : MonoBehaviourPun
 {
     public GameObject spawnsParent;
 
@@ -47,33 +47,21 @@ public class StageManager : MonoBehaviour
 	}
 
 	private void SpawnPlayers()
-	{
-		int index = 0;
-
-		foreach (Player player in players)
-		{
-			GameObject obj = GeneratePlayerGameObject(index);
-
-			var view = obj.GetComponent<PhotonView>();
-
-			view.TransferOwnership(player);
-
-			index += 1;
-		}
+	{		
+		photonView.RPC("GeneratePlayer", RpcTarget.All, null);
 	}
 
-	private GameObject GeneratePlayerGameObject(int index)
+	[PunRPC]
+	private void GeneratePlayer()
 	{
 		GameObject player = PhotonNetwork.Instantiate("Player", PickSpawnPosition(), Quaternion.identity);
 
-		if (index % 2 == 0)
+		if (PhotonNetwork.IsMasterClient)
 		{
 			Mesh p2_1_inst = Instantiate(p2_1);
 			player.GetComponent<MeshFilter>().mesh = p2_1_inst;
 			player.GetComponent<MeshRenderer>().material = p2_1_mat;
 		}
-
-		return player;
 	}
 
 	private Vector3 PickSpawnPosition()
