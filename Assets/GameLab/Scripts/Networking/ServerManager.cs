@@ -78,7 +78,7 @@ public class ServerManager : MonoBehaviourPunCallbacks
 			{
 				IsOpen = true,
 				IsVisible = true,
-				MaxPlayers = 2
+				MaxPlayers = 12
 			};
 
 			PhotonNetwork.JoinOrCreateRoom($"scene_{UnityEngine.SceneManagement.SceneManager.GetActiveScene().name}", room, TypedLobby.Default);
