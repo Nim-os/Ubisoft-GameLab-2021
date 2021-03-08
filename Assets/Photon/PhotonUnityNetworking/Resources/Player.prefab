@@ -126,6 +126,7 @@ GameObject:
   - component: {fileID: 3329302069819961951}
   - component: {fileID: 683876101074707695}
   - component: {fileID: 6205053968602867674}
+  - component: {fileID: 7963721331874415681}
   - component: {fileID: 2346000043845313007}
   - component: {fileID: 7938066167103103702}
   - component: {fileID: 1931232593522704598}
@@ -241,7 +242,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a835b0a3bd34bf44489ba14db3dce51c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SmoothingDelay: 5
   propulsionForce: 5
   gas: 500
   holdingPower: 0
@@ -282,7 +282,6 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   ObservedComponents:
-  - {fileID: 4120421440658146700}
   - {fileID: 4120421440658146702}
   viewIdField: 0
   InstantiationId: 0
@@ -329,6 +328,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerGravityCheckList: []
   currentSelection: {fileID: 0}
+--- !u!114 &7963721331874415681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4120421440658146743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49b0c7521f60c7d438a5e74f422052e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!198 &2346000043845313007
 ParticleSystem:
   m_ObjectHideFlags: 0
