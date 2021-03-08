@@ -1113,19 +1113,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 876d3c3bb23f24245b786cded6b7c561, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  asteroid: {fileID: 1828997230809920408, guid: d447f6622ba265f42a8056c87416bde2,
-    type: 3}
-  a1: {fileID: -2432090755550338912, guid: af1d4ed1d2d922a4f86598ec30e01021, type: 3}
-  a1_mat: {fileID: 2100000, guid: a855718070de7884293b47fb2603739a, type: 2}
-  a2: {fileID: -2432090755550338912, guid: db6fb6cf6a598c141a9f152bbf8f639f, type: 3}
-  a2_mat: {fileID: 2100000, guid: 51d752a3c767db245862411f7d106e37, type: 2}
-  a3: {fileID: -2432090755550338912, guid: f53dd8a7181c9304987aa1e2e20d102d, type: 3}
-  a3_mat: {fileID: 2100000, guid: aa4d4e3c275889a46bc38e4fb7cd83f6, type: 2}
-  a4: {fileID: -2432090755550338912, guid: 3232574705df6f342b02209a736670fb, type: 3}
-  a4_mat: {fileID: 2100000, guid: 90488e4330ff7fb4cb12d947f1958969, type: 2}
-  a5: {fileID: -2432090755550338912, guid: f23f3e4c727e12c4ab5c01af580941c0, type: 3}
-  a5_mat: {fileID: 2100000, guid: 7a38388ea458e3341b37168e0f2c990a, type: 2}
-  spawnTimerMax: 10
 --- !u!1 &815126345
 GameObject:
   m_ObjectHideFlags: 0
@@ -1434,6 +1421,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 559a87d9cfe0fa04fade747cab6e0807, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serverMode: 1
 --- !u!4 &1228304619
 Transform:
   m_ObjectHideFlags: 0

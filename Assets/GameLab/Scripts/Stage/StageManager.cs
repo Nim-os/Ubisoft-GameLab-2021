@@ -53,6 +53,12 @@ public class StageManager : MonoBehaviourPun
 
 	private void SpawnPlayers()
 	{
+		// In case we are testing offline
+		if (PhotonNetwork.OfflineMode)
+		{
+			GeneratePlayer(PickSpawnPosition());
+		}
+
 		// Indicates to each player to spawn their player character at a point
 		foreach (Player player in players)
 		{
