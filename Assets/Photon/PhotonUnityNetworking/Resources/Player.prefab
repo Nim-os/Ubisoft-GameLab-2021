@@ -5095,6 +5095,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 4120421440658146701}
+  change_per_frame: 0.01
 --- !u!1 &6006040373670806936
 GameObject:
   m_ObjectHideFlags: 0
