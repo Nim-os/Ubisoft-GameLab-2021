@@ -12,11 +12,16 @@ public class TutorialManager : MonoBehaviour
     List<Image> markers = new List<Image>();
     
     public GameObject basicPlanet;
+    public GameObject basicAsteroid;
+    public GameObject sun;
     GameObject firstPlanet;
     public Canvas canv;
     public Image arrow;
+    GameObject testPlayer; // For testing.
 
-    private bool holdingRMB, propulsing = false;
+    bool holdingRMB = false;
+    bool sunChasing = true;
+    float previousMass;
 
     void Awake()
     {
@@ -24,9 +29,6 @@ public class TutorialManager : MonoBehaviour
 
         input.Game.Secondary.performed += x => holdingRMB = true;
         input.Game.Secondary.canceled += x => holdingRMB = false;
-
-        input.Game.Primary.performed += x => propulsing = true;
-        input.Game.Primary.canceled += x => propulsing = false;
     }
 
     private void Start()
@@ -45,6 +47,13 @@ public class TutorialManager : MonoBehaviour
             }
         }
 
+        // Sun chases players.
+        if (sunChasing)
+        {
+            if (Vector3.Distance(player.transform.position, sun.transform.position) > 50) sun.transform.position = new Vector3(sun.transform.position.x + (9 * Time.deltaTime), 0, player.transform.position.z);
+            else sun.transform.position = new Vector3(sun.transform.position.x + (1 * Time.deltaTime), 0, player.transform.position.z);
+        }
+
         if (state == 0) // Propulsion
         {
             player.GetComponent<PlayerAbsorption>().enabled = false;
@@ -54,7 +63,6 @@ public class TutorialManager : MonoBehaviour
             if (markers.Count == state)
             {
                 SetUp("Hold/Tap LMB to propulse.");
-                // TODO: Spawn sun to the left of the scene.
             }
             // Condition to proceed
             else if ((Camera.main.WorldToScreenPoint(firstPlanet.transform.position).x < Screen.width - 40) && markers[state].enabled)
@@ -69,9 +77,8 @@ public class TutorialManager : MonoBehaviour
             if (markers.Count == state)
             {
                 SetUp("Hold RMB to gravitate.");
-                // TODO: Spawn sun to the left of the scene.
             }
-            //Condition to proceed
+            // Condition to proceed
             else if (holdingRMB && player.GetComponent<PlayerGravitation>().currentSelection != null && markers[state].enabled)
             {
                 TearDown();
@@ -81,60 +88,78 @@ public class TutorialManager : MonoBehaviour
         if (state == 2) // Gravitation between players
         {
             GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+            player.GetComponent<PlayerAbsorption>().enabled = true;
+
+            // Set up stage
             if (markers.Count == state)
             {
                 SetUp("Hold RMB to gravitate to your friend. You can take turns propulsing and gravitating to save resources. Careful: Don't crash!");
-                // TODO: Spawn sun to the left of the scene.
+                if (players.Length < 2)
+                {
+                    testPlayer = Instantiate(basicPlanet, new Vector3(100, 1, player.transform.position.z - 10), Quaternion.identity);
+                    testPlayer.tag = "Player";
+                    players = new GameObject[] { player, testPlayer };
+                }
             }
-            //Condition to proceed
-            else if ((holdingRMB || propulsing) && Vector3.Distance(players[0].transform.position, players[1].transform.position) < 5 && markers[state].enabled)
+            // Condition to proceed
+            else if (Vector3.Distance(players[0].transform.position, players[1].transform.position) < 15 && markers[state].enabled)
             {
                 TearDown();
+                Destroy(testPlayer);
+                previousMass = player.GetComponent<Rigidbody>().mass;
             }
+            else print(Vector3.Distance(players[0].transform.position, players[1].transform.position));
         }
 
         if (state == 3) // Mass Ejection
         {
             // Set up stage
-            if (markers.Count == state) // TODO: Make text element in Unity inspector.
+            if (markers.Count == state)
             {
-                SetUp("Hold and release _ to eject mass.");
-                // TODO: Spawn sun to the left of the scene.
+                SetUp("Hold and release z to eject mass.");
             }
-            //Condition to proceed
-            //if (mass ejected && markers[state].enabled)
+            // Condition to proceed // TODO: Check that mass was lost due to ejection rather than propulsion. Input system?
+            else if (player.GetComponent<Rigidbody>().mass < previousMass && markers[state].enabled)
             {
                 TearDown();
+                previousMass = player.GetComponent<Rigidbody>().mass;
             }
+            else previousMass = player.GetComponent<Rigidbody>().mass;
 
         }
 
         if (state == 4) // Mass Absorption
         {
             // Set up stage
-            if (markers.Count == state) // TODO: Make arrow element towards asteroid field in Unity inspector.
+            if (markers.Count == state)
             {
                 SetUp("Collide with mass smaller than yourself to absorb it.");
-                // TODO: Spawn sun to the left of the scene.
+                // Spawn some asteroids.
+                Instantiate(basicAsteroid, new Vector3(130, 1, player.transform.position.z + 5), Quaternion.identity);
+                Instantiate(basicAsteroid, new Vector3(140, 1, player.transform.position.z - 5), Quaternion.identity);
+                Instantiate(basicAsteroid, new Vector3(150, 1, player.transform.position.z + 5), Quaternion.identity);
+                Instantiate(basicAsteroid, new Vector3(160, 1, player.transform.position.z - 5), Quaternion.identity);
+                Instantiate(basicAsteroid, new Vector3(170, 1, player.transform.position.z + 5), Quaternion.identity);
             }
-            //Condition to proceed
-            //if (player mass increased)
+            // Condition to proceed
+            else if (player.GetComponent<Rigidbody>().mass > previousMass && markers[state].enabled)
             {
                 TearDown();
             }
+            else previousMass = player.GetComponent<Rigidbody>().mass;
         }
 
         if (state == 5) // Navigate to the end
         {
             // Set up stage
-            if (markers.Count == state) // TODO: Make arrow element towards obstacle field in Unity inspector.
+            if (markers.Count == state)
             {
                 SetUp("Escape the solar system!");
-                // TODO: Spawn sun to the left of the scene.
             }
-            //Condition to proceed
-            if (player.transform.position.x >= 9999)
+            // Condition to proceed
+            else if(player.transform.position.x >= 9999)
             {
+                sunChasing = false;
                 // Go to next scene.
             }
         }
@@ -153,7 +178,7 @@ public class TutorialManager : MonoBehaviour
         {
             t.gameObject.SetActive(false);
         }
-        markers[state].enabled = false;
+        markers[state].gameObject.SetActive(false);
         state++;
     }
 
