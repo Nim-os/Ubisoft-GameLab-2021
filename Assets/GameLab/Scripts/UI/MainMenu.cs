@@ -10,8 +10,8 @@ public class MainMenu : MonoBehaviour
     public AudioMixer mix;
     public void PlayGame()
     {
-        // Currently set to 1: DEV LOBBY
-        SceneManager.LoadScene(1);
+        // Currently set to 2: DEV LOBBY
+        SceneManager.LoadScene(2);
     }
 
     public void QuitGame()
