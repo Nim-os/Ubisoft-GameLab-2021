@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using UnityEngine.UI;
 
 /// <summary> Contains all methods related to self propulsion </summary>
 public class PlayerPropulsion : MonoBehaviour
@@ -9,7 +10,7 @@ public class PlayerPropulsion : MonoBehaviour
     public InputSystem input;
 
     public float propulsionForce;
-    public int gas;
+    public float gas;
     public int holdingPower;
 
     [SerializeField]
@@ -22,6 +23,7 @@ public class PlayerPropulsion : MonoBehaviour
     private ParticleSystem propulsionParticles;
     private Vector2 mousePos = Vector2.zero;
     private bool propulsing;
+    private Image gasBar;
 
 	void Awake()
     {
@@ -41,6 +43,7 @@ public class PlayerPropulsion : MonoBehaviour
 
 	void Start()
     {
+        gasBar = GameObject.Find("GasBarUI").GetComponent<Image>();
         rb = gameObject.GetComponent<Rigidbody>();
         cameraTransposer = GameObject.Find("CM vcam1").GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineTransposer>();
         cameraHeight = cameraTransposer.m_FollowOffset.y;
@@ -106,10 +109,11 @@ public class PlayerPropulsion : MonoBehaviour
         }  
     }
 
-    public void ChangeMass(int amount){
+    public void ChangeMass(float amount){
         gas += amount;
         rb.mass += amount * 0.01f;
         transform.localScale += new Vector3(0.01f*amount,0.01f*amount,0.01f*amount);
+        gasBar.fillAmount += (float) amount * 0.002f;
     }
     
     private void StartParticles(){

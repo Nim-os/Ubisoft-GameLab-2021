@@ -55,11 +55,13 @@ public class PlayerProjectile : MonoBehaviour
             
             // create rock
             GameObject rock = Instantiate(rockPrefab, transform.position + mouseDir*(playerSize+2), transform.rotation);
-            float length = holdingPower*0.05f;
+            float length = 1 + holdingPower*0.01f;
             rock.transform.localScale = new Vector3(length, length, length);
 
-            // apply force 
-            rock.GetComponent<Rigidbody>().AddForce(mouseDir * holdingPower, ForceMode.Impulse);
+            // rock rigidbody, apply force 
+            Rigidbody rockRb = rock.GetComponent<Rigidbody>();
+            rockRb.mass = length;
+            rockRb.AddForce(mouseDir * holdingPower, ForceMode.Impulse);
             
             holdingPower = 0;
             Destroy(rock, rockDespawnTime);

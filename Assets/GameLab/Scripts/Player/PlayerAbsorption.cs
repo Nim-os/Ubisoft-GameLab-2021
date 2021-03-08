@@ -27,7 +27,7 @@ public class PlayerAbsorption : MonoBehaviour
             }
 
             Destroy(collision.gameObject);
-            propulsionScript.ChangeMass((int) colliderMass);
+            propulsionScript.ChangeMass((colliderMass - 1)/0.01f);
         }
     }
 }
