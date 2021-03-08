@@ -5107,7 +5107,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   holdingPower: 0
-  rockSizeLimit: 40
+  rockSizeLimit: 100
   holding: 0
   rockPrefab: {fileID: 2682222205282339131, guid: 9c81ee6cad40bef428bf18990e458408,
     type: 3}
