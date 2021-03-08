@@ -115,26 +115,26 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 	/// </summary>
 	public void PlayGame()
 	{
+		// Check if we are the host
 		if (!PhotonNetwork.IsMasterClient)
 		{
 			Log("Cannot start game, you are not the host.");
 		}
+		// Check if we meet conditions to start the game
+		else if (PhotonNetwork.PlayerList.Length < 2 && !roomCode.Equals(DevRoomID) && !forceStart)
+		{
+			Log("Cannot start game, not enough players.");
+		}
+		// Start the game
 		else
 		{
-			if (PhotonNetwork.PlayerList.Length < 2 && !roomCode.Equals(DevRoomID) && !forceStart)
-			{
-				Log("Cannot start game, not enough players.");
-			}
-			else
-			{
-				Log("Starting game...");
+			Log("Starting game...");
 
-				SetConnectionState(ConnectionState.Started);
+			SetConnectionState(ConnectionState.Started);
 
 
-				// Loads the initial level
-				PhotonNetwork.LoadLevel(1); // TODO Change this to whatever scene, the number is the scene index in the build settings
-			}
+			// Loads the initial level
+			PhotonNetwork.LoadLevel(1); // TODO Change this to whatever scene, the number is the scene index in the build settings
 		}
 	}
 
@@ -209,24 +209,22 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 		{
 			PhotonNetwork.JoinRoom(roomCode);
 		}
+		// Checks if the error code is related to using the code of an already existing room
+		else if (returnCode == 32766)
+		{
+			Debug.Log("Recreating room, created duplicate.");
+
+			// Create a new room
+			CreateRoom();
+		}
+		// An unhandled case came up
 		else
 		{
-			// Checks if the error code is related to using the code of an already existing room
-			if (returnCode == 32766)
-			{
-				Debug.Log("Recreating room, created duplicate.");
+			Debug.LogError($"Failed to create room.\n{returnCode}: {message}");
 
-				// Create a new room
-				CreateRoom();
-			}
-			else
-			{
-				Debug.LogError($"Failed to create room.\n{returnCode}: {message}");
+			Log("Failed to create room.");
 
-				Log("Failed to create room.");
-
-				SetConnectionState(ConnectionState.Idle);
-			}
+			SetConnectionState(ConnectionState.Idle);
 		}
 	}
 
