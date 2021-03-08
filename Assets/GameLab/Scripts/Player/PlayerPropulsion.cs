@@ -20,11 +20,8 @@ public class PlayerPropulsion : MonoBehaviour
     private CinemachineTransposer cameraTransposer;
     private float cameraHeight;
     private ParticleSystem propulsionParticles;
-
     private Vector2 mousePos = Vector2.zero;
-
     private bool propulsing;
-
 
 	void Awake()
     {
@@ -37,12 +34,9 @@ public class PlayerPropulsion : MonoBehaviour
             return;
         }
 
-
         input.Game.Primary.performed += x => propulsing = true;
         input.Game.Primary.canceled += x => propulsing = false;
-
         input.Game.MousePosition.performed += x => mousePos = x.ReadValue<Vector2>();
-
     }
 
 	void Start()
@@ -105,14 +99,17 @@ public class PlayerPropulsion : MonoBehaviour
         if (gas > 0)
         {
             // Use up gas when propulsion
-            gas--;
-            rb.mass -= 0.01f;
-            transform.localScale -= new Vector3(0.01f,0.01f,0.01f);
-            
+            ChangeMass(-1);
+
             Vector3 mouseDirection = Utils.GetMouseDirection(mousePos, gameObject);
             rb.AddForce(mouseDirection * propulsionForce, ForceMode.Impulse);
-        }
-        
+        }  
+    }
+
+    public void ChangeMass(int amount){
+        gas += amount;
+        rb.mass += amount * 0.01f;
+        transform.localScale += new Vector3(0.01f*amount,0.01f*amount,0.01f*amount);
     }
     
     private void StartParticles(){
