@@ -6,68 +6,47 @@ using Photon.Realtime;
 
 public class ServerManager : MonoBehaviourPunCallbacks
 {
-	public const string DevRoomID = "dev";
-    public Mesh p2_1;
-    public Material p2_1_mat;
+	private static ServerManager instance;
 
-    void Start()
+	void Awake()
 	{
-		Debug.Log("Attempting to connect");
+		// Keep ServerManager as an instance that carries over to multiple scenes
+		if (instance == null)
+		{
+			instance = this;
+			DontDestroyOnLoad(instance);
+		}
+		else
+		{
+			Destroy(this);
+			return;
+		}
+	}
+
+	void Start()
+	{
+		Debug.Log("Attempting to connect to Server");
+
+		// Might be able to create an AppSettings for connection and put this elsewhere
+		PhotonNetwork.AutomaticallySyncScene = true;
 
 		PhotonNetwork.ConnectUsingSettings();
 	}
 
+	#region Logic
+
+	
+
+	#endregion
+
+	#region Callbacks
+
 	public override void OnConnectedToMaster()
 	{
-		Debug.Log("Connected to Photon master server");
-
-		Debug.Log("Attempting to join room");
-
-		PhotonNetwork.JoinRoom(DevRoomID);
-	}
-
-	public override void OnJoinedRoom()
-	{
-		Debug.Log("Successfully joined room");
-
-		GameObject player = PhotonNetwork.Instantiate("Player", new Vector3(Random.Range(-10,10), 1, Random.Range(-10, 10)), Quaternion.identity);
-        if (Random.Range(0, 2) == 1)
-        {
-            Mesh p2_1_inst = Instantiate(p2_1);
-            player.GetComponent<MeshFilter>().mesh = p2_1_inst;
-            player.GetComponent<MeshRenderer>().material = p2_1_mat;
-        }
-    }
-
-	public override void OnJoinRoomFailed(short returnCode, string message)
-	{
-		Debug.Log($"Failed to join room.\nError message: {returnCode}, {message}");
-
-		Debug.Log("Attempting to create room");
-
-		CreateDevRoom();
-	}
-
-	public override void OnCreatedRoom()
-	{
-		Debug.Log("Successfully created room");
-	}
-
-	public override void OnCreateRoomFailed(short returnCode, string message)
-	{
-		Debug.Log($"Failed to create room.\nError message: {message}");
+		Debug.Log("Successfully connected to Photon server");
 	}
 
 
-	private void CreateDevRoom()
-	{
-		var room = new RoomOptions()
-		{
-			IsOpen = true,
-			IsVisible = false,
-			MaxPlayers = 12
-		};
+	#endregion
 
-		PhotonNetwork.CreateRoom(DevRoomID, room);
-	}
 }
