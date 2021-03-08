@@ -21,6 +21,7 @@ public class PlayerProjectile : MonoBehaviour
 
         input.Game.Projectile.performed += x => holding = true;
         input.Game.Projectile.canceled += x => holding = false;
+        input.Game.MousePosition.performed += x => mousePos = x.ReadValue<Vector2>();
     }
 
     void Start(){
@@ -60,4 +61,14 @@ public class PlayerProjectile : MonoBehaviour
             Destroy(rock, rockDespawnTime);
         }
     }
+
+    private void OnEnable()
+    {
+        input.Enable();
+    }
+
+	private void OnDisable()
+	{
+        input.Disable();
+	}
 }
