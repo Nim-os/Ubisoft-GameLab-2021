@@ -6,8 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-
     public AudioMixer mix;
+
     public void PlayGame()
     {
         // Currently set to 2: DEV LOBBY
@@ -23,6 +23,4 @@ public class MainMenu : MonoBehaviour
     {
         mix.SetFloat("volume", vol);
     }
-
-
 }
