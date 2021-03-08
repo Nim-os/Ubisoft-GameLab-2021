@@ -248,7 +248,6 @@ MonoBehaviour:
   propulsionForce: 5
   gas: 500
   holdingPower: 0
-  holding: 0
   rockPrefab: {fileID: 2682222205282339131, guid: 9c81ee6cad40bef428bf18990e458408,
     type: 3}
 --- !u!114 &4120421440658146702
@@ -5110,6 +5109,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2207ed3bc157a4f54842726bbacbc4ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startLogAt: 0
   rb: {fileID: 4120421440658146701}
 --- !u!114 &3233282542210786542
 MonoBehaviour:
