@@ -249,6 +249,7 @@ MonoBehaviour:
   holdingPower: 0
   rockPrefab: {fileID: 2682222205282339131, guid: 9c81ee6cad40bef428bf18990e458408,
     type: 3}
+  propulsionParticles: {fileID: 2346000043845313007}
 --- !u!114 &4120421440658146702
 MonoBehaviour:
   m_ObjectHideFlags: 0

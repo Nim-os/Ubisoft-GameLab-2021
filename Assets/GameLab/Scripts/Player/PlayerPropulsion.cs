@@ -20,6 +20,7 @@ public class PlayerPropulsion : MonoBehaviour
     private Plane plane = new Plane(Vector3.up, Vector3.zero);
     private CinemachineTransposer cameraTransposer;
     private float cameraHeight;
+    [SerializeField]
     private ParticleSystem propulsionParticles;
     private Vector2 mousePos = Vector2.zero;
     private bool propulsing;
