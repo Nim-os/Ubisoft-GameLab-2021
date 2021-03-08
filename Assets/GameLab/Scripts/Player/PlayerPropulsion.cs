@@ -4,7 +4,7 @@ using UnityEngine;
 using Cinemachine;
 
 /// <summary> Contains all methods related to self propulsion </summary>
-public class PlayerPropulsion : MonoBehaviour
+public class PlayerPropulsion : Photon.Pun.UtilityScripts.SmoothSyncMovement
 {
     public InputSystem input;
 
