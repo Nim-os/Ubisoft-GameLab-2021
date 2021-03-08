@@ -6,10 +6,14 @@ using Photon.Realtime;
 
 public class ServerManager : MonoBehaviourPunCallbacks
 {
-	private static ServerManager instance;
+	public enum Mode
+	{
+		Online, LocalSceneOnline, Offline
+	}
 
-	[Tooltip("Enable if you want to test offline without having to connect via a server.")]
-	public bool offlineMode;
+	public static ServerManager instance;
+
+	public Mode serverMode = Mode.Online;
 
 	void Awake()
 	{
@@ -25,12 +29,12 @@ public class ServerManager : MonoBehaviourPunCallbacks
 			return;
 		}
 
-		// If we want to run in offline mode without having to connect manually via a lobby
-		if (offlineMode)
+		// If we want to run in offline mode without having to connect manually via a lobby	
+		if (serverMode == Mode.Offline)
 		{
 			Debug.LogWarning("INFO: You are running in offline mode.");
 
-			PhotonNetwork.OfflineMode = offlineMode;
+			PhotonNetwork.OfflineMode = true;
 
 			var room = new RoomOptions()
 			{
@@ -45,7 +49,7 @@ public class ServerManager : MonoBehaviourPunCallbacks
 
 	void Start()
 	{
-		if (!offlineMode)
+		if (serverMode != Mode.Offline)
 		{
 			Debug.Log("Attempting to connect to Server");
 
@@ -67,6 +71,27 @@ public class ServerManager : MonoBehaviourPunCallbacks
 	public override void OnConnectedToMaster()
 	{
 		Debug.Log("Successfully connected to Photon server");
+
+		if (serverMode == Mode.LocalSceneOnline)
+		{
+			var room = new RoomOptions()
+			{
+				IsOpen = true,
+				IsVisible = true,
+				MaxPlayers = 2
+			};
+
+			PhotonNetwork.JoinOrCreateRoom($"scene_{UnityEngine.SceneManagement.SceneManager.GetActiveScene().name}", room, TypedLobby.Default);
+			Debug.Log($"scene_{UnityEngine.SceneManagement.SceneManager.GetActiveScene().name}");
+		}
+	}
+
+	public override void OnJoinedRoom()
+	{
+		if (serverMode == Mode.LocalSceneOnline)
+		{
+			PhotonNetwork.Instantiate("Player", Vector3.zero, Quaternion.identity);
+		}
 	}
 
 
