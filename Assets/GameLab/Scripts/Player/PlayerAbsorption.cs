@@ -4,43 +4,30 @@ using UnityEngine;
 
 public class PlayerAbsorption : MonoBehaviour
 {
-    // Start is called before the first frame update
+    [SerializeField]
     Rigidbody rb;
-    int counter; //mimic the logarithmic growth
-    public float startLogAt=0; //to start logarithmic growth once the size reach this number
+    private PlayerPropulsion propulsionScript;
+
     void Start()
     {
-        rb=gameObject.GetComponent<Rigidbody>();
-        counter=0;
+        rb = gameObject.GetComponent<Rigidbody>();
+        propulsionScript = this.GetComponent<PlayerPropulsion>();
     }
 
     void OnCollisionEnter(Collision collision){
-        //check if the collision is between 2 players
-        if(collision.rigidbody.gameObject.tag=="Player"){
-            //then it would be the end of the game
-            //TODO: game over function should be here
-            print("Game Over!!!");
-        }
+        bool isGameObj = collision.gameObject;
+        bool hasRigidBody = collision.rigidbody;
+        bool isGravitationalObj = (isGameObj) && (collision.gameObject.GetComponent<BaseGravitation>());
+        bool hasLowerMass = (hasRigidBody) && (collision.rigidbody.mass < rb.mass);
         
+        if (isGravitationalObj && hasLowerMass){
+            float colliderMass = collision.rigidbody.mass;
+            if (collision.gameObject.tag == "Player"){
+                print("hit player");
+            }
 
-        //destroy the rigidbody
-        float mass=0;
-        if(collision.rigidbody){
-            mass=collision.rigidbody.mass;
-            Destroy(collision.rigidbody.gameObject);
+            Destroy(collision.gameObject);
+            propulsionScript.ChangeMass((colliderMass - 1)/0.01f);
         }
-
-        //add the mass to the rigidbody
-        //mimic logarithmic growth
-        if(rb.mass>=startLogAt){
-            //start log once the mass pass the threshold
-            counter++;
-            rb.mass+= mass*(1/counter);
-        }else{
-            rb.mass+= mass;
-        }
-        
-        
-        
     }
 }

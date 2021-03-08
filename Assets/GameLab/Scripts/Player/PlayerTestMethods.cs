@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary> Script with inputs for testing purposes </summary>
 public class PlayerTestMethods : MonoBehaviour
@@ -8,7 +9,7 @@ public class PlayerTestMethods : MonoBehaviour
     public InputSystem input;
 
     private Rigidbody rb;
-    private int initGas;
+    private float initGas;
     private float initMass;
     private Vector3 initScale;
 
@@ -63,6 +64,7 @@ public class PlayerTestMethods : MonoBehaviour
         gameObject.GetComponent<PlayerPropulsion>().gas = initGas;
         rb.mass = initMass;
         transform.localScale = initScale;
+        GameObject.Find("GasBarUI").GetComponent<Image>().fillAmount = 1f;
     }
 
     /// <summary> Print out Vector3 mouse position</summary>
