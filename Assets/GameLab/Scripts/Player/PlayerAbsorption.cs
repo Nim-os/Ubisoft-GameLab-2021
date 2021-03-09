@@ -15,9 +15,8 @@ public class PlayerAbsorption : MonoBehaviour
     }
 
     void OnCollisionEnter(Collision collision){
-        bool isGameObj = collision.gameObject;
         bool hasRigidBody = collision.rigidbody;
-        bool isGravitationalObj = (isGameObj) && (collision.gameObject.GetComponent<BaseGravitation>());
+        bool isGravitationalObj = (collision.gameObject.GetComponent<BaseGravitation>());
         bool hasLowerMass = (hasRigidBody) && (collision.rigidbody.mass < rb.mass);
         
         if (isGravitationalObj && hasLowerMass){
