@@ -25,7 +25,7 @@ public class PlayerPropulsion : MonoBehaviour
     private float cameraHeight;
     private ParticleSystem propulsionParticles;
     private Vector2 mousePos = Vector2.zero;
-    private bool propulsing;
+    private bool propulsing = false;
     private Image gasBar;
 
 	void Awake()
@@ -39,8 +39,10 @@ public class PlayerPropulsion : MonoBehaviour
             return;
         }
 
+        input.Game.Primary.started += x => StartParticles();
         input.Game.Primary.performed += x => propulsing = true;
-        input.Game.Primary.canceled += x => propulsing = false;
+        input.Game.Primary.canceled += x => StopParticles();
+        
         input.Game.MousePosition.performed += x => mousePos = x.ReadValue<Vector2>();
     }
 
@@ -61,9 +63,7 @@ public class PlayerPropulsion : MonoBehaviour
     {
         if (propulsing)
 		{
-            StartParticles(); 
             OnPropulsion();
-            StopParticles();
         }
     }
 
@@ -109,7 +109,9 @@ public class PlayerPropulsion : MonoBehaviour
 
             Vector3 mouseDirection = Utils.GetMouseDirection(mousePos, gameObject);
             rb.AddForce(mouseDirection * propulsionForce, ForceMode.Impulse);
-        }  
+        }else{
+            StopParticles();
+        }
     }
 
     public void ChangeMass(float amount){
@@ -120,15 +122,15 @@ public class PlayerPropulsion : MonoBehaviour
     }
     
     private void StartParticles(){
-        if (propulsing && gas > 0){
+        if (gas > 0){
+            propulsing = true;
             propulsionParticles.Play();
         }
     }
     
     private void StopParticles(){
-        if (propulsing && gas > 0){
-            propulsionParticles.Stop();
-        }
+        propulsing = false;
+        propulsionParticles.Stop();
     }
 
     private void SetCameraHeight(float height){
