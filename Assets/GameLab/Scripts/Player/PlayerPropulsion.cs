@@ -8,6 +8,9 @@ using UnityEngine.UI;
 public class PlayerPropulsion : MonoBehaviour
 {
     public InputSystem input;
+    public float gasUIMultiplier = 0.002f;
+    public float massMultiplier = 0.01f;
+    public float scaleMultiplier = 0.01f;
 
     public float propulsionForce;
     public float gas;
@@ -111,9 +114,9 @@ public class PlayerPropulsion : MonoBehaviour
 
     public void ChangeMass(float amount){
         gas += amount;
-        rb.mass += amount * 0.01f;
-        transform.localScale += new Vector3(0.01f*amount,0.01f*amount,0.01f*amount);
-        gasBar.fillAmount += (float) amount * 0.002f;
+        rb.mass += amount * massMultiplier;
+        transform.localScale += new Vector3(scaleMultiplier*amount,scaleMultiplier*amount,scaleMultiplier*amount);
+        gasBar.fillAmount += (float) amount * gasUIMultiplier;
     }
     
     private void StartParticles(){
