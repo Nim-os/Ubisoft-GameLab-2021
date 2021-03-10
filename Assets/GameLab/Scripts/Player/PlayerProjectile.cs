@@ -8,11 +8,12 @@ public class PlayerProjectile : MonoBehaviour
 
     public int holdingPower;
     public int rockSizeLimit;
-    public bool holding;
+    public bool holding = false;
 
     [SerializeField]
     private GameObject rockPrefab;    
     private float rockDespawnTime = 10;
+    [SerializeField]
     private PlayerPropulsion propulsionScript;
     private Vector2 mousePos = Vector2.zero;
 
@@ -20,7 +21,7 @@ public class PlayerProjectile : MonoBehaviour
         input = new InputSystem();
 
         input.Game.Projectile.performed += x => holding = true;
-        input.Game.Projectile.canceled += x => holding = false;
+        input.Game.Projectile.canceled += x => OnLetGo();
         input.Game.MousePosition.performed += x => mousePos = x.ReadValue<Vector2>();
     }
 
@@ -32,7 +33,6 @@ public class PlayerProjectile : MonoBehaviour
     void Update()
     {
         OnHold();
-        OnLetGo();
     }
 
     /// <summary> When "holding", builds up size of projectile</summary>
@@ -45,11 +45,11 @@ public class PlayerProjectile : MonoBehaviour
     /// <summary> When "let go" releases projectile in mouse direction</summary>
     private void OnLetGo(){
         Vector3 mouseDir = Utils.GetMouseDirection(mousePos, gameObject);
-        bool isLetGo = !holding;
         bool hasHoldingPower = holdingPower != 0;
         bool hasMouseDir = mouseDir != Vector3.zero;
-        
-        if (isLetGo && hasHoldingPower && hasMouseDir) {
+        holding = false;
+
+        if (hasHoldingPower && hasMouseDir) {
             float playerSize = transform.localScale.x;
             propulsionScript.ChangeMass(-holdingPower);
             
