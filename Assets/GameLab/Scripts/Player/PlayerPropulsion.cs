@@ -114,6 +114,10 @@ public class PlayerPropulsion : MonoBehaviour
         }
     }
 
+    /// <summary>
+	/// Changes the player's mass
+	/// </summary>
+	/// <param name="amount">The amount to add</param>
     public void ChangeMass(float amount){
         gas += amount;
         rb.mass += amount * massMultiplier;
@@ -121,6 +125,9 @@ public class PlayerPropulsion : MonoBehaviour
         gasBar.fillAmount += (float) amount * gasUIMultiplier;
     }
     
+    /// <summary>
+	/// Begins player's particle effects on propulsion
+	/// </summary>
     private void StartParticles(){
         if (gas > 0){
             propulsing = true;
@@ -128,13 +135,12 @@ public class PlayerPropulsion : MonoBehaviour
         }
     }
     
+    /// <summary>
+	/// Ends player's particle effects on stop propulsion
+	/// </summary>
     private void StopParticles(){
         propulsing = false;
         propulsionParticles.Stop();
-    }
-
-    private void SetCameraHeight(float height){
-        cameraTransposer.m_FollowOffset.y = height;
     }
 
     private void OnEnable()
