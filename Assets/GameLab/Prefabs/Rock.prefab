@@ -213,6 +213,7 @@ GameObject:
   - component: {fileID: 2682222205282339128}
   - component: {fileID: 2682222205282339129}
   - component: {fileID: 2682222205282339130}
+  - component: {fileID: 8425487541542706288}
   m_Layer: 9
   m_Name: Rock
   m_TagString: Untagged
@@ -329,6 +330,30 @@ MonoBehaviour:
   playerSelected: 0
   beginRotating: 1
   ObjectsWithinRange: []
+--- !u!114 &8425487541542706288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2682222205282339131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d4624db7fbf54340ba08013e5c72234, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  models:
+  - {fileID: -2432090755550338912, guid: 189377349af6cd94989d2c0c3545d0f4, type: 3}
+  - {fileID: -2432090755550338912, guid: bbcd6b586b1566448afec6d6c7c51c93, type: 3}
+  - {fileID: -2432090755550338912, guid: be8d7d4dfdc64ff41b195b4a89393498, type: 3}
+  - {fileID: -2432090755550338912, guid: 82b35a438bdae50498e5f0c3d82e8008, type: 3}
+  - {fileID: -2432090755550338912, guid: ff9a2fe2a08139344ba773ff2af7db52, type: 3}
+  textures:
+  - {fileID: 2100000, guid: 46084eb23825e73468675a82ed91311a, type: 2}
+  - {fileID: 2100000, guid: cf3ab604821c9094a9ea9e3b96b78007, type: 2}
+  - {fileID: 2100000, guid: 4c90f5f7f62141d4591dc47b53427140, type: 2}
+  - {fileID: 2100000, guid: 021582c3d5a11ba4393d958255b48987, type: 2}
+  - {fileID: 2100000, guid: 1818492e9bbeb9d44b8b3e0c6331da47, type: 2}
 --- !u!1 &6320323762123837009
 GameObject:
   m_ObjectHideFlags: 0

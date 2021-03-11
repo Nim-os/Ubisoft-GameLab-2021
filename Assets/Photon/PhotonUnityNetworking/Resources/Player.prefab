@@ -126,10 +126,13 @@ GameObject:
   - component: {fileID: 3329302069819961951}
   - component: {fileID: 683876101074707695}
   - component: {fileID: 6205053968602867674}
+  - component: {fileID: 7963721331874415681}
   - component: {fileID: -259947647004732247}
   - component: {fileID: 2346000043845313007}
   - component: {fileID: 7938066167103103702}
   - component: {fileID: 1931232593522704598}
+  - component: {fileID: 5341348237025410978}
+  - component: {fileID: 3233282542210786542}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -242,6 +245,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a835b0a3bd34bf44489ba14db3dce51c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gasUIMultiplier: 0.002
+  massMultiplier: 0.01
+  scaleMultiplier: 0.01
   propulsionForce: 5
   gas: 500
   holdingPower: 0
@@ -261,7 +267,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_SynchronizePosition: 1
   m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
+  m_SynchronizeScale: 1
   m_UseLocal: 1
 --- !u!114 &-4349265480166907863
 MonoBehaviour:
@@ -283,6 +289,7 @@ MonoBehaviour:
   OwnershipTransfer: 0
   ObservedComponents:
   - {fileID: 4120421440658146702}
+  - {fileID: 7963721331874415681}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -328,6 +335,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerGravityCheckList: []
   currentSelection: {fileID: 0}
+--- !u!114 &7963721331874415681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4120421440658146743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49b0c7521f60c7d438a5e74f422052e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SmoothingDelay: 5
 --- !u!114 &-259947647004732247
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -357,7 +377,7 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   looping: 1
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   useRigidbodyForVelocity: 1
@@ -5077,6 +5097,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   arrowPrefab: {fileID: 6824493199263688449, guid: d83595f56f715f0488e948b140741d94,
     type: 3}
+--- !u!114 &5341348237025410978
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4120421440658146743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2207ed3bc157a4f54842726bbacbc4ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 4120421440658146701}
+--- !u!114 &3233282542210786542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4120421440658146743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28e9669210429f74093ddc22f9713f14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  holdingPower: 0
+  rockSizeLimit: 40
+  holding: 0
+  rockPrefab: {fileID: 2682222205282339131, guid: 9c81ee6cad40bef428bf18990e458408,
+    type: 3}
+  propulsionScript: {fileID: 4120421440658146700}
 --- !u!1 &6006040373670806936
 GameObject:
   m_ObjectHideFlags: 0

@@ -213,6 +213,7 @@ GameObject:
   - component: {fileID: 1828997230809920391}
   - component: {fileID: 1828997230809920387}
   - component: {fileID: 1828997230809920386}
+  - component: {fileID: 6010935588272795651}
   m_Layer: 9
   m_Name: BasicPlanet
   m_TagString: Planet
@@ -329,6 +330,26 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 4
   m_CollisionDetection: 0
+--- !u!114 &6010935588272795651
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1828997230809920408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d4624db7fbf54340ba08013e5c72234, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  models:
+  - {fileID: -2432090755550338912, guid: 38113bea273b3084fa9f603655d88b88, type: 3}
+  - {fileID: -2432090755550338912, guid: 4c659342ff7fcd24698453208eea3044, type: 3}
+  - {fileID: -2432090755550338912, guid: 72c8d9d0b5841c748a73ae2214f46f7c, type: 3}
+  textures:
+  - {fileID: 2100000, guid: 7f2b22d020c20e847b98b64c6aa4ce9b, type: 2}
+  - {fileID: 2100000, guid: 738eece128d601a4a826f28e5c3336b3, type: 2}
+  - {fileID: 2100000, guid: 203808ab7592f0c4e8a10b2b9c5ae923, type: 2}
 --- !u!1 &8811791578623716138
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,4 +1,4 @@
-// GENERATED AUTOMATICALLY FROM 'Assets/InputSystem.inputactions'
+// GENERATED AUTOMATICALLY FROM 'Assets/GameLab/Misc/InputSystem.inputactions'
 
 using System;
 using System.Collections;
@@ -49,6 +49,14 @@ public class @InputSystem : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Projectile"",
+                    ""type"": ""Button"",
+                    ""id"": ""1083ca7a-82a8-4d4a-8e87-8ea8cefe1120"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -93,6 +101,17 @@ public class @InputSystem : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""MousePosition"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""29183c7c-0bd6-4a80-a5af-ce4556b180b6"",
+                    ""path"": ""<Keyboard>/z"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard & Mouse"",
+                    ""action"": ""Projectile"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -189,6 +208,7 @@ public class @InputSystem : IInputActionCollection, IDisposable
         m_Game_Secondary = m_Game.FindAction("Secondary", throwIfNotFound: true);
         m_Game_Ping = m_Game.FindAction("Ping", throwIfNotFound: true);
         m_Game_MousePosition = m_Game.FindAction("MousePosition", throwIfNotFound: true);
+        m_Game_Projectile = m_Game.FindAction("Projectile", throwIfNotFound: true);
         // Game Debug
         m_GameDebug = asset.FindActionMap("Game Debug", throwIfNotFound: true);
         m_GameDebug_GasUp = m_GameDebug.FindAction("GasUp", throwIfNotFound: true);
@@ -247,6 +267,7 @@ public class @InputSystem : IInputActionCollection, IDisposable
     private readonly InputAction m_Game_Secondary;
     private readonly InputAction m_Game_Ping;
     private readonly InputAction m_Game_MousePosition;
+    private readonly InputAction m_Game_Projectile;
     public struct GameActions
     {
         private @InputSystem m_Wrapper;
@@ -255,6 +276,7 @@ public class @InputSystem : IInputActionCollection, IDisposable
         public InputAction @Secondary => m_Wrapper.m_Game_Secondary;
         public InputAction @Ping => m_Wrapper.m_Game_Ping;
         public InputAction @MousePosition => m_Wrapper.m_Game_MousePosition;
+        public InputAction @Projectile => m_Wrapper.m_Game_Projectile;
         public InputActionMap Get() { return m_Wrapper.m_Game; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -276,6 +298,9 @@ public class @InputSystem : IInputActionCollection, IDisposable
                 @MousePosition.started -= m_Wrapper.m_GameActionsCallbackInterface.OnMousePosition;
                 @MousePosition.performed -= m_Wrapper.m_GameActionsCallbackInterface.OnMousePosition;
                 @MousePosition.canceled -= m_Wrapper.m_GameActionsCallbackInterface.OnMousePosition;
+                @Projectile.started -= m_Wrapper.m_GameActionsCallbackInterface.OnProjectile;
+                @Projectile.performed -= m_Wrapper.m_GameActionsCallbackInterface.OnProjectile;
+                @Projectile.canceled -= m_Wrapper.m_GameActionsCallbackInterface.OnProjectile;
             }
             m_Wrapper.m_GameActionsCallbackInterface = instance;
             if (instance != null)
@@ -292,6 +317,9 @@ public class @InputSystem : IInputActionCollection, IDisposable
                 @MousePosition.started += instance.OnMousePosition;
                 @MousePosition.performed += instance.OnMousePosition;
                 @MousePosition.canceled += instance.OnMousePosition;
+                @Projectile.started += instance.OnProjectile;
+                @Projectile.performed += instance.OnProjectile;
+                @Projectile.canceled += instance.OnProjectile;
             }
         }
     }
@@ -360,6 +388,7 @@ public class @InputSystem : IInputActionCollection, IDisposable
         void OnSecondary(InputAction.CallbackContext context);
         void OnPing(InputAction.CallbackContext context);
         void OnMousePosition(InputAction.CallbackContext context);
+        void OnProjectile(InputAction.CallbackContext context);
     }
     public interface IGameDebugActions
     {

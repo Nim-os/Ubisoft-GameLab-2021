@@ -2,14 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using UnityEngine.UI;
 
 /// <summary> Contains all methods related to self propulsion </summary>
 public class PlayerPropulsion : MonoBehaviour
 {
     public InputSystem input;
+    public float gasUIMultiplier = 0.002f;
+    public float massMultiplier = 0.01f;
+    public float scaleMultiplier = 0.01f;
 
     public float propulsionForce;
-    public int gas;
+    public float gas;
     public int holdingPower;
 
     [SerializeField]
@@ -20,11 +24,9 @@ public class PlayerPropulsion : MonoBehaviour
     private CinemachineTransposer cameraTransposer;
     private float cameraHeight;
     private ParticleSystem propulsionParticles;
-
     private Vector2 mousePos = Vector2.zero;
-
-    private bool propulsing;
-
+    private bool propulsing = false;
+    private Image gasBar;
 
 	void Awake()
     {
@@ -37,16 +39,16 @@ public class PlayerPropulsion : MonoBehaviour
             return;
         }
 
-
+        input.Game.Primary.started += x => StartParticles();
         input.Game.Primary.performed += x => propulsing = true;
-        input.Game.Primary.canceled += x => propulsing = false;
-
+        input.Game.Primary.canceled += x => StopParticles();
+        
         input.Game.MousePosition.performed += x => mousePos = x.ReadValue<Vector2>();
-
     }
 
 	void Start()
     {
+        gasBar = GameObject.Find("GasBarUI").GetComponent<Image>();
         rb = gameObject.GetComponent<Rigidbody>();
         cameraTransposer = GameObject.Find("CM vcam1").GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineTransposer>();
         cameraHeight = cameraTransposer.m_FollowOffset.y;
@@ -61,9 +63,7 @@ public class PlayerPropulsion : MonoBehaviour
     {
         if (propulsing)
 		{
-            StartParticles(); 
             OnPropulsion();
-            StopParticles();
         }
     }
 
@@ -105,30 +105,42 @@ public class PlayerPropulsion : MonoBehaviour
         if (gas > 0)
         {
             // Use up gas when propulsion
-            gas--;
-            rb.mass -= 0.01f;
-            transform.localScale -= new Vector3(0.01f,0.01f,0.01f);
-            
+            ChangeMass(-1);
+
             Vector3 mouseDirection = Utils.GetMouseDirection(mousePos, gameObject);
             rb.AddForce(mouseDirection * propulsionForce, ForceMode.Impulse);
+        }else{
+            StopParticles();
         }
-        
+    }
+
+    /// <summary>
+	/// Changes the player's mass
+	/// </summary>
+	/// <param name="amount">The amount to add</param>
+    public void ChangeMass(float amount){
+        gas += amount;
+        rb.mass += amount * massMultiplier;
+        transform.localScale += new Vector3(scaleMultiplier*amount,scaleMultiplier*amount,scaleMultiplier*amount);
+        gasBar.fillAmount += (float) amount * gasUIMultiplier;
     }
     
+    /// <summary>
+	/// Begins player's particle effects on propulsion
+	/// </summary>
     private void StartParticles(){
-        if (propulsing && gas > 0){
+        if (gas > 0){
+            propulsing = true;
             propulsionParticles.Play();
         }
     }
     
+    /// <summary>
+	/// Ends player's particle effects on stop propulsion
+	/// </summary>
     private void StopParticles(){
-        if (propulsing && gas > 0){
-            propulsionParticles.Stop();
-        }
-    }
-
-    private void SetCameraHeight(float height){
-        cameraTransposer.m_FollowOffset.y = height;
+        propulsing = false;
+        propulsionParticles.Stop();
     }
 
     private void OnEnable()
