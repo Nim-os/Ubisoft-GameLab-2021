@@ -14,10 +14,11 @@ public class RangeDetector : MonoBehaviour
         rb = body.GetComponent<Rigidbody>();
     }
 
+    // goal: figure out the problem with range & ontrigger enter and exit
     private void OnTriggerEnter(Collider other) {
         var hitObject = other.gameObject;
         // if gravitational object && not a planet
-        if (hitObject.GetComponent<BaseGravitation>() && (hitObject.tag != "Planet")){
+        if (hitObject.GetComponent<BaseGravitation>() && hitObject.GetComponent<BaseGravitation>().enabled && (hitObject.tag != "Planet")){
             body.AddWithinRange(hitObject.GetComponent<BaseGravitation>());
         }
     }
