@@ -34,6 +34,8 @@ public class TutorialManager : MonoBehaviour
     private void Start()
     {
         firstPlanet = Instantiate(basicPlanet, new Vector3(50, 1, 0), Quaternion.identity);
+        firstPlanet.transform.localScale = new Vector3(3, 3, 3);
+        firstPlanet.GetComponent<Rigidbody>().mass = 999;
     }
 
     void Update()
@@ -58,7 +60,6 @@ public class TutorialManager : MonoBehaviour
 
             if (state == 0) // Propulsion
             {
-                player.GetComponent<PlayerAbsorption>().enabled = false;
                 // TODO: Absorption script still runs --> Need to add isEnabled check to PlayerAbsorption.cs
 
                 // Set up stage
@@ -90,7 +91,6 @@ public class TutorialManager : MonoBehaviour
             if (state == 2) // Gravitation between players
             {
                 GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-                player.GetComponent<PlayerAbsorption>().enabled = true;
 
                 // Set up stage
                 if (markers.Count == state)
