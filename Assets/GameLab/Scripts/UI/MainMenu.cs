@@ -10,7 +10,7 @@ public class MainMenu : MonoBehaviour
 
     public void PlayGame()
     {
-        // Currently set to 1: Tutorial
+        // Currently set to 1: Dev Lobby
         SceneManager.LoadScene(1);
     }
 
