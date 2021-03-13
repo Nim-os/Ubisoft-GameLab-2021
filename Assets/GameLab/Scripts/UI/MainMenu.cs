@@ -10,8 +10,8 @@ public class MainMenu : MonoBehaviour
 
     public void PlayGame()
     {
-        // Currently set to 2: DEV LOBBY
-        SceneManager.LoadScene(2);
+        // Currently set to 1: Tutorial
+        SceneManager.LoadScene(1);
     }
 
     public void QuitGame()
