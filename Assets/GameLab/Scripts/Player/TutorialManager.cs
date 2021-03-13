@@ -35,7 +35,7 @@ public class TutorialManager : MonoBehaviour
     {
         firstPlanet = Instantiate(basicPlanet, new Vector3(50, 1, 0), Quaternion.identity);
         firstPlanet.transform.localScale = new Vector3(3, 3, 3);
-        firstPlanet.GetComponent<Rigidbody>().mass = 999;
+        firstPlanet.GetComponent<Rigidbody>().mass = 8;
     }
 
     void Update()
