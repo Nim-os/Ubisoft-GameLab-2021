@@ -42,9 +42,11 @@ public class PlayerProjectile : MonoBehaviour
         Vector3 mouseDir = Utils.GetMouseDirection(mousePos, gameObject);
         float playerSize = transform.localScale.x;
 
-        // create rock
-        currentRock = Instantiate(rockPrefab, transform.position + mouseDir*(playerSize+2), transform.rotation);
-        currentRock.transform.localScale = new Vector3(1, 1, 1);
+        if (propulsionScript.gas > 0){
+            // create rock
+            currentRock = Instantiate(rockPrefab, transform.position + mouseDir*(playerSize+2), transform.rotation);
+            currentRock.transform.localScale = new Vector3(1, 1, 1);
+        } 
     }
 
     /// <summary> When "holding", builds up size of projectile</summary>
@@ -85,8 +87,7 @@ public class PlayerProjectile : MonoBehaviour
             Rigidbody rockRb = currentRock.GetComponent<Rigidbody>();
             rockRb.mass = length;
             rockRb.AddForce(mouseDir * holdingPower, ForceMode.Impulse);
-            BaseGravitation rockGravitation = currentRock.AddComponent<BaseGravitation>();
-            rockGravitation.beginRotating = true;
+            currentRock.GetComponent<BaseGravitation>().enabled = true;
 
             holdingPower = 0;
             Destroy(currentRock, rockDespawnTime);
