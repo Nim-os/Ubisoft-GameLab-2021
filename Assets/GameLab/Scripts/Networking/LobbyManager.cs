@@ -28,6 +28,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 	public TMP_InputField inputField;
 
 	public TextMeshProUGUI logPanel;
+	public GameObject scrollingLog;
 
 	[Header("DEBUG")]
 	public bool forceStart = false;
@@ -301,6 +302,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 	private void Log(string text)
 	{
 		logPanel.text += $"\n{text}";
+		scrollingLog.GetComponent<AutoScroll>().ScrolltoBottom();
 	}
 
 	/// <summary>

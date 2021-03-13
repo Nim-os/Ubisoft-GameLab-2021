@@ -2691,6 +2691,7 @@ MonoBehaviour:
   messageButton: {fileID: 1845133553}
   inputField: {fileID: 771341951}
   logPanel: {fileID: 1838543513}
+  scrollingLog: {fileID: 896175424}
   forceStart: 0
 --- !u!114 &837869288
 MonoBehaviour:
@@ -2900,7 +2901,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 896175424}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a6803924a4354a6a880044377b46d36, type: 3}
+  m_Script: {fileID: 11500000, guid: 5135ad9fa93fe42f5bf692cb657d3673, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &903781348

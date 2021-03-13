@@ -5,24 +5,19 @@ using UnityEngine.UI;
 
 public class AutoScroll : MonoBehaviour
 {
-    GameObject content;
-    double height;
+    //[SerializeField]
+    //public GameObject content;
+    //RectTransform rectObj;
 
     void Start(){
         //record the height of the current rect
-        content=this.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject;
-        height=content.GetComponent<RectTransform>().rect.height;
+        //rectObj = content.GetComponent<RectTransform>();
+        
     }
 
-
-    // Update is called once per frame
-    void Update()
+    public void ScrolltoBottom()
     {
-        //update the position of the scroll rect once the height change
-        if(content.GetComponent<RectTransform>().rect.height>height){
-            this.GetComponent<ScrollRect>().normalizedPosition = new Vector2(0, 0);
-            height=content.GetComponent<RectTransform>().rect.height;
-        }
+        this.GetComponent<ScrollRect>().normalizedPosition = new Vector2(0, 0);//scroll to the bottom of the rect
         
     }
 }
