@@ -750,7 +750,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   players:
   - {fileID: 0}
-  minDistance: 28.29013
+  minDistance: 28.29014
 --- !u!1 &764032213
 GameObject:
   m_ObjectHideFlags: 0
