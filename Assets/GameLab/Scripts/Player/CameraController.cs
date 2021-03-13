@@ -20,6 +20,11 @@ public class CameraController : MonoBehaviour
     void Update()
     {
         players = GameObject.FindGameObjectsWithTag("Player");
+
+        // Add player to cameraTargetGroup
+        var cameraTargetGroup = GameObject.Find("CameraTargetGroup").GetComponent<CinemachineTargetGroup>();
+        foreach (GameObject g in players) cameraTargetGroup.AddMember(g.transform, 1, 0);
+
         minDistance = Vector3.Distance(Camera.main.ScreenToWorldPoint(new Vector3(0, 0, cameraHeight)), Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height, cameraHeight))); ; // Get smallest distance required to be visible.
 
         // Moves the camera up (away) or down (closer) to keep players on-screen.

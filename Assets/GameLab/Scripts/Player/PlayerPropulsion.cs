@@ -53,10 +53,6 @@ public class PlayerPropulsion : MonoBehaviour
         cameraTransposer = GameObject.Find("CM vcam1").GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineTransposer>();
         cameraHeight = cameraTransposer.m_FollowOffset.y;
         propulsionParticles = this.GetComponent<ParticleSystem>();
-
-        // Add player to cameraTargetGroup
-        var cameraTargetGroup = GameObject.Find("CameraTargetGroup").GetComponent<CinemachineTargetGroup>();
-        cameraTargetGroup.AddMember(this.transform,1,0);
     }
 
     void FixedUpdate()
