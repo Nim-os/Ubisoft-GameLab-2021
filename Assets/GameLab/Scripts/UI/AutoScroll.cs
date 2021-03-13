@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ScrollIssue : MonoBehaviour
+public class AutoScroll : MonoBehaviour
 {
     GameObject content;
     double height;
