@@ -202,7 +202,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 39922622}
   m_HandleRect: {fileID: 39922621}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -2019,7 +2019,7 @@ RectTransform:
   m_Children:
   - {fileID: 1691894028}
   m_Father: {fileID: 1337245467}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2811,18 +2811,18 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 896175424}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 73399822}
   - {fileID: 445524}
   m_Father: {fileID: 1337245467}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 271.00006, y: -258.5}
+  m_AnchoredPosition: {x: 275.41553, y: -255.15427}
   m_SizeDelta: {x: 400, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &896175426
@@ -2904,6 +2904,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5135ad9fa93fe42f5bf692cb657d3673, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scrollContent: {fileID: 593174674}
+  rectTransform: {fileID: 593174675}
+  scrollRect: {fileID: 896175426}
 --- !u!1 &903781348
 GameObject:
   m_ObjectHideFlags: 0
@@ -3438,7 +3441,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 559a87d9cfe0fa04fade747cab6e0807, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serverMode: 2
+  serverMode: 1
 --- !u!4 &1228304619
 Transform:
   m_ObjectHideFlags: 0
@@ -3550,8 +3553,8 @@ RectTransform:
   - {fileID: 1756482800}
   - {fileID: 452561509}
   - {fileID: 1845133552}
-  - {fileID: 896175425}
   - {fileID: 684464422}
+  - {fileID: 896175425}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

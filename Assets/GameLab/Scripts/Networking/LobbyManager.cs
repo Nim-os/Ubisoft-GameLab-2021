@@ -302,7 +302,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 	private void Log(string text)
 	{
 		logPanel.text += $"\n{text}";
-		scrollingLog.GetComponent<AutoScroll>().ScrolltoBottom();
 	}
 
 	/// <summary>
