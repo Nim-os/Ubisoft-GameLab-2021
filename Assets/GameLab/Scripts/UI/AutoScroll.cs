@@ -17,13 +17,9 @@ public class AutoScroll : MonoBehaviour
         height = rectTransform.rect.height;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        //update the position of the scroll rect once the height change
-        if(rectTransform.rect.height > height){
-            scrollRect.normalizedPosition = new Vector2(0, 0);
-            height = rectTransform.rect.height;
-        }  
+    public void ScrollToBottom(){
+        Canvas.ForceUpdateCanvases();
+        scrollRect.normalizedPosition = new Vector2(0, 0);
+        height = rectTransform.rect.height;
     }
 }

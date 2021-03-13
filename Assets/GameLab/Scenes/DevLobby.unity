@@ -2691,7 +2691,7 @@ MonoBehaviour:
   messageButton: {fileID: 1845133553}
   inputField: {fileID: 771341951}
   logPanel: {fileID: 1838543513}
-  scrollingLog: {fileID: 896175424}
+  autoScroll: {fileID: 896175429}
   forceStart: 0
 --- !u!114 &837869288
 MonoBehaviour:
