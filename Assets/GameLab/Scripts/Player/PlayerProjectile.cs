@@ -16,11 +16,13 @@ public class PlayerProjectile : MonoBehaviour
     [SerializeField]
     private PlayerPropulsion propulsionScript;
     private Vector2 mousePos = Vector2.zero;
+    private GameObject currentRock;
 
     void Awake(){
         input = new InputSystem();
 
         input.Game.Projectile.performed += x => holding = true;
+        input.Game.Projectile.started += x => StartHold();
         input.Game.Projectile.canceled += x => OnLetGo();
         input.Game.MousePosition.performed += x => mousePos = x.ReadValue<Vector2>();
     }
@@ -35,36 +37,59 @@ public class PlayerProjectile : MonoBehaviour
         OnHold();
     }
 
+    private void StartHold()
+    {
+        Vector3 mouseDir = Utils.GetMouseDirection(mousePos, gameObject);
+        float playerSize = transform.localScale.x;
+
+        // create rock
+        currentRock = Instantiate(rockPrefab, transform.position + mouseDir*(playerSize+2), transform.rotation);
+        currentRock.transform.localScale = new Vector3(1, 1, 1);
+    }
+
     /// <summary> When "holding", builds up size of projectile</summary>
-    private void OnHold(){
+    private void OnHold()
+    {
+        Vector3 mouseDir = Utils.GetMouseDirection(mousePos, gameObject);
+        float playerSize = transform.localScale.x;
+
+        // holding and growing
         if (holding && (holdingPower < rockSizeLimit) && (propulsionScript.gas > 0)){
             holdingPower++;
+            float length = 1 + holdingPower*0.01f;
+            currentRock.transform.localScale = new Vector3(length, length, length);
+            currentRock.transform.localPosition = transform.position + mouseDir*(playerSize+2);
+        
+        // holding but not growing
+        }else if (holding && (holdingPower == rockSizeLimit)){
+            currentRock.transform.localPosition = transform.position + mouseDir*(playerSize+2);
         }
     }
 
     /// <summary> When "let go" releases projectile in mouse direction</summary>
-    private void OnLetGo(){
+    private void OnLetGo()
+    {
         Vector3 mouseDir = Utils.GetMouseDirection(mousePos, gameObject);
         bool hasHoldingPower = holdingPower != 0;
         bool hasMouseDir = mouseDir != Vector3.zero;
         holding = false;
 
-        if (hasHoldingPower && hasMouseDir) {
+        if (hasHoldingPower && hasMouseDir)
+        {
             float playerSize = transform.localScale.x;
             propulsionScript.ChangeMass(-holdingPower);
             
-            // create rock
-            GameObject rock = Instantiate(rockPrefab, transform.position + mouseDir*(playerSize+2), transform.rotation);
             float length = 1 + holdingPower*0.01f;
-            rock.transform.localScale = new Vector3(length, length, length);
 
             // rock rigidbody, apply force 
-            Rigidbody rockRb = rock.GetComponent<Rigidbody>();
+            Rigidbody rockRb = currentRock.GetComponent<Rigidbody>();
             rockRb.mass = length;
             rockRb.AddForce(mouseDir * holdingPower, ForceMode.Impulse);
-            
+            BaseGravitation rockGravitation = currentRock.AddComponent<BaseGravitation>();
+            rockGravitation.beginRotating = true;
+
             holdingPower = 0;
-            Destroy(rock, rockDespawnTime);
+            Destroy(currentRock, rockDespawnTime);
         }
     }
 
