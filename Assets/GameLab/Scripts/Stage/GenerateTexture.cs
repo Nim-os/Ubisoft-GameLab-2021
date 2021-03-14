@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GenerateTexture : MonoBehaviour
 {
+    public float modelMultiplier = 1;
     [SerializeField]
     private List<Mesh> models;
     [SerializeField]
@@ -14,6 +15,7 @@ public class GenerateTexture : MonoBehaviour
     {
         int choice = Random.Range(0,models.Count);
         SetModelTexture(models[choice], textures[choice]);
+        this.transform.localScale *= modelMultiplier;
     }
 
     private void SetModelTexture(Mesh obj, Material mat){

@@ -1,5 +1,106 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &624253823389664963
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6326918412179791832}
+  - component: {fileID: 498124790475611099}
+  - component: {fileID: 3187660492542768660}
+  - component: {fileID: 8152359714191942027}
+  m_Layer: 0
+  m_Name: Model
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6326918412179791832
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 624253823389664963}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1828997230809920388}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &498124790475611099
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 624253823389664963}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &3187660492542768660
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 624253823389664963}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: b623a0887fb7dfa44a5d9779d22784cd, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!114 &8152359714191942027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 624253823389664963}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d4624db7fbf54340ba08013e5c72234, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  modelMultiplier: 0.5
+  models:
+  - {fileID: -2432090755550338912, guid: e36f8bb65ea4cb147a13a4c992c5bd3e, type: 3}
+  - {fileID: -2432090755550338912, guid: be581f81e8c312245b129e500269fa00, type: 3}
+  - {fileID: -2432090755550338912, guid: 2ad62428f66bf9049b8d52b08d256fb0, type: 3}
+  textures:
+  - {fileID: 2100000, guid: 1182116816ba3934abe9d66837c13a95, type: 2}
+  - {fileID: 2100000, guid: 92b24de900b55474581aadf1890d25ff, type: 2}
+  - {fileID: 2100000, guid: 0b62bd27dff012642ab74c69eae70d64, type: 2}
 --- !u!1 &1103166707788171620
 GameObject:
   m_ObjectHideFlags: 0
@@ -208,12 +309,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1828997230809920388}
-  - component: {fileID: 1828997230809920389}
-  - component: {fileID: 1828997230809920390}
   - component: {fileID: 1828997230809920391}
   - component: {fileID: 1828997230809920387}
   - component: {fileID: 1828997230809920386}
-  - component: {fileID: 6010935588272795651}
   m_Layer: 9
   m_Name: BasicPlanet
   m_TagString: Planet
@@ -235,56 +333,10 @@ Transform:
   - {fileID: 1828997230234116641}
   - {fileID: 5230807627372479624}
   - {fileID: 9178757526518990916}
+  - {fileID: 6326918412179791832}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &1828997230809920389
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1828997230809920408}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &1828997230809920390
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1828997230809920408}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: b623a0887fb7dfa44a5d9779d22784cd, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
 --- !u!65 &1828997230809920391
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -330,26 +382,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 4
   m_CollisionDetection: 0
---- !u!114 &6010935588272795651
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1828997230809920408}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d4624db7fbf54340ba08013e5c72234, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  models:
-  - {fileID: -2432090755550338912, guid: e36f8bb65ea4cb147a13a4c992c5bd3e, type: 3}
-  - {fileID: -2432090755550338912, guid: be581f81e8c312245b129e500269fa00, type: 3}
-  - {fileID: -2432090755550338912, guid: 2ad62428f66bf9049b8d52b08d256fb0, type: 3}
-  textures:
-  - {fileID: 2100000, guid: 1182116816ba3934abe9d66837c13a95, type: 2}
-  - {fileID: 2100000, guid: 92b24de900b55474581aadf1890d25ff, type: 2}
-  - {fileID: 2100000, guid: 0b62bd27dff012642ab74c69eae70d64, type: 2}
 --- !u!1 &8811791578623716138
 GameObject:
   m_ObjectHideFlags: 0
