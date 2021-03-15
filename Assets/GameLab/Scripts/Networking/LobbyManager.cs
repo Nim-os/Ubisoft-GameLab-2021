@@ -38,7 +38,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
 	private void Start()
 	{
-		Log("Connecting to game server...");
+		Log("\nConnecting to game server...");
 	}
 
 	#region Room Logic
@@ -178,7 +178,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 	[PunRPC]
 	private void RecieveMessage(Player player, string message)
 	{
-		Log($"{player.NickName}: {message}");
+		Log($"\n{player.NickName}: {message}");
 	}
 
 
@@ -300,7 +300,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 	/// <param name="text">The text to add</param>
 	private void Log(string text)
 	{
-		logPanel.text += $"\n{text}";
+		logPanel.text += $"\n\n{text}";
 	}
 
 	/// <summary>
