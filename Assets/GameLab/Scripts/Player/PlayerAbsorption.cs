@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerAbsorption : MonoBehaviour
 {
@@ -23,7 +24,7 @@ public class PlayerAbsorption : MonoBehaviour
             float colliderMass = collision.rigidbody.mass;
             if (collision.gameObject.CompareTag("Player"))
             {
-                print("hit player");
+                SceneManager.LoadScene(0);
             }
 
             Destroy(collision.gameObject);
