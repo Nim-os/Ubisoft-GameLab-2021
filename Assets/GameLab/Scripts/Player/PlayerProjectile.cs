@@ -15,20 +15,14 @@ public class PlayerProjectile : MonoBehaviour
     [SerializeField] private PlayerPropulsion propulsionScript;
     private Vector2 mousePos = Vector2.zero;
     private GameObject currentRock;
-    private bool isMe;
 
     void Awake(){
-        isMe = gameObject.GetComponent<Photon.Pun.PhotonView>().IsMine;
-
         input = new InputSystem();
 
-        if (isMe)
-		{
-            input.Game.Projectile.performed += x => holding = true;
-            input.Game.Projectile.started += x => StartHold();
-            input.Game.Projectile.canceled += x => OnLetGo();
-            input.Game.MousePosition.performed += x => mousePos = x.ReadValue<Vector2>();
-        }
+        input.Game.Projectile.performed += x => holding = true;
+        input.Game.Projectile.started += x => StartHold();
+        input.Game.Projectile.canceled += x => OnLetGo();
+        input.Game.MousePosition.performed += x => mousePos = x.ReadValue<Vector2>();
     }
 
     void Start(){
@@ -38,10 +32,7 @@ public class PlayerProjectile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isMe)
-        {
-            OnHold();
-        }
+        OnHold();
     }
 
     private void StartHold()
