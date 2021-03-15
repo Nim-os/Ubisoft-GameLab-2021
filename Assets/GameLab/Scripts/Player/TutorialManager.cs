@@ -111,7 +111,7 @@ public class TutorialManager : MonoBehaviour
             SetUp("Hold/Tap LMB to propulse.");
             // Instantiate a planet to be gravitated towards in the next stage, providing a visible goal to approach in the current stage.
             firstPlanet = Instantiate(basicPlanet, new Vector3(50, 1, 0), Quaternion.identity);
-            firstPlanet.transform.localScale = new Vector3(3, 3, 3);
+            firstPlanet.transform.localScale = new Vector3(6, 6, 6);
             firstPlanet.GetComponent<Rigidbody>().mass = 8;
         }
         else if ((Camera.main.WorldToScreenPoint(firstPlanet.transform.position).x < Screen.width - 40) && markers[state].enabled)
@@ -164,7 +164,6 @@ public class TutorialManager : MonoBehaviour
     {
         if (markers.Count == state)
         {
-            // TODO: Instantiate obstacles for player to navigate.
             SetUp("Escape the solar system!");
             sunChasing = true;
             sun.transform.position = new Vector3(60, 1, player.transform.position.z);
