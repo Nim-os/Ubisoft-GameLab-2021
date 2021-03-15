@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerAbsorption : MonoBehaviour
 {
@@ -17,15 +18,17 @@ public class PlayerAbsorption : MonoBehaviour
         bool hasRigidBody = collision.rigidbody;
         bool isGravitationalObj = (collision.gameObject.GetComponent<BaseGravitation>());
         bool hasLowerMass = (hasRigidBody) && (collision.rigidbody.mass < rb.mass);
-        
-        if (isGravitationalObj && hasLowerMass){
+
+        if (isGravitationalObj && hasLowerMass)
+        {
             float colliderMass = collision.rigidbody.mass;
-            if (collision.gameObject.CompareTag("Player")){
-                print("hit player");
+            if (collision.gameObject.CompareTag("Player"))
+            {
+                SceneManager.LoadScene(0);
             }
 
             Destroy(collision.gameObject);
-            propulsionScript.ChangeMass((colliderMass - 1)/0.01f);
+            propulsionScript.ChangeMass((colliderMass - 1) / 0.01f);
         }
     }
 }

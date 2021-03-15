@@ -136,7 +136,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
 
 			// Loads the initial level
-			PhotonNetwork.LoadLevel(1); // TODO Change this to whatever scene, the number is the scene index in the build settings
+			PhotonNetwork.LoadLevel(2); // Currently set to scene 2: Tutorial
 		}
 	}
 
