@@ -21,7 +21,6 @@ public class TutorialManager : MonoBehaviour
     public GameObject endCluster;
     public Canvas canv;
     public Image arrow;
-    GameObject testPlayer; // For testing.
 
     bool holdingRMB = false;
     bool sunChasing = false;
@@ -89,18 +88,11 @@ public class TutorialManager : MonoBehaviour
         if (markers.Count == state)
         {
             SetUp("Hold RMB to gravitate to your friend. You can take turns propulsing and gravitating to save resources. Careful: Don't crash!");
-            if (players.Length < 2) // To be removed when done testing the Tutorial.
-            {
-                testPlayer = Instantiate(basicPlanet, new Vector3(15, 1, player.transform.position.z - 10), Quaternion.identity);
-                testPlayer.tag = "Player";
-                players = new GameObject[] { player, testPlayer };
-            }
         }
         // Proceeds to the next stage if players are close enough wehether due to gravity or propulsion.
         else if (Vector3.Distance(players[0].transform.position, players[1].transform.position) < 15 && markers[state].enabled)
         {
             TearDown();
-            Destroy(testPlayer);
             previousMass = player.GetComponent<Rigidbody>().mass;
         }
     }
