@@ -28,6 +28,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 	public TMP_InputField inputField;
 
 	public TextMeshProUGUI logPanel;
+	[SerializeField]
+	private AutoScroll autoScroll;
 
 	[Header("DEBUG")]
 	public bool forceStart = false;
@@ -301,6 +303,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 	private void Log(string text)
 	{
 		logPanel.text += $"\n{text}";
+		autoScroll.ScrollToBottom();
 	}
 
 	/// <summary>
