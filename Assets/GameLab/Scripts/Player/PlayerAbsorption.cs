@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class PlayerAbsorption : MonoBehaviour
 {
-    [SerializeField]
-    Rigidbody rb;
+    [SerializeField] Rigidbody rb;
     private PlayerPropulsion propulsionScript;
 
     void Start()

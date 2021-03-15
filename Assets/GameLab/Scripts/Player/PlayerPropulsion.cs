@@ -16,8 +16,7 @@ public class PlayerPropulsion : MonoBehaviour
     public float gas;
     public int holdingPower;
 
-    [SerializeField]
-    private GameObject rockPrefab;
+    [SerializeField] private GameObject rockPrefab;
     private float rockDespawnTime = 10;
     private Rigidbody rb;
     private Plane plane = new Plane(Vector3.up, Vector3.zero);
