@@ -16,10 +16,9 @@ public class PlayerPropulsion : MonoBehaviour
     public float gas;
     public int holdingPower;
 
-    [SerializeField]
-    private GameObject rockPrefab;
+    [SerializeField] private GameObject rockPrefab;
     private float rockDespawnTime = 10;
-    private Rigidbody rb;
+    [SerializeField] private Rigidbody rb;
     private Plane plane = new Plane(Vector3.up, Vector3.zero);
     private CinemachineTransposer cameraTransposer;
     private float cameraHeight;
@@ -49,7 +48,6 @@ public class PlayerPropulsion : MonoBehaviour
 	void Start()
     {
         gasBar = GameObject.Find("GasBarUI").GetComponent<Image>();
-        rb = gameObject.GetComponent<Rigidbody>();
         cameraTransposer = GameObject.Find("CM vcam1").GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineTransposer>();
         cameraHeight = cameraTransposer.m_FollowOffset.y;
         propulsionParticles = this.GetComponent<ParticleSystem>();
