@@ -16,6 +16,9 @@ EditorBuildSettings:
     guid: 0ae449ee1e96548418fc91fcbea976f9
   - enabled: 1
     path: Assets/GameLab/Scenes/DevLobby.unity
+    guid: f2b5dd3cc1bff46459eff804ae43db6e
+  - enabled: 1
+    path: Assets/GameLab/Scenes/OldDevLobby.unity
     guid: ac8029e30474aec42901fd10154c3725
   - enabled: 0
     path: Assets/Photon/PhotonUnityNetworking/Demos/DemoHub/DemoHub-Scene.unity
