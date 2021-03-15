@@ -24,7 +24,8 @@ public class PlayerAbsorption : MonoBehaviour
             float colliderMass = collision.rigidbody.mass;
             if (collision.gameObject.CompareTag("Player"))
             {
-                SceneManager.LoadScene(0);
+                //SceneManager.LoadScene(0);
+                return;
             }
 
             Destroy(collision.gameObject);
