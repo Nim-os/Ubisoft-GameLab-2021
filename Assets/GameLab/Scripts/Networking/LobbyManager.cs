@@ -28,6 +28,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 	public TMP_InputField inputField;
 
 	public TextMeshProUGUI logPanel;
+	[SerializeField]
+	private AutoScroll autoScroll;
 
 	[Header("DEBUG")]
 	public bool forceStart = false;
@@ -38,7 +40,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
 	private void Start()
 	{
-		Log("\nConnecting to game server...");
+		Log("Connecting to game server...");
 	}
 
 	#region Room Logic
@@ -178,7 +180,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 	[PunRPC]
 	private void RecieveMessage(Player player, string message)
 	{
-		Log($"\n{player.NickName}: {message}");
+		Log($"{player.NickName}: {message}");
 	}
 
 
@@ -300,7 +302,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 	/// <param name="text">The text to add</param>
 	private void Log(string text)
 	{
-		logPanel.text += $"\n\n{text}";
+		logPanel.text += $"\n{text}";
+		autoScroll.ScrollToBottom();
 	}
 
 	/// <summary>
@@ -309,7 +312,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 	/// <returns>A short on the interval [10000, 65535)</returns>
 	private ushort GetRandomCode()
 	{
-		ushort code = (ushort) Random.Range(0x2710, 0xFFFF);
+		ushort code = (ushort)Random.Range(0x2710, 0xFFFF);
 
 		return code;
 	}
