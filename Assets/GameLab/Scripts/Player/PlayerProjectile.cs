@@ -10,11 +10,9 @@ public class PlayerProjectile : MonoBehaviour
     public int rockSizeLimit;
     public bool holding = false;
 
-    [SerializeField]
-    private GameObject rockPrefab;    
+    [SerializeField] private GameObject rockPrefab;    
     private float rockDespawnTime = 10;
-    [SerializeField]
-    private PlayerPropulsion propulsionScript;
+    [SerializeField] private PlayerPropulsion propulsionScript;
     private Vector2 mousePos = Vector2.zero;
     private GameObject currentRock;
 
