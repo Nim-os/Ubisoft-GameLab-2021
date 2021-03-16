@@ -2,25 +2,34 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpawnAsteroids : MonoBehaviour
+public class AsteroidBelt : MonoBehaviour
 {
-    public float waitTime = 10f;
+    public float maxWait = 5f;
+    float wait;
     
     [SerializeField]
     private GameObject asteroid;
 
     void Start()
     {
-        StartCoroutine(SpawnAsteroid(waitTime));
+        wait = Random.Range(1, maxWait);
     }
 
-    IEnumerator SpawnAsteroid(float wait)
+    void Update()
+    {
+        if (wait <= 0)
+        {
+            SpawnAsteroid();
+            wait = maxWait;
+        }
+        wait -= Time.deltaTime;
+    }
+
+    void SpawnAsteroid()
     {
         GameObject ast = Instantiate(asteroid, transform.position, Quaternion.identity);
         ast.GetComponent<BaseAsteroid>().xthurst = 10;
         ast.GetComponent<BaseAsteroid>().zthrust = -15;
-        Destroy(ast, 30);
-
-        yield return new WaitForSeconds(wait);
+        Destroy(ast, 5);
     }
 }
