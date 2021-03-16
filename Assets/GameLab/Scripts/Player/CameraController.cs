@@ -31,14 +31,14 @@ public class CameraController : MonoBehaviour
         if (players.Length == 2)
         {
             float distance = Vector3.Distance(players[0].transform.position, players[1].transform.position);
-            if ((distance < (0.75f * minDistance)) && (cameraHeight >= 25))
+            if ((distance <= (minDistance - 50)) && (cameraHeight >= 200))
             {
                 cameraHeight = cameraHeight - 0.5f;
                 SetCameraHeight(cameraHeight);
             }
-            else if ((distance > (minDistance)) && (cameraHeight <= 500))
+            else if ((distance > (minDistance - 50)) && (cameraHeight < 200))
             {
-                cameraHeight = cameraHeight + 0.5f;
+                cameraHeight = cameraHeight + 3;
                 SetCameraHeight(cameraHeight);
             }
         }
