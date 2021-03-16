@@ -11,7 +11,8 @@ public class CameraController : MonoBehaviour
     private float cameraHeight; // Current camera height.
     public float cameraHeightThreshold = 200; // Camera will not zoom out past this point.
     public float minDistance;  // Smallest distance required to be visible.
-    public float distanceBuffer = 50; // Extra space around players to better see nearby obstacles.
+
+    private GameObject parallax;
 
     void Start()
     {
@@ -19,6 +20,7 @@ public class CameraController : MonoBehaviour
         cameraHeight = 25;
         SetCameraHeight(cameraHeight);
 
+        parallax = Camera.main.transform.GetChild(0).gameObject;
 
         // Add players to cameraTargetGroup
         players = GameObject.FindGameObjectsWithTag("Player");
@@ -32,20 +34,22 @@ public class CameraController : MonoBehaviour
 
         else
         {
-            minDistance = Vector3.Distance(Camera.main.ScreenToWorldPoint(new Vector3(0, 0, cameraHeight)), Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height, cameraHeight))) - distanceBuffer;
+            minDistance = Vector3.Distance(Camera.main.ScreenToWorldPoint(new Vector3(0, 0, cameraHeight)), Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height, cameraHeight)));
 
             // Moves the camera up (away) or down (closer) to keep players on-screen.
             if (players.Length == 2)
             {
                 float distance = Vector3.Distance(players[0].transform.position, players[1].transform.position);
-                if ((distance <= (minDistance)) && (cameraHeight >= cameraHeightThreshold))
+                if ((distance <= (0.5f * minDistance)) && (cameraHeight >= (0.25f * cameraHeightThreshold)))
                 {
                     cameraHeight = cameraHeight - 0.5f;
+                    parallax.transform.position = new Vector3(parallax.transform.position.x, parallax.transform.position.y + 0.5f, parallax.transform.position.z);
                     SetCameraHeight(cameraHeight);
                 }
                 else if ((distance > (minDistance)) && (cameraHeight < cameraHeightThreshold))
                 {
                     cameraHeight = cameraHeight + 0.5f;
+                    parallax.transform.position = new Vector3(parallax.transform.position.x, parallax.transform.position.y - 0.5f, parallax.transform.position.z);
                     SetCameraHeight(cameraHeight);
                 }
             }
@@ -59,7 +63,11 @@ public class CameraController : MonoBehaviour
 
     IEnumerator WaitTwoPlayers() // Makes sure both players are included in the camera target group.
     {
+        yield return new WaitUntil(() => players.Length == 1);
+        cameraTargetGroup.AddMember(players[0].transform, 1, 0);
+
         yield return new WaitUntil(() => players.Length == 2);
+        cameraTargetGroup.m_Targets = null;
         foreach (GameObject g in players)
         {
             cameraTargetGroup.AddMember(g.transform, 1, 0);
