@@ -8,8 +8,10 @@ public class CameraController : MonoBehaviour
     public GameObject[] players;
     private CinemachineTransposer cameraTransposer;
     private CinemachineTargetGroup cameraTargetGroup;
-    private float cameraHeight;
-    public float minDistance;
+    private float cameraHeight; // Current camera height.
+    public float cameraHeightThreshold = 200; // Camera will not zoom out past this point.
+    public float minDistance;  // Smallest distance required to be visible.
+    public float distanceBuffer = 50; // Extra space around players to better see nearby obstacles.
 
     void Start()
     {
@@ -30,18 +32,18 @@ public class CameraController : MonoBehaviour
 
         else
         {
-            minDistance = Vector3.Distance(Camera.main.ScreenToWorldPoint(new Vector3(0, 0, cameraHeight)), Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height, cameraHeight))); ; // Get smallest distance required to be visible.
+            minDistance = Vector3.Distance(Camera.main.ScreenToWorldPoint(new Vector3(0, 0, cameraHeight)), Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height, cameraHeight))) - distanceBuffer;
 
             // Moves the camera up (away) or down (closer) to keep players on-screen.
             if (players.Length == 2)
             {
                 float distance = Vector3.Distance(players[0].transform.position, players[1].transform.position);
-                if ((distance <= (minDistance - 50)) && (cameraHeight >= 200))
+                if ((distance <= (minDistance)) && (cameraHeight >= cameraHeightThreshold))
                 {
                     cameraHeight = cameraHeight - 0.5f;
                     SetCameraHeight(cameraHeight);
                 }
-                else if ((distance > (minDistance - 50)) && (cameraHeight < 200))
+                else if ((distance > (minDistance)) && (cameraHeight < cameraHeightThreshold))
                 {
                     cameraHeight = cameraHeight + 0.5f;
                     SetCameraHeight(cameraHeight);
@@ -55,7 +57,7 @@ public class CameraController : MonoBehaviour
         cameraTransposer.m_FollowOffset.y = height;
     }
 
-    IEnumerator WaitTwoPlayers()
+    IEnumerator WaitTwoPlayers() // Makes sure both players are included in the camera target group.
     {
         yield return new WaitUntil(() => players.Length == 2);
         foreach (GameObject g in players)
