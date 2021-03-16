@@ -7,6 +7,7 @@ public class CameraController : MonoBehaviour
 {
     public GameObject[] players;
     private CinemachineTransposer cameraTransposer;
+    private CinemachineTargetGroup cameraTargetGroup;
     private float cameraHeight;
     public float minDistance;
 
@@ -15,31 +16,36 @@ public class CameraController : MonoBehaviour
         cameraTransposer = GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineTransposer>();
         cameraHeight = 25;
         SetCameraHeight(cameraHeight);
+
+
+        // Add players to cameraTargetGroup
+        players = GameObject.FindGameObjectsWithTag("Player");
+        cameraTargetGroup = GameObject.Find("CameraTargetGroup").GetComponent<CinemachineTargetGroup>();
+        StartCoroutine(WaitTwoPlayers());
     }
 
     void Update()
     {
-        players = GameObject.FindGameObjectsWithTag("Player");
+        if (players.Length <= 2 && cameraTargetGroup.m_Targets.Length < 2) players = GameObject.FindGameObjectsWithTag("Player");
 
-        // Add player to cameraTargetGroup
-        var cameraTargetGroup = GameObject.Find("CameraTargetGroup").GetComponent<CinemachineTargetGroup>();
-        foreach (GameObject g in players) cameraTargetGroup.AddMember(g.transform, 1, 0);
-
-        minDistance = Vector3.Distance(Camera.main.ScreenToWorldPoint(new Vector3(0, 0, cameraHeight)), Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height, cameraHeight))); ; // Get smallest distance required to be visible.
-
-        // Moves the camera up (away) or down (closer) to keep players on-screen.
-        if (players.Length == 2)
+        else
         {
-            float distance = Vector3.Distance(players[0].transform.position, players[1].transform.position);
-            if ((distance <= (minDistance - 50)) && (cameraHeight >= 200))
+            minDistance = Vector3.Distance(Camera.main.ScreenToWorldPoint(new Vector3(0, 0, cameraHeight)), Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height, cameraHeight))); ; // Get smallest distance required to be visible.
+
+            // Moves the camera up (away) or down (closer) to keep players on-screen.
+            if (players.Length == 2)
             {
-                cameraHeight = cameraHeight - 0.5f;
-                SetCameraHeight(cameraHeight);
-            }
-            else if ((distance > (minDistance - 50)) && (cameraHeight < 200))
-            {
-                cameraHeight = cameraHeight + 3;
-                SetCameraHeight(cameraHeight);
+                float distance = Vector3.Distance(players[0].transform.position, players[1].transform.position);
+                if ((distance <= (minDistance - 50)) && (cameraHeight >= 200))
+                {
+                    cameraHeight = cameraHeight - 0.5f;
+                    SetCameraHeight(cameraHeight);
+                }
+                else if ((distance > (minDistance - 50)) && (cameraHeight < 200))
+                {
+                    cameraHeight = cameraHeight + 0.5f;
+                    SetCameraHeight(cameraHeight);
+                }
             }
         }
     }
@@ -47,5 +53,14 @@ public class CameraController : MonoBehaviour
     private void SetCameraHeight(float height)
     {
         cameraTransposer.m_FollowOffset.y = height;
+    }
+
+    IEnumerator WaitTwoPlayers()
+    {
+        yield return new WaitUntil(() => players.Length == 2);
+        foreach (GameObject g in players)
+        {
+            cameraTargetGroup.AddMember(g.transform, 1, 0);
+        }
     }
 }
