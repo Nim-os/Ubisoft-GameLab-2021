@@ -7,39 +7,51 @@ public class CameraController : MonoBehaviour
 {
     public GameObject[] players;
     private CinemachineTransposer cameraTransposer;
-    private float cameraHeight;
-    public float minDistance;
+    private CinemachineTargetGroup cameraTargetGroup;
+    private float cameraHeight; // Current camera height.
+    public float cameraHeightThreshold = 200; // Camera will not zoom out past this point.
+    public float minDistance;  // Smallest distance required to be visible.
+
+    private GameObject parallax;
 
     void Start()
     {
         cameraTransposer = GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineTransposer>();
         cameraHeight = 25;
         SetCameraHeight(cameraHeight);
+
+        parallax = Camera.main.transform.GetChild(0).gameObject;
+
+        // Add players to cameraTargetGroup
+        players = GameObject.FindGameObjectsWithTag("Player");
+        cameraTargetGroup = GameObject.Find("CameraTargetGroup").GetComponent<CinemachineTargetGroup>();
+        StartCoroutine(WaitTwoPlayers());
     }
 
     void Update()
     {
-        players = GameObject.FindGameObjectsWithTag("Player");
+        if (players.Length <= 2 && cameraTargetGroup.m_Targets.Length < 2) players = GameObject.FindGameObjectsWithTag("Player");
 
-        // Add player to cameraTargetGroup
-        var cameraTargetGroup = GameObject.Find("CameraTargetGroup").GetComponent<CinemachineTargetGroup>();
-        foreach (GameObject g in players) cameraTargetGroup.AddMember(g.transform, 1, 0);
-
-        minDistance = Vector3.Distance(Camera.main.ScreenToWorldPoint(new Vector3(0, 0, cameraHeight)), Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height, cameraHeight))); ; // Get smallest distance required to be visible.
-
-        // Moves the camera up (away) or down (closer) to keep players on-screen.
-        if (players.Length == 2)
+        else
         {
-            float distance = Vector3.Distance(players[0].transform.position, players[1].transform.position);
-            if ((distance < (0.75f * minDistance)) && (cameraHeight >= 25))
+            minDistance = Vector3.Distance(Camera.main.ScreenToWorldPoint(new Vector3(0, 0, cameraHeight)), Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height, cameraHeight)));
+
+            // Moves the camera up (away) or down (closer) to keep players on-screen.
+            if (players.Length == 2)
             {
-                cameraHeight = cameraHeight - 0.5f;
-                SetCameraHeight(cameraHeight);
-            }
-            else if ((distance > (minDistance)) && (cameraHeight <= 500))
-            {
-                cameraHeight = cameraHeight + 0.5f;
-                SetCameraHeight(cameraHeight);
+                float distance = Vector3.Distance(players[0].transform.position, players[1].transform.position);
+                if ((distance <= (0.5f * minDistance)) && (cameraHeight >= (0.25f * cameraHeightThreshold)))
+                {
+                    cameraHeight = cameraHeight - 0.5f;
+                    parallax.transform.position = new Vector3(parallax.transform.position.x, parallax.transform.position.y + 0.5f, parallax.transform.position.z);
+                    SetCameraHeight(cameraHeight);
+                }
+                else if ((distance > (minDistance)) && (cameraHeight < cameraHeightThreshold))
+                {
+                    cameraHeight = cameraHeight + 0.5f;
+                    parallax.transform.position = new Vector3(parallax.transform.position.x, parallax.transform.position.y - 0.5f, parallax.transform.position.z);
+                    SetCameraHeight(cameraHeight);
+                }
             }
         }
     }
@@ -47,5 +59,18 @@ public class CameraController : MonoBehaviour
     private void SetCameraHeight(float height)
     {
         cameraTransposer.m_FollowOffset.y = height;
+    }
+
+    IEnumerator WaitTwoPlayers() // Makes sure both players are included in the camera target group.
+    {
+        yield return new WaitUntil(() => players.Length == 1);
+        cameraTargetGroup.AddMember(players[0].transform, 1, 0);
+
+        yield return new WaitUntil(() => players.Length == 2);
+        cameraTargetGroup.m_Targets = null;
+        foreach (GameObject g in players)
+        {
+            cameraTargetGroup.AddMember(g.transform, 1, 0);
+        }
     }
 }
