@@ -20,8 +20,10 @@ public class PlayerAbsorption : MonoBehaviour
         
         if (isGravitationalObj && hasLowerMass){
             float colliderMass = collision.rigidbody.mass;
-            if (collision.gameObject.CompareTag("Player")){
-                print("hit player");
+            if (collision.gameObject.CompareTag("Player"))
+            {
+                //SceneManager.LoadScene(0);
+                return;
             }
 
             Destroy(collision.gameObject);
