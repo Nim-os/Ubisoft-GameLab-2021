@@ -355,7 +355,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 				break;
 
 			case ConnectionState.Joined:
-				playButton.interactable = true;
+				if (isHost) {
+					playButton.interactable = true;
+				}
+				
 				leaveButton.interactable = true;
 				messageButton.interactable = true;
 
