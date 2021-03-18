@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RandomRotationAnim : MonoBehaviour
 {
-    public float speed;
+    public float speed = 1;
     [SerializeField] private Rigidbody rb;
 
     // Start is called before the first frame update

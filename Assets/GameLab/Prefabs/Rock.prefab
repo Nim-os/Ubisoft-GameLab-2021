@@ -214,6 +214,7 @@ GameObject:
   - component: {fileID: 2682222205282339129}
   - component: {fileID: 8425487541542706288}
   - component: {fileID: 4668376294454382898}
+  - component: {fileID: 6774223604124698664}
   m_Layer: 9
   m_Name: Rock
   m_TagString: Rock
@@ -326,6 +327,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d4624db7fbf54340ba08013e5c72234, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  modelMultiplier: 1
   models:
   - {fileID: -2432090755550338912, guid: 189377349af6cd94989d2c0c3545d0f4, type: 3}
   - {fileID: -2432090755550338912, guid: bbcd6b586b1566448afec6d6c7c51c93, type: 3}
@@ -354,6 +356,20 @@ MonoBehaviour:
   playerSelected: 0
   beginRotating: 1
   ObjectsWithinRange: []
+--- !u!114 &6774223604124698664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2682222205282339131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93e63b5f163d843419fa12765669c442, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 1
+  rb: {fileID: 2682222205282339129}
 --- !u!1 &6320323762123837009
 GameObject:
   m_ObjectHideFlags: 0
