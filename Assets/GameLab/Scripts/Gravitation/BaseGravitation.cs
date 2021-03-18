@@ -28,8 +28,6 @@ public class BaseGravitation : MonoBehaviour
         rb = gameObject.GetComponent<Rigidbody>();
         isPlayer = gameObject.tag == "Player" ? true : false;
 
-        StartCoroutine(PassiveStartRotation());
-        
         RigidbodyConstraints frozenPosition = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ;
         RigidbodyConstraints frozenY = RigidbodyConstraints.FreezePositionY;
 
@@ -99,16 +97,6 @@ public class BaseGravitation : MonoBehaviour
         }
     }
 
-    IEnumerator PassiveStartRotation(){
-        if (beginRotating){
-            rb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ;
-       
-            Vector3 force = new Vector3(Random.Range(50,100),Random.Range(50,100),Random.Range(50,100));
-            rb.AddTorque(force*100);
-        }
-        
-        yield return new WaitForSeconds(5);
-    }
     private void OnEnable()
     {
         input.Enable();
