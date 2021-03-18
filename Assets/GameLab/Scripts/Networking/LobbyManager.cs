@@ -157,6 +157,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 		//go back to the main menu
 		//UnityEngine.SceneManagement.SceneManager.LoadScene( "MainMenu" );
 		PhotonNetwork.LoadLevel(0);
+
+		PhotonNetwork.Disconnect();//disconnect from photon
 	}
 
 	/// <summary>
