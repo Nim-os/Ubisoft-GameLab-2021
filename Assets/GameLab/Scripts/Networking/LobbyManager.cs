@@ -24,6 +24,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 	public Button leaveButton;
 	public Button devButton;
 	public Button messageButton;
+	public Button backButton;
 
 	public TMP_InputField inputField;
 
@@ -150,6 +151,14 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 		SetConnectionState(ConnectionState.Connecting);
 
 		PhotonNetwork.LeaveRoom();
+	}
+
+	/// <summary>
+	/// Brings player back to main menu and disconnects from photon
+	/// </summary>
+	public void BackToMain(){
+		PhotonNetwork.LoadLevel(0);
+		PhotonNetwork.Disconnect();
 	}
 
 	/// <summary>
@@ -334,11 +343,12 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 				createButton.interactable = true;
 				joinButton.interactable = true;
 				devButton.interactable = true;
+				backButton.interactable = true;
 
 				playButton.interactable = false;
 				leaveButton.interactable = false;
 				messageButton.interactable = false;
-
+				
 				break;
 
 			case ConnectionState.Connecting:
@@ -347,6 +357,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 				createButton.interactable = false;
 				joinButton.interactable = false;
 				devButton.interactable = false;
+				backButton.interactable = false;
 
 				playButton.interactable = false;
 				leaveButton.interactable = false;
