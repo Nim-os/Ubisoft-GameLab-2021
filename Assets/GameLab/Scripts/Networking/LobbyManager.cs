@@ -153,12 +153,12 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 		PhotonNetwork.LeaveRoom();
 	}
 
+	/// <summary>
+	/// Brings player back to main menu and disconnects from photon
+	/// </summary>
 	public void BackToMain(){
-		//go back to the main menu
-		//UnityEngine.SceneManagement.SceneManager.LoadScene( "MainMenu" );
 		PhotonNetwork.LoadLevel(0);
-
-		PhotonNetwork.Disconnect();//disconnect from photon
+		PhotonNetwork.Disconnect();
 	}
 
 	/// <summary>
