@@ -80,11 +80,7 @@ public class StageManager : MonoBehaviourPun
 	[PunRPC]
 	private void GeneratePlayer(Vector3 spawnPos)
 	{
-		Debug.Log("Generating a player");
-		GameObject player = PhotonNetwork.Instantiate("Player", spawnPos, Quaternion.identity);
-
-		// Issue with this is it only changes it client side
-		// Workarounds are either create a new prefab for a second player or have all clients update the mesh
+		PhotonNetwork.Instantiate("Player", spawnPos, Quaternion.identity);
 	}
 
 	/// <summary>

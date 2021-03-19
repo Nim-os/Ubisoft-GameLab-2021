@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 using UnityEngine.UI;
+using Photon.Pun;
 
 /// <summary> Contains all methods related to self propulsion </summary>
 public class PlayerPropulsion : MonoBehaviour
@@ -24,25 +25,26 @@ public class PlayerPropulsion : MonoBehaviour
     private float cameraHeight;
     private ParticleSystem propulsionParticles;
     private Vector2 mousePos = Vector2.zero;
-    private bool propulsing = false;
+    private bool propulsing = false, particlesEnabled = false, particlesLastState = false;
     private Image gasBar;
+
+    private PhotonView photonView;
+    private float particleRPCDecay = 0.33f;
 
 	void Awake()
     {
         input = new InputSystem();
 
-        // If we don't own this script, we can safely remove it to prevent other players from influencing the wrong player gameobject
-        if (!gameObject.GetComponent<Photon.Pun.PhotonView>().IsMine)
-        {
-            Destroy(this);
-            return;
-        }
+        photonView = GetComponent<PhotonView>();
 
-        input.Game.Primary.started += x => StartParticles();
-        input.Game.Primary.performed += x => propulsing = true;
-        input.Game.Primary.canceled += x => StopParticles();
-        
-        input.Game.MousePosition.performed += x => mousePos = x.ReadValue<Vector2>();
+        if (photonView.IsMine)
+        {
+            input.Game.Primary.started += x => StartParticles();
+            input.Game.Primary.performed += x => propulsing = true;
+            input.Game.Primary.canceled += x => StopParticles();
+
+            input.Game.MousePosition.performed += x => mousePos = x.ReadValue<Vector2>();
+        }
     }
 
 	void Start()
@@ -53,7 +55,25 @@ public class PlayerPropulsion : MonoBehaviour
         propulsionParticles = this.GetComponent<ParticleSystem>();
     }
 
-    void FixedUpdate()
+	private void Update()
+	{
+        particleRPCDecay -= Time.deltaTime;
+
+        // Check if we should update other players on if we are propulsing or not visually
+        if (particleRPCDecay < 0 && particlesEnabled != particlesLastState)
+		{
+            // Reset RPC decay
+            particleRPCDecay = 0.33f;
+
+            // Set the new state of the particles to save ourselves from multiple similar RPC calls
+            particlesLastState = particlesEnabled;
+
+            // Send RPC to other players
+            photonView.RPC("ParticlesRPC", RpcTarget.Others, new object[] { particlesEnabled });
+		}
+	}
+
+	void FixedUpdate()
     {
         if (propulsing)
 		{
@@ -63,7 +83,8 @@ public class PlayerPropulsion : MonoBehaviour
 
     // rename this method better
     /// <summary> When "holding", builds up force for the player to use when they let go </summary>
-    private void OnHold(){
+    private void OnHold()
+    {
         if (propulsing && gas > 0){
             holdingPower++;
             gas--;
@@ -72,7 +93,8 @@ public class PlayerPropulsion : MonoBehaviour
 
     // rename this method better
     /// <summary> When "let go" applies force to player in mouse direction according to force built up & creates a rock and applies force on it in the opposite direction of the mouse</summary>
-    private void OnLetGo(){
+    private void OnLetGo()
+    {
         Vector3 mouseDir;
         
         if (!propulsing && holdingPower != 0 && ((mouseDir = Utils.GetMouseDirection(mousePos, gameObject)) != Vector3.zero)){
@@ -112,7 +134,8 @@ public class PlayerPropulsion : MonoBehaviour
 	/// Changes the player's mass
 	/// </summary>
 	/// <param name="amount">The amount to add</param>
-    public void ChangeMass(float amount){
+    public void ChangeMass(float amount)
+    {
         gas += amount;
         rb.mass += amount * massMultiplier;
         transform.localScale += new Vector3(scaleMultiplier*amount,scaleMultiplier*amount,scaleMultiplier*amount);
@@ -122,9 +145,12 @@ public class PlayerPropulsion : MonoBehaviour
     /// <summary>
 	/// Begins player's particle effects on propulsion
 	/// </summary>
-    private void StartParticles(){
-        if (gas > 0){
+    private void StartParticles()
+    {
+        if (gas > 0)
+        {
             propulsing = true;
+            particlesEnabled = true;
             propulsionParticles.Play();
         }
     }
@@ -132,9 +158,28 @@ public class PlayerPropulsion : MonoBehaviour
     /// <summary>
 	/// Ends player's particle effects on stop propulsion
 	/// </summary>
-    private void StopParticles(){
+    private void StopParticles()
+    {
         propulsing = false;
+        particlesEnabled = false;
         propulsionParticles.Stop();
+    }
+
+    /// <summary>
+    /// Update the state of particles on this Player's gameobject.
+    /// </summary>
+    /// <param name="enabled">true if we should enable particles</param>
+    [PunRPC]
+    public void ParticlesRPC(bool enabled)
+	{
+        if (enabled)
+        {
+            propulsionParticles.Play();
+        }
+        else
+        {
+            propulsionParticles.Stop();
+        }
     }
 
     private void OnEnable()
