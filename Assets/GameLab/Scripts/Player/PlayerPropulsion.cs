@@ -4,6 +4,7 @@ using UnityEngine;
 using Cinemachine;
 using UnityEngine.UI;
 using Photon.Pun;
+using Photon.Realtime;
 
 /// <summary> Contains all methods related to self propulsion </summary>
 public class PlayerPropulsion : MonoBehaviour
@@ -102,7 +103,7 @@ public class PlayerPropulsion : MonoBehaviour
             rb.AddForce(mouseDir * propulsionForce * holdingPower, ForceMode.Impulse);
 
             // create rock
-            GameObject rock = Instantiate(rockPrefab, transform.position + -mouseDir*2, transform.rotation);
+            GameObject rock = PhotonNetwork.Instantiate(rockPrefab.name, transform.position + -mouseDir*2, transform.rotation);
             float length = holdingPower*0.05f;
             rock.transform.localScale = new Vector3(length, length, length);
 
