@@ -1479,6 +1479,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   players: []
+  sm: {fileID: 1228304618}
   cameraHeightThreshold: 200
   minDistance: 57.15752
 --- !u!1 &764032213
@@ -1924,7 +1925,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 559a87d9cfe0fa04fade747cab6e0807, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serverMode: 0
+  serverMode: 1
 --- !u!4 &1228304619
 Transform:
   m_ObjectHideFlags: 0

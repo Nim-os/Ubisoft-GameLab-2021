@@ -8,6 +8,7 @@ public class CameraController : MonoBehaviour
     public GameObject[] players;
     private CinemachineTransposer cameraTransposer;
     private CinemachineTargetGroup cameraTargetGroup;
+    public ServerManager sm;
     private float cameraHeight; // Current camera height.
     public float cameraHeightThreshold = 200; // Camera will not zoom out past this point.
     public float minDistance;  // Smallest distance required to be visible.
@@ -23,14 +24,14 @@ public class CameraController : MonoBehaviour
         parallax = Camera.main.transform.GetChild(0).gameObject;
 
         // Add players to cameraTargetGroup
-        players = GameObject.FindGameObjectsWithTag("Player");
         cameraTargetGroup = GameObject.Find("CameraTargetGroup").GetComponent<CinemachineTargetGroup>();
+
         StartCoroutine(WaitTwoPlayers());
     }
 
     void Update()
     {
-        if (players.Length <= 2 && cameraTargetGroup.m_Targets.Length < 2) players = GameObject.FindGameObjectsWithTag("Player");
+        if (cameraTargetGroup.m_Targets.Length < 2) return;
 
         else
         {
@@ -63,14 +64,20 @@ public class CameraController : MonoBehaviour
 
     IEnumerator WaitTwoPlayers() // Makes sure both players are included in the camera target group.
     {
-        yield return new WaitUntil(() => players.Length == 1);
-        cameraTargetGroup.AddMember(players[0].transform, 1, 0);
-
-        yield return new WaitUntil(() => players.Length == 2);
-        cameraTargetGroup.m_Targets = null;
-        foreach (GameObject g in players)
+        if (sm.serverMode == ServerManager.Mode.Online)
         {
-            cameraTargetGroup.AddMember(g.transform, 1, 0);
+            yield return new WaitUntil(() => GameObject.FindGameObjectsWithTag("Player").Length == 2);
+            players = GameObject.FindGameObjectsWithTag("Player");
+            foreach (GameObject g in players)
+            {
+                cameraTargetGroup.AddMember(g.transform, 1, 0);
+            }
+        }
+
+        else
+        {
+            yield return new WaitUntil(() => GameObject.FindGameObjectsWithTag("Player").Length == 1);
+            cameraTargetGroup.AddMember(GameObject.FindGameObjectWithTag("Player").transform, 1, 0);
         }
     }
 }
