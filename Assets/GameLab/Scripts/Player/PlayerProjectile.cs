@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+using Photon.Realtime;
 
 public class PlayerProjectile : MonoBehaviour
 {
@@ -51,7 +53,7 @@ public class PlayerProjectile : MonoBehaviour
 
         if (propulsionScript.gas > 0){
             // create rock
-            currentRock = Instantiate(rockPrefab, transform.position + mouseDir*(playerSize+2), transform.rotation);
+            currentRock = PhotonNetwork.Instantiate(rockPrefab.name, transform.position + mouseDir*(playerSize+2), transform.rotation);
             currentRock.transform.localScale = new Vector3(1, 1, 1);
         } 
     }

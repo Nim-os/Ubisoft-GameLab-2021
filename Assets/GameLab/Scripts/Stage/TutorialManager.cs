@@ -91,6 +91,7 @@ public class TutorialManager : MonoBehaviour
             SetUp("Hold RMB to gravitate to your friend. You can take turns propulsing and gravitating to save resources. Careful: Don't crash!");
         }
         // Proceeds to the next stage if players are close enough wehether due to gravity or propulsion.
+        else if (players.Length < 2) return;
         else if (Vector3.Distance(players[0].transform.position, players[1].transform.position) < 15 && markers[state].enabled)
         {
             TearDown();
