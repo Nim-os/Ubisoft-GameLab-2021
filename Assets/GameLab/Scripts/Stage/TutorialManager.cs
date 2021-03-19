@@ -167,8 +167,9 @@ public class TutorialManager : MonoBehaviour
         else if (player.transform.position.x >= endCluster.transform.position.x + 150)
         {
             sunChasing = false;
-            // Go to next scene.
-            PhotonNetwork.LoadLevel(3);
+            // Go to main menu.
+            PhotonNetwork.LoadLevel(0);
+		    PhotonNetwork.Disconnect();
         }
     }
     #endregion
