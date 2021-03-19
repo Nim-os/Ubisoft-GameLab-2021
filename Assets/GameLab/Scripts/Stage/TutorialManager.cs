@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Photon.Pun;
 
 public class TutorialManager : MonoBehaviour
 {
@@ -163,10 +164,11 @@ public class TutorialManager : MonoBehaviour
             endCluster.SetActive(true);
             endCluster.transform.position = new Vector3(player.transform.position.x + 25, 1, player.transform.position.z);
         }
-        else if (player.transform.position.x >= endCluster.transform.position.x + 100)
+        else if (player.transform.position.x >= endCluster.transform.position.x + 150)
         {
             sunChasing = false;
             // Go to next scene.
+            PhotonNetwork.LoadLevel(3);
         }
     }
     #endregion
