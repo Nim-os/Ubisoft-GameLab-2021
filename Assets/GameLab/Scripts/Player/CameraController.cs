@@ -18,7 +18,7 @@ public class CameraController : MonoBehaviour
     void Start()
     {
         cameraTransposer = GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineTransposer>();
-        cameraHeight = 25;
+        cameraHeight = 50;
         SetCameraHeight(cameraHeight);
 
         parallax = Camera.main.transform.GetChild(0).gameObject;
