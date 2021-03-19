@@ -1070,6 +1070,7 @@ MonoBehaviour:
   players:
   - {fileID: 0}
   - {fileID: 0}
+  sm: {fileID: 1228304618}
   cameraHeightThreshold: 200
   minDistance: 202.6496
 --- !u!1 &764032213
