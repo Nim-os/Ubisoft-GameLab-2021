@@ -14,7 +14,6 @@ public class PlayerNetworking : Photon.Pun.UtilityScripts.SmoothSyncMovement
 		// Set the skin of the host
 		if (photonView.Owner.IsMasterClient)
 		{
-			//Mesh p2_1_inst = Instantiate(p2_1);
 			GetComponent<MeshFilter>().mesh = host_mesh;
 			GetComponent<MeshRenderer>().material = host_mat;
 		}
