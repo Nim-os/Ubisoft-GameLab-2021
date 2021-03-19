@@ -58,11 +58,18 @@ public class StageManager : MonoBehaviourPun
 		{
 			GeneratePlayer(PickSpawnPosition());
 		}
-
-		// Indicates to each player to spawn their player character at a point
-		foreach (Player player in players)
+		else
 		{
-			photonView.RPC("GeneratePlayer", player, new object[] { PickSpawnPosition() });
+			// Indicates to each player to spawn their player character at a point
+			foreach (Player player in players)
+			{
+				if (!player.IsLocal)
+				{
+					photonView.RPC("GeneratePlayer", player, new object[] { PickSpawnPosition() });
+				}
+			}
+
+			GeneratePlayer(PickSpawnPosition());
 		}
 	}
 
@@ -73,16 +80,11 @@ public class StageManager : MonoBehaviourPun
 	[PunRPC]
 	private void GeneratePlayer(Vector3 spawnPos)
 	{
+		Debug.Log("Generating a player");
 		GameObject player = PhotonNetwork.Instantiate("Player", spawnPos, Quaternion.identity);
 
 		// Issue with this is it only changes it client side
 		// Workarounds are either create a new prefab for a second player or have all clients update the mesh
-		if (PhotonNetwork.IsMasterClient)
-		{
-			Mesh p2_1_inst = Instantiate(p2_1);
-			player.GetComponent<MeshFilter>().mesh = p2_1_inst;
-			player.GetComponent<MeshRenderer>().material = p2_1_mat;
-		}
 	}
 
 	/// <summary>
