@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class PlayerNetworking : Photon.Pun.UtilityScripts.SmoothSyncMovement
+public class PlayerNetworking : MonoBehaviourPun
 {
 
 	public Mesh host_mesh;
