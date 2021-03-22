@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class BaseAsteroid : MonoBehaviour
 {
-    public float xthurst;
-    public float zthrust;
+    public float xthurst = 10f;
+    public float zthrust = -15f;
 
     private Rigidbody rb;
 
@@ -13,6 +13,8 @@ public class BaseAsteroid : MonoBehaviour
     {
         // Set private variables
         rb = gameObject.GetComponent<Rigidbody>();
+
+        Destroy(this, 5f);
     }
 
     private void Update()
