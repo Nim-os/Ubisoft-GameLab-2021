@@ -1988,7 +1988,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
@@ -2581,6 +2581,7 @@ GameObject:
   - component: {fileID: 1844874254}
   - component: {fileID: 1844874255}
   - component: {fileID: 1844874256}
+  - component: {fileID: 1844874257}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2807,6 +2808,20 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1844874257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1844874250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bdac4192713b4147bc9d023d7f2fc32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioSlider: {fileID: 1737199990}
+  mix: {fileID: 24100000, guid: 3dfa6dcab0c54004895989959b9a66f3, type: 2}
 --- !u!1 &1928661551
 GameObject:
   m_ObjectHideFlags: 0
