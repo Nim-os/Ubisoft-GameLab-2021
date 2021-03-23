@@ -21,6 +21,10 @@ public class MainMenu : MonoBehaviour
 
     public void SetVolume (float vol)
     {
+        // Set mix float.
         mix.SetFloat("volume", vol);
+        // Save Mix float in PlayerPrefs
+        PlayerPrefs.SetFloat("Volume", vol);
+        PlayerPrefs.Save();
     }
 }
