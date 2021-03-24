@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Photon.Pun;
 
 public class TutorialManager : MonoBehaviour
 {
     GameObject player;
     public InputSystem input;
+    public PhotonView photonView;
 
     int state = 0;
+    private int lastState = 0;
     List<Image> markers = new List<Image>();
 
     [SerializeField]
@@ -33,16 +36,18 @@ public class TutorialManager : MonoBehaviour
 
         input.Game.Secondary.performed += x => holdingRMB = true;
         input.Game.Secondary.canceled += x => holdingRMB = false;
+
+        photonView = GetComponent<PhotonView>();
     }
 
     void Update()
     {
-        if (player == null)
+        if (player == null) // This may be better suited inside Awake
         {
             GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
             foreach (GameObject p in players)
             {
-                if (p.GetComponent<Photon.Pun.PhotonView>().IsMine) player = p;
+                if (p.GetComponent<PhotonView>().IsMine) player = p;
             }
         }
 
@@ -55,12 +60,14 @@ public class TutorialManager : MonoBehaviour
                 else sun.transform.position = new Vector3(sun.transform.position.x + (1 * Time.deltaTime), 0, player.transform.position.z);
             }
 
-            if (state == 0) GravitationToPlayer(); // Approach other player with RMB/propulse
-            if (state == 1) Propulsion(); // Propulse with LMB
-            if (state == 2) GravitationToPlanet(); // Gravitate to basic planet with RMB
-            if (state == 3) MassEjection(); // Eject mass with 'z'
-            if (state == 4) MassAbsorption(); // Absorb small mass on collision
-            if (state == 5) Escape(); // Escape an obstacle field with sun enabled
+            // Update state if we change states
+            // This may be prone to both clients updating the state at the same time resulting in undefined behaviour
+            if (state != lastState)
+			{
+                lastState = state;
+
+                photonView.RPC("SetState", RpcTarget.All, new object[] { state });
+			}
         }
     }
 
@@ -79,6 +86,21 @@ public class TutorialManager : MonoBehaviour
         }
         markers[state].gameObject.SetActive(false);
         state++;
+    }
+
+    /// <summary>
+    /// Updates the local state
+    /// </summary>
+    /// <param name="state"></param>
+    [PunRPC]
+    private void SetState(int newState)
+    {
+             if (newState == 0) GravitationToPlayer(); // Approach other player with RMB/propulse
+        else if (newState == 1) Propulsion(); // Propulse with LMB
+        else if (newState == 2) GravitationToPlanet(); // Gravitate to basic planet with RMB
+        else if (newState == 3) MassEjection(); // Eject mass with 'z'
+        else if (newState == 4) MassAbsorption(); // Absorb small mass on collision
+        else if (newState == 5) Escape(); // Escape an obstacle field with sun enabled
     }
 
     #region Tutorial Stages
@@ -183,6 +205,8 @@ public class TutorialManager : MonoBehaviour
 
     public void RestartGame()
     {
+        ServerManager.instance.Close();
+
         SceneManager.LoadScene(0);
     }
 }
