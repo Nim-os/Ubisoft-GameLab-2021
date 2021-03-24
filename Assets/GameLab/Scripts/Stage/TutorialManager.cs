@@ -61,13 +61,14 @@ public class TutorialManager : MonoBehaviour
             }
 
             // Update state if we change states
-            // This may be prone to both clients updating the state at the same time resulting in undefined behaviour
             if (state != lastState)
 			{
-                lastState = state;
+                // Update other's states
+                photonView.RPC("NewState", RpcTarget.Others, new object[] { state });
 
-                photonView.RPC("SetState", RpcTarget.All, new object[] { state });
-			}
+                // Update our own state
+                NewState(state);
+            }
         }
     }
 
@@ -93,14 +94,21 @@ public class TutorialManager : MonoBehaviour
     /// </summary>
     /// <param name="state"></param>
     [PunRPC]
-    private void SetState(int newState)
+    private void NewState(int newState)
     {
-             if (newState == 0) GravitationToPlayer(); // Approach other player with RMB/propulse
-        else if (newState == 1) Propulsion(); // Propulse with LMB
-        else if (newState == 2) GravitationToPlanet(); // Gravitate to basic planet with RMB
-        else if (newState == 3) MassEjection(); // Eject mass with 'z'
-        else if (newState == 4) MassAbsorption(); // Absorb small mass on collision
-        else if (newState == 5) Escape(); // Escape an obstacle field with sun enabled
+        // Checks if we have already updated to the new state
+        if (lastState != newState)
+        {
+            state = newState;
+            lastState = newState;
+
+            if (newState == 0) GravitationToPlayer(); // Approach other player with RMB/propulse
+            else if (newState == 1) Propulsion(); // Propulse with LMB
+            else if (newState == 2) GravitationToPlanet(); // Gravitate to basic planet with RMB
+            else if (newState == 3) MassEjection(); // Eject mass with 'z'
+            else if (newState == 4) MassAbsorption(); // Absorb small mass on collision
+            else if (newState == 5) Escape(); // Escape an obstacle field with sun enabled
+        }
     }
 
     #region Tutorial Stages
