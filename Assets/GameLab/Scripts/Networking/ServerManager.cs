@@ -60,6 +60,15 @@ public class ServerManager : MonoBehaviourPunCallbacks
 		}
 	}
 
+	public void Close()
+	{
+		instance = null;
+
+		PhotonNetwork.Disconnect();
+
+		Destroy(this);		
+	}
+
 	#region Logic
 
 	
