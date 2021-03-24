@@ -60,6 +60,9 @@ public class ServerManager : MonoBehaviourPunCallbacks
 		}
 	}
 
+	/// <summary>
+	/// Gracefully disconnects from the Photon Network.
+	/// </summary>
 	public void Close()
 	{
 		instance = null;
@@ -81,8 +84,11 @@ public class ServerManager : MonoBehaviourPunCallbacks
 	{
 		Debug.Log("Successfully connected to Photon server");
 
+		// Create a private scene room if we are playing in the local scene
 		if (serverMode == Mode.LocalSceneOnline)
 		{
+			// Create a special room
+
 			var room = new RoomOptions()
 			{
 				IsOpen = true,
@@ -91,12 +97,12 @@ public class ServerManager : MonoBehaviourPunCallbacks
 			};
 
 			PhotonNetwork.JoinOrCreateRoom($"scene_{UnityEngine.SceneManagement.SceneManager.GetActiveScene().name}", room, TypedLobby.Default);
-			Debug.Log($"scene_{UnityEngine.SceneManagement.SceneManager.GetActiveScene().name}");
 		}
 	}
 
 	public override void OnJoinedRoom()
 	{
+		// If we joined a private scene room, create our character
 		if (serverMode == Mode.LocalSceneOnline)
 		{
 			PhotonNetwork.Instantiate("Player", Vector3.zero, Quaternion.identity);
