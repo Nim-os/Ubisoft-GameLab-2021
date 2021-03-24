@@ -61,6 +61,9 @@ public class TutorialManager : MonoBehaviour
             if (state == 3) MassEjection(); // Eject mass with 'z'
             if (state == 4) MassAbsorption(); // Absorb small mass on collision
             if (state == 5) Escape(); // Escape an obstacle field with sun enabled
+
+            // Players do not have to worry about gas in stage 0 and 1.
+            if (!canv.transform.GetChild(6).gameObject.activeInHierarchy) player.GetComponent<PlayerPropulsion>().gas = 100;
         }
     }
 
@@ -85,6 +88,7 @@ public class TutorialManager : MonoBehaviour
     void GravitationToPlayer()
     {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        canv.transform.GetChild(6).gameObject.SetActive(false); 
 
         if (markers.Count == state)
         {
@@ -102,15 +106,34 @@ public class TutorialManager : MonoBehaviour
     {
         if (markers.Count == state)
         {
-            SetUp("Hold/Tap LMB to propulse.");
-            // Instantiate a planet to be gravitated towards in the next stage, providing a visible goal to approach in the current stage.
-            firstPlanet = Instantiate(basicPlanet, new Vector3(50, 1, 0), Quaternion.identity);
-            firstPlanet.transform.localScale = new Vector3(6, 6, 6);
-            firstPlanet.GetComponent<Rigidbody>().mass = 8;
+            SetUp("Tap/Hold LMB to propulse.");
         }
-        else if ((Camera.main.WorldToScreenPoint(firstPlanet.transform.position).x < Screen.width - 40) && markers[state].enabled)
+        else if (player.transform.position.x > 75 && markers[state].enabled)
         {
             TearDown();
+            canv.transform.GetChild(6).gameObject.SetActive(true); // Players start to worry about gas.
+        }
+    }
+    void MassAbsorption()
+    {
+        if (markers.Count == state)
+        {
+            SetUp("Colliding with mass smaller than you will replenish your fuel.");
+            // Spawn some asteroids.
+            // TODO: Allow instantiations from one player to be seen as ghostly/uninteractable obstacles on the other player's screen.
+            for (int i = 0; i < 5; i++)
+            {
+                Instantiate(basicAsteroid, new Vector3(100 + (i * 10), 1, player.transform.position.z), Quaternion.identity);
+            }
+        }
+        // Proceeds to next stage after player is mostly through the asteroid field. 
+        else if (player.transform.position.x > 150 && markers[state].enabled)
+        {
+            TearDown();
+            // Instantiate a planet to be gravitated towards in the next stage, providing a visible goal to approach in the current stage.
+            firstPlanet = Instantiate(basicPlanet, new Vector3(175, 1, 0), Quaternion.identity);
+            firstPlanet.transform.localScale = new Vector3(6, 6, 6);
+            firstPlanet.GetComponent<Rigidbody>().mass = 8;
         }
     }
     void GravitationToPlanet()
@@ -136,31 +159,13 @@ public class TutorialManager : MonoBehaviour
         }
         else previousMass = player.GetComponent<Rigidbody>().mass;
     }
-    void MassAbsorption()
-    {
-        if (markers.Count == state)
-        {
-            SetUp("Collide with mass smaller than yourself to absorb it.");
-            // Spawn some asteroids.
-            // TODO: Allow instantiations from one player to be seen as ghostly/uninteractable obstacles on the other player's screen.
-            for (int i = 0; i < 5; i++)
-            {
-                Instantiate(basicAsteroid, new Vector3(100 + (i * 10), 1, player.transform.position.z), Quaternion.identity);
-            }
-        }
-        // Proceeds to next stage after player is mostly through the asteroid field. 
-        else if (player.transform.position.x > 130 && markers[state].enabled)
-        {
-            TearDown();
-        }
-    }
     void Escape()
     {
         if (markers.Count == state)
         {
             SetUp("Escape the solar system!");
             sunChasing = true;
-            sun.transform.position = new Vector3(60, 1, player.transform.position.z);
+            sun.transform.position = new Vector3(75, 1, player.transform.position.z);
             endCluster.SetActive(true);
             endCluster.transform.position = new Vector3(player.transform.position.x + 25, 1, player.transform.position.z);
         }
