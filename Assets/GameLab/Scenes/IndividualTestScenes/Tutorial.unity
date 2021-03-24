@@ -430,9 +430,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 335493bd16996e249aa292654835940c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxWait: 10
-  asteroid: {fileID: 1828997230809920408, guid: d447f6622ba265f42a8056c87416bde2,
-    type: 3}
 --- !u!1001 &417299311
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -626,6 +623,7 @@ GameObject:
   m_Component:
   - component: {fileID: 554374304}
   - component: {fileID: 554374305}
+  - component: {fileID: 554374307}
   - component: {fileID: 554374306}
   m_Layer: 0
   m_Name: StageManager
@@ -686,6 +684,26 @@ MonoBehaviour:
   viewIdField: 1
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &554374307
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 554374303}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67adf95491f291d459e05c1771ee4aa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  basicPlanet: {fileID: 1828997230809920408, guid: 5b4d614869cef1d4e8c72f17e69defb5,
+    type: 3}
+  basicAsteroid: {fileID: 1828997230809920408, guid: d447f6622ba265f42a8056c87416bde2,
+    type: 3}
+  sun: {fileID: 473507173}
+  endCluster: {fileID: 1023714403}
+  canv: {fileID: 1337245466}
+  arrow: {fileID: 1621571227}
 --- !u!1 &634344349
 GameObject:
   m_ObjectHideFlags: 0
@@ -2347,9 +2365,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 335493bd16996e249aa292654835940c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxWait: 10
-  asteroid: {fileID: 1828997230809920408, guid: d447f6622ba265f42a8056c87416bde2,
-    type: 3}
 --- !u!1 &1337245463
 GameObject:
   m_ObjectHideFlags: 0
@@ -2500,9 +2515,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 335493bd16996e249aa292654835940c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxWait: 10
-  asteroid: {fileID: 1828997230809920408, guid: d447f6622ba265f42a8056c87416bde2,
-    type: 3}
 --- !u!1 &1370906632
 GameObject:
   m_ObjectHideFlags: 0
@@ -2812,6 +2824,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1621571225}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1621571227 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6756284320095605417, guid: 13c4ad332180fc649bcad825e440f545,
+    type: 3}
+  m_PrefabInstance: {fileID: 1621571225}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1655424772
 GameObject:
   m_ObjectHideFlags: 0
@@ -2997,9 +3021,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 335493bd16996e249aa292654835940c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxWait: 10
-  asteroid: {fileID: 1828997230809920408, guid: d447f6622ba265f42a8056c87416bde2,
-    type: 3}
 --- !u!1 &1697239320
 GameObject:
   m_ObjectHideFlags: 0
@@ -3603,7 +3624,6 @@ GameObject:
   - component: {fileID: 1844874251}
   - component: {fileID: 1844874254}
   - component: {fileID: 1844874255}
-  - component: {fileID: 1844874256}
   - component: {fileID: 1844874257}
   - component: {fileID: 1844874258}
   m_Layer: 0
@@ -3735,26 +3755,6 @@ MonoBehaviour:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &1844874256
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1844874250}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67adf95491f291d459e05c1771ee4aa7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  basicPlanet: {fileID: 1828997230809920408, guid: 5b4d614869cef1d4e8c72f17e69defb5,
-    type: 3}
-  basicAsteroid: {fileID: 1828997230809920408, guid: d447f6622ba265f42a8056c87416bde2,
-    type: 3}
-  sun: {fileID: 473507173}
-  endCluster: {fileID: 1023714403}
-  canv: {fileID: 1337245466}
-  arrow: {fileID: 6756284320095605417, guid: 13c4ad332180fc649bcad825e440f545, type: 3}
 --- !u!82 &1844874257
 AudioSource:
   m_ObjectHideFlags: 0
