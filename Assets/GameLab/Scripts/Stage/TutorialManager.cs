@@ -74,8 +74,12 @@ public class TutorialManager : MonoBehaviour
             // Update state if we change states
             if (state != lastState)
 			{
-                // Update other's states
-                photonView.RPC("UpdateState", RpcTarget.Others, new object[] { state });
+                // Edge case for first state
+                if (state != 0)
+                {
+                    // Update other's states
+                    photonView.RPC("UpdateState", RpcTarget.Others, new object[] { state });
+                }
 
                 // Update our own state
                 UpdateState(state);
@@ -116,6 +120,7 @@ public class TutorialManager : MonoBehaviour
                 TearDown();
             }
 
+            // Sync lastState
             lastState = newState;
         }
     }
