@@ -9,10 +9,9 @@ public class TutorialManager : MonoBehaviour
 {
     GameObject player;
     public InputSystem input;
-    public PhotonView photonView;
 
     int state = 0;
-    private int lastState = 0;
+    private int lastState = -1;
     List<Image> markers = new List<Image>();
 
     [SerializeField]
@@ -25,6 +24,8 @@ public class TutorialManager : MonoBehaviour
     public GameObject endCluster;
     public Canvas canv;
     public Image arrow;
+
+    private PhotonView photonView;
 
     bool holdingRMB = false;
     bool sunChasing = false;
@@ -53,6 +54,7 @@ public class TutorialManager : MonoBehaviour
 
         else
         {
+
             // Sun chases players.
             if (sunChasing)
             {
@@ -60,14 +62,23 @@ public class TutorialManager : MonoBehaviour
                 else sun.transform.position = new Vector3(sun.transform.position.x + (1 * Time.deltaTime), 0, player.transform.position.z);
             }
 
+
+                 if (state == 0) GravitationToPlayer(); // Approach other player with RMB/propulse
+            else if (state == 1) Propulsion(); // Propulse with LMB
+            else if (state == 2) GravitationToPlanet(); // Gravitate to basic planet with RMB
+            else if (state == 3) MassEjection(); // Eject mass with 'z'
+            else if (state == 4) MassAbsorption(); // Absorb small mass on collision
+            else if (state == 5) Escape(); // Escape an obstacle field with sun enabled
+            
+
             // Update state if we change states
             if (state != lastState)
 			{
                 // Update other's states
-                photonView.RPC("NewState", RpcTarget.Others, new object[] { state });
+                photonView.RPC("UpdateState", RpcTarget.Others, new object[] { state });
 
                 // Update our own state
-                NewState(state);
+                UpdateState(state);
             }
         }
     }
@@ -92,22 +103,20 @@ public class TutorialManager : MonoBehaviour
     /// <summary>
     /// Updates the local state
     /// </summary>
-    /// <param name="state"></param>
+    /// <param name="newState">The new state</param>
     [PunRPC]
-    private void NewState(int newState)
+    private void UpdateState(int newState)
     {
-        // Checks if we have already updated to the new state
+        // Checks if we have already updated to the new state so to not clobber any outgoing message
         if (lastState != newState)
         {
-            state = newState;
-            lastState = newState;
+            // Check if we are the receiver
+            if (state != newState)
+            {
+                TearDown();
+            }
 
-            if (newState == 0) GravitationToPlayer(); // Approach other player with RMB/propulse
-            else if (newState == 1) Propulsion(); // Propulse with LMB
-            else if (newState == 2) GravitationToPlanet(); // Gravitate to basic planet with RMB
-            else if (newState == 3) MassEjection(); // Eject mass with 'z'
-            else if (newState == 4) MassAbsorption(); // Absorb small mass on collision
-            else if (newState == 5) Escape(); // Escape an obstacle field with sun enabled
+            lastState = newState;
         }
     }
 
