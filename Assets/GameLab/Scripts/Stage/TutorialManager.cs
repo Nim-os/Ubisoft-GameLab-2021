@@ -55,8 +55,8 @@ public class TutorialManager : MonoBehaviour
                 else sun.transform.position = new Vector3(sun.transform.position.x + (1 * Time.deltaTime), 0, player.transform.position.z);
             }
 
-            if (state == 0) GravitationToPlayer(); // Approach other player with RMB/propulse
-            if (state == 1) GravitationToPlanet(); // Gravitate to basic planet with RMB
+            if (state == 1) GravitationToPlayer(); // Approach other player with RMB/propulse
+            if (state == 0) GravitationToPlanet(); // Gravitate to basic planet with RMB
             if (state == 2) MassAbsorption(); // Absorb small mass on collision
             if (state == 3) MassEjection(); // Eject mass with 'z'
             if (state == 4) Propulsion(); // Propulse with LMB
@@ -102,14 +102,18 @@ public class TutorialManager : MonoBehaviour
     {
         if (markers.Count == state)
         {
-            SetUp("Hold RMB to gravitate.");
+            SetUp("Hover and hold RMB to gravitate.");
             // Instantiate a planet to be gravitated towards in the next stage, providing a visible goal to approach in the current stage.
             // TODO: Instantiate a maze here.
-            firstPlanet = Instantiate(basicPlanet, new Vector3(player.transform.position.x + 25, 1, 0), Quaternion.identity);
-            firstPlanet.transform.localScale = new Vector3(6, 6, 6);
+            firstPlanet = Instantiate(basicPlanet, new Vector3(player.transform.position.x + 12, 0, player.transform.position.z - 8), Quaternion.identity);
+            firstPlanet.transform.localScale = new Vector3(5, 5, 5);
             firstPlanet.GetComponent<Rigidbody>().mass = 8;
         }
-        else if (holdingRMB && player.GetComponent<PlayerGravitation>().currentSelection != null && markers[state].enabled)
+
+        if (!(holdingRMB && player.GetComponent<PlayerGravitation>().currentSelection != null && markers[state].enabled)) {
+            canv.transform.GetChild(state).transform.position = Camera.main.WorldToScreenPoint(firstPlanet.transform.position);
+        }
+        else
         {
             TearDown();
         }
