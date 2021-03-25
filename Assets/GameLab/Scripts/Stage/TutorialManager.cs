@@ -56,14 +56,11 @@ public class TutorialManager : MonoBehaviour
             }
 
             if (state == 0) GravitationToPlayer(); // Approach other player with RMB/propulse
-            if (state == 1) Propulsion(); // Propulse with LMB
-            if (state == 2) GravitationToPlanet(); // Gravitate to basic planet with RMB
+            if (state == 1) GravitationToPlanet(); // Gravitate to basic planet with RMB
+            if (state == 2) MassAbsorption(); // Absorb small mass on collision
             if (state == 3) MassEjection(); // Eject mass with 'z'
-            if (state == 4) MassAbsorption(); // Absorb small mass on collision
+            if (state == 4) Propulsion(); // Propulse with LMB
             if (state == 5) Escape(); // Escape an obstacle field with sun enabled
-
-            // Players do not have to worry about gas in stage 0 and 1.
-            if (!canv.transform.GetChild(6).gameObject.activeInHierarchy) player.GetComponent<PlayerPropulsion>().gas = 100;
         }
     }
 
@@ -88,7 +85,6 @@ public class TutorialManager : MonoBehaviour
     void GravitationToPlayer()
     {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-        canv.transform.GetChild(6).gameObject.SetActive(false); 
 
         if (markers.Count == state)
         {
@@ -102,16 +98,20 @@ public class TutorialManager : MonoBehaviour
             previousMass = player.GetComponent<Rigidbody>().mass;
         }
     }
-    void Propulsion()
+    void GravitationToPlanet()
     {
         if (markers.Count == state)
         {
-            SetUp("Tap/Hold LMB to propulse.");
+            SetUp("Hold RMB to gravitate.");
+            // Instantiate a planet to be gravitated towards in the next stage, providing a visible goal to approach in the current stage.
+            // TODO: Instantiate a maze here.
+            firstPlanet = Instantiate(basicPlanet, new Vector3(player.transform.position.x + 25, 1, 0), Quaternion.identity);
+            firstPlanet.transform.localScale = new Vector3(6, 6, 6);
+            firstPlanet.GetComponent<Rigidbody>().mass = 8;
         }
-        else if (player.transform.position.x > 75 && markers[state].enabled)
+        else if (holdingRMB && player.GetComponent<PlayerGravitation>().currentSelection != null && markers[state].enabled)
         {
             TearDown();
-            canv.transform.GetChild(6).gameObject.SetActive(true); // Players start to worry about gas.
         }
     }
     void MassAbsorption()
@@ -120,29 +120,16 @@ public class TutorialManager : MonoBehaviour
         {
             SetUp("Colliding with mass smaller than you will replenish your fuel.");
             // Spawn some asteroids.
+            // TODO: Instantiate a maze with mass pickups here.
             // TODO: Allow instantiations from one player to be seen as ghostly/uninteractable obstacles on the other player's screen.
+            float tempX = player.transform.position.x;
             for (int i = 0; i < 5; i++)
             {
-                Instantiate(basicAsteroid, new Vector3(100 + (i * 10), 1, player.transform.position.z), Quaternion.identity);
+                Instantiate(basicAsteroid, new Vector3((tempX + 25) + (i * 10), 1, player.transform.position.z), Quaternion.identity);
             }
         }
         // Proceeds to next stage after player is mostly through the asteroid field. 
         else if (player.transform.position.x > 150 && markers[state].enabled)
-        {
-            TearDown();
-            // Instantiate a planet to be gravitated towards in the next stage, providing a visible goal to approach in the current stage.
-            firstPlanet = Instantiate(basicPlanet, new Vector3(175, 1, 0), Quaternion.identity);
-            firstPlanet.transform.localScale = new Vector3(6, 6, 6);
-            firstPlanet.GetComponent<Rigidbody>().mass = 8;
-        }
-    }
-    void GravitationToPlanet()
-    {
-        if (markers.Count == state)
-        {
-            SetUp("Hold RMB to gravitate.");
-        }
-        else if (holdingRMB && player.GetComponent<PlayerGravitation>().currentSelection != null && markers[state].enabled)
         {
             TearDown();
         }
@@ -159,13 +146,24 @@ public class TutorialManager : MonoBehaviour
         }
         else previousMass = player.GetComponent<Rigidbody>().mass;
     }
+    void Propulsion()
+    {
+        if (markers.Count == state)
+        {
+            SetUp("Tap/Hold LMB to propulse.");
+        }
+        else if (player.transform.position.x > 75 && markers[state].enabled)
+        {
+            TearDown();
+        }
+    }
     void Escape()
     {
         if (markers.Count == state)
         {
             SetUp("Escape the solar system!");
             sunChasing = true;
-            sun.transform.position = new Vector3(75, 1, player.transform.position.z);
+            sun.transform.position = new Vector3(player.transform.position.x - 75, 1, player.transform.position.z);
             endCluster.SetActive(true);
             endCluster.transform.position = new Vector3(player.transform.position.x + 25, 1, player.transform.position.z);
         }
