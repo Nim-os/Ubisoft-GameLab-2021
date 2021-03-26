@@ -88,7 +88,7 @@ public class PlayerProjectile : MonoBehaviour
         if (hasHoldingPower && hasMouseDir)
         {
             float playerSize = transform.localScale.x;
-            propulsionScript.ChangeMass(-holdingPower);
+            propulsionScript.ChangeMass(-holdingPower*0.1f);
             
             float length = 1 + holdingPower*0.1f*0.2f;
 
