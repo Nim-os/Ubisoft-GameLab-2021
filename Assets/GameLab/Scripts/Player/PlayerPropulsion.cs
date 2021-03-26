@@ -138,6 +138,9 @@ public class PlayerPropulsion : MonoBehaviour
         // adjust gas
         gas += amount;
 
+        // if gets below 0, sets to 0
+        gas = gas < 0 ? 0 : gas;
+
         // adjust other values based off of gas
         float newScale = gas * 0.2f + 1;
         transform.localScale = new Vector3(newScale, newScale, newScale);

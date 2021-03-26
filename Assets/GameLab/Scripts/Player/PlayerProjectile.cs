@@ -65,7 +65,7 @@ public class PlayerProjectile : MonoBehaviour
         float playerSize = transform.localScale.x;
 
         // holding and growing
-        if (holding && (holdingPower < rockSizeLimit) && (propulsionScript.gas > 0)){
+        if (holding && (holdingPower < rockSizeLimit) && (propulsionScript.gas - holdingPower*0.1f > 0)){
             holdingPower++;
             float length = 1 + holdingPower*0.1f*0.2f;
             currentRock.transform.localScale = new Vector3(length, length, length);
