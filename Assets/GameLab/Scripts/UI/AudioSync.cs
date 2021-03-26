@@ -23,7 +23,7 @@ public class AudioSync : MonoBehaviour
     void Update ()
     {
         mix.SetFloat("Volume", audioSlider.value);
-
+        // Tee-hee
         PlayerPrefs.SetFloat("Volume", audioSlider.value);
         PlayerPrefs.Save();
         
