@@ -25,11 +25,12 @@ public class TutorialManager : MonoBehaviour
     public Canvas canv;
     public Image arrow;
 
-    private Camera camera;
+    private Camera mainCamera;
     private PhotonView photonView;
 
     bool holdingRMB = false;
     bool sunChasing = false;
+    bool escaped = false;
     float previousMass;
 
     void Awake()
@@ -39,7 +40,7 @@ public class TutorialManager : MonoBehaviour
         input.Game.Secondary.performed += x => holdingRMB = true;
         input.Game.Secondary.canceled += x => holdingRMB = false;
 
-        camera = Camera.main;
+        mainCamera = Camera.main;
         photonView = GetComponent<PhotonView>();
     }
 
@@ -156,7 +157,7 @@ public class TutorialManager : MonoBehaviour
             firstPlanet.transform.localScale = new Vector3(6, 6, 6);
             firstPlanet.GetComponent<Rigidbody>().mass = 8;
         }
-        else if ((camera.WorldToScreenPoint(firstPlanet.transform.position).x < Screen.width - 40) && markers[state].enabled)
+        else if ((mainCamera.WorldToScreenPoint(firstPlanet.transform.position).x < Screen.width - 40) && markers[state].enabled)
         {
             TearDown();
         }
@@ -215,11 +216,34 @@ public class TutorialManager : MonoBehaviour
         else if (player.transform.position.x >= endCluster.transform.position.x + 100)
         {
             sunChasing = false;
-            // Go to next scene.
+            
+            // Check if we have already tried to change scenes
+            if (!escaped)
+			{
+                escaped = true;
 
-            PhotonNetwork.LoadLevel(1);
+                if (PhotonNetwork.IsMasterClient)
+                {
+                    LoadNextLevel();
+                }
+                else
+                {
+                    // Go to next scene.
+                    photonView.RPC("LoadNextLevel", RpcTarget.MasterClient, new object[] { });
+                }
+			}
         }
     }
+
+    /// <summary>
+    /// Function to load the next level, only should be run by the master client aka host.
+    /// </summary>
+    [PunRPC]
+    private void LoadNextLevel()
+	{
+        PhotonNetwork.LoadLevel(1);
+	}
+
     #endregion
 
     private void OnEnable()
