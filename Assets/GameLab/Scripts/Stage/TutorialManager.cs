@@ -25,6 +25,7 @@ public class TutorialManager : MonoBehaviour
     public Canvas canv;
     public Image arrow;
 
+    private Camera camera;
     private PhotonView photonView;
 
     bool holdingRMB = false;
@@ -38,6 +39,7 @@ public class TutorialManager : MonoBehaviour
         input.Game.Secondary.performed += x => holdingRMB = true;
         input.Game.Secondary.canceled += x => holdingRMB = false;
 
+        camera = Camera.main;
         photonView = GetComponent<PhotonView>();
     }
 
@@ -51,7 +53,6 @@ public class TutorialManager : MonoBehaviour
                 if (p.GetComponent<PhotonView>().IsMine) player = p;
             }
         }
-
         else
         {
 
@@ -61,14 +62,6 @@ public class TutorialManager : MonoBehaviour
                 if (Vector3.Distance(player.transform.position, sun.transform.position) > 50) sun.transform.position = new Vector3(sun.transform.position.x + (9 * Time.deltaTime), 0, player.transform.position.z);
                 else sun.transform.position = new Vector3(sun.transform.position.x + (1 * Time.deltaTime), 0, player.transform.position.z);
             }
-
-
-                 if (state == 0) GravitationToPlayer(); // Approach other player with RMB/propulse
-            else if (state == 1) Propulsion(); // Propulse with LMB
-            else if (state == 2) GravitationToPlanet(); // Gravitate to basic planet with RMB
-            else if (state == 3) MassEjection(); // Eject mass with 'z'
-            else if (state == 4) MassAbsorption(); // Absorb small mass on collision
-            else if (state == 5) Escape(); // Escape an obstacle field with sun enabled
             
 
             // Update state if we change states
@@ -84,6 +77,14 @@ public class TutorialManager : MonoBehaviour
                 // Update our own state
                 UpdateState(state);
             }
+
+
+            if (state == 0) GravitationToPlayer(); // Approach other player with RMB/propulse
+            else if (state == 1) Propulsion(); // Propulse with LMB
+            else if (state == 2) GravitationToPlanet(); // Gravitate to basic planet with RMB
+            else if (state == 3) MassEjection(); // Eject mass with 'z'
+            else if (state == 4) MassAbsorption(); // Absorb small mass on collision
+            else if (state == 5) Escape(); // Escape an obstacle field with sun enabled
         }
     }
 
@@ -118,6 +119,9 @@ public class TutorialManager : MonoBehaviour
             if (state != newState)
             {
                 TearDown();
+
+                // Just in case we drop a packet
+                state = newState;
             }
 
             // Sync lastState
@@ -152,7 +156,7 @@ public class TutorialManager : MonoBehaviour
             firstPlanet.transform.localScale = new Vector3(6, 6, 6);
             firstPlanet.GetComponent<Rigidbody>().mass = 8;
         }
-        else if ((Camera.main.WorldToScreenPoint(firstPlanet.transform.position).x < Screen.width - 40) && markers[state].enabled)
+        else if ((camera.WorldToScreenPoint(firstPlanet.transform.position).x < Screen.width - 40) && markers[state].enabled)
         {
             TearDown();
         }
@@ -212,6 +216,8 @@ public class TutorialManager : MonoBehaviour
         {
             sunChasing = false;
             // Go to next scene.
+
+            PhotonNetwork.LoadLevel(1);
         }
     }
     #endregion
