@@ -60,9 +60,48 @@ public class ServerManager : MonoBehaviourPunCallbacks
 		}
 	}
 
+	/// <summary>
+	/// Gracefully disconnects from the Photon Network.
+	/// </summary>
+	public void Close()
+	{
+		instance = null;
+
+		PhotonNetwork.Disconnect();
+
+		Destroy(this);		
+	}
+
 	#region Logic
 
-	
+	/// <summary>
+	/// Loads the level of all players in the room.
+	/// </summary>
+	/// <param name="nextLevel">The desired level index</param>
+	public void LoadRoomLevel(int nextLevel)
+	{
+		// Load level directly if we are the host
+		if (PhotonNetwork.IsMasterClient)
+		{
+			HostLoadLevel(nextLevel);
+		}
+		// Load level 
+		else
+		{
+			// Tell host to load the desired level
+			photonView.RPC("HostLoadLevel", RpcTarget.MasterClient, new object[] { nextLevel });
+		}
+	}
+
+	/// <summary>
+	/// Loads the level.
+	/// </summary>
+	/// <param name="level">The level index</param>
+	[PunRPC]
+	private void HostLoadLevel(int level)
+	{
+		PhotonNetwork.LoadLevel(level);
+	}
 
 	#endregion
 
@@ -72,8 +111,11 @@ public class ServerManager : MonoBehaviourPunCallbacks
 	{
 		Debug.Log("Successfully connected to Photon server");
 
+		// Create a private scene room if we are playing in the local scene
 		if (serverMode == Mode.LocalSceneOnline)
 		{
+			// Create a special room
+
 			var room = new RoomOptions()
 			{
 				IsOpen = true,
@@ -82,12 +124,12 @@ public class ServerManager : MonoBehaviourPunCallbacks
 			};
 
 			PhotonNetwork.JoinOrCreateRoom($"scene_{UnityEngine.SceneManagement.SceneManager.GetActiveScene().name}", room, TypedLobby.Default);
-			Debug.Log($"scene_{UnityEngine.SceneManagement.SceneManager.GetActiveScene().name}");
 		}
 	}
 
 	public override void OnJoinedRoom()
 	{
+		// If we joined a private scene room, create our character
 		if (serverMode == Mode.LocalSceneOnline)
 		{
 			PhotonNetwork.Instantiate("Player", Vector3.zero, Quaternion.identity);

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Photon.Pun;
 
 public class TutorialManager : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class TutorialManager : MonoBehaviour
     public InputSystem input;
 
     int state = 0;
+    private int lastState = -1;
     List<Image> markers = new List<Image>();
 
     [SerializeField]
@@ -23,8 +25,12 @@ public class TutorialManager : MonoBehaviour
     public Canvas canv;
     public Image arrow;
 
+    private Camera mainCamera;
+    private PhotonView photonView;
+
     bool holdingRMB = false;
     bool sunChasing = false;
+    bool escaped = false;
     float previousMass;
 
     void Awake()
@@ -33,34 +39,52 @@ public class TutorialManager : MonoBehaviour
 
         input.Game.Secondary.performed += x => holdingRMB = true;
         input.Game.Secondary.canceled += x => holdingRMB = false;
+
+        mainCamera = Camera.main;
+        photonView = GetComponent<PhotonView>();
     }
 
     void Update()
     {
-        if (player == null)
+        if (player == null) // This may be better suited inside Awake
         {
             GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
             foreach (GameObject p in players)
             {
-                if (p.GetComponent<Photon.Pun.PhotonView>().IsMine) player = p;
+                if (p.GetComponent<PhotonView>().IsMine) player = p;
             }
         }
-
         else
         {
+
             // Sun chases players.
             if (sunChasing)
             {
                 if (Vector3.Distance(player.transform.position, sun.transform.position) > 50) sun.transform.position = new Vector3(sun.transform.position.x + (9 * Time.deltaTime), 0, player.transform.position.z);
                 else sun.transform.position = new Vector3(sun.transform.position.x + (1 * Time.deltaTime), 0, player.transform.position.z);
             }
+            
 
-            if (state == 1) GravitationToPlayer(); // Approach other player with RMB/propulse
-            if (state == 0) GravitationToPlanet(); // Gravitate to basic planet with RMB
-            if (state == 2) MassAbsorption(); // Absorb small mass on collision
-            if (state == 3) MassEjection(); // Eject mass with 'z'
-            if (state == 4) Propulsion(); // Propulse with LMB
-            if (state == 5) Escape(); // Escape an obstacle field with sun enabled
+            // Update state if we change states
+            if (state != lastState)
+			{
+                // Edge case for first state
+                if (state != 0)
+                {
+                    // Update other's states
+                    photonView.RPC("UpdateState", RpcTarget.Others, new object[] { state });
+                }
+
+                // Update our own state
+                UpdateState(state);
+            }
+
+            if (state == 0) GravitationToPlayer(); // Approach other player with RMB/propulse
+            else if (state == 1) GravitationToPlanet(); // Gravitate to basic planet with RMB
+            else if (state == 2) MassAbsorption(); // Absorb small mass on collision
+            else if (state == 3) MassEjection(); // Eject mass with 'z'
+            else if (state == 4) Propulsion(); // Propulse with LMB
+            else if (state == 5) Escape(); // Escape an obstacle field with sun enabled
         }
     }
 
@@ -79,6 +103,30 @@ public class TutorialManager : MonoBehaviour
         }
         markers[state].gameObject.SetActive(false);
         state++;
+    }
+
+    /// <summary>
+    /// Updates the local state
+    /// </summary>
+    /// <param name="newState">The new state</param>
+    [PunRPC]
+    private void UpdateState(int newState)
+    {
+        // Checks if we have already updated to the new state so to not clobber any outgoing message
+        if (lastState != newState)
+        {
+            // Check if we are the receiver
+            if (state != newState)
+            {
+                TearDown();
+
+                // Just in case we drop a packet
+                state = newState;
+            }
+
+            // Sync lastState
+            lastState = newState;
+        }
     }
 
     #region Tutorial Stages
@@ -109,7 +157,6 @@ public class TutorialManager : MonoBehaviour
             firstPlanet.transform.localScale = new Vector3(5, 5, 5);
             firstPlanet.GetComponent<Rigidbody>().mass = 8;
         }
-
         if (!(holdingRMB && player.GetComponent<PlayerGravitation>().currentSelection != null && markers[state].enabled)) {
             canv.transform.GetChild(state).transform.position = Camera.main.WorldToScreenPoint(firstPlanet.transform.position);
         }
@@ -174,9 +221,17 @@ public class TutorialManager : MonoBehaviour
         else if (player.transform.position.x >= endCluster.transform.position.x + 100)
         {
             sunChasing = false;
-            // Go to next scene.
+            
+            // Check if we have already tried to change scenes
+            if (!escaped)
+			{
+                escaped = true;
+
+                ServerManager.instance.LoadRoomLevel(3);
+			}
         }
     }
+
     #endregion
 
     private void OnEnable()
@@ -190,6 +245,8 @@ public class TutorialManager : MonoBehaviour
 
     public void RestartGame()
     {
+        ServerManager.instance.Close();
+
         SceneManager.LoadScene(0);
     }
 }
