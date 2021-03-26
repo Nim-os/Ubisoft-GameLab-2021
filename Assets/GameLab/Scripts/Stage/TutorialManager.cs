@@ -222,7 +222,7 @@ public class TutorialManager : MonoBehaviour
 			{
                 escaped = true;
 
-                ServerManager.instance.LoadRoomLevel(1);
+                ServerManager.instance.LoadRoomLevel(3);
 			}
         }
     }
