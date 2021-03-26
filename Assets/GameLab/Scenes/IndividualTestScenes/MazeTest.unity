@@ -1925,7 +1925,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 559a87d9cfe0fa04fade747cab6e0807, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serverMode: 1
+  serverMode: 2
 --- !u!4 &1228304619
 Transform:
   m_ObjectHideFlags: 0
@@ -2853,12 +2853,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mazeRows: 10
   _mazeColumns: 10
-  _planets:
-  - {fileID: 919132149155446097, guid: 2ad62428f66bf9049b8d52b08d256fb0, type: 3}
-  - {fileID: 919132149155446097, guid: e36f8bb65ea4cb147a13a4c992c5bd3e, type: 3}
-  - {fileID: 919132149155446097, guid: be581f81e8c312245b129e500269fa00, type: 3}
-  _spacing: 50
-  _planetSizeMinimum: 2
+  _spacing: 60
+  _planetSizeMinimum: 1
   _planetSizeMaximum: 10
 --- !u!4 &1872241322
 Transform:
@@ -2868,7 +2864,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1872241320}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -120, y: 0, z: -120}
+  m_LocalPosition: {x: -150, y: 0, z: -150}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
