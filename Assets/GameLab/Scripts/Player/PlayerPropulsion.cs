@@ -140,8 +140,8 @@ public class PlayerPropulsion : MonoBehaviour
         gas += amount;
 
         // adjust other values based off of gas
-        float newScale = gas * (1/5);
-        transform.localScale = new Vector3(1 + newScale,1 + newScale,1 + newScale);
+        float newScale = 1 + (gas * (1/5));
+        transform.localScale = new Vector3(newScale, newScale, newScale);
         gasBar.fillAmount = maxWidth * (((float) gas)/100f);
         rb.mass = newScale;
     }

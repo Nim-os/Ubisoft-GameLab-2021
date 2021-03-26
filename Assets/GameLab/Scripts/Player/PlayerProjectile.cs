@@ -94,7 +94,7 @@ public class PlayerProjectile : MonoBehaviour
 
             // rock rigidbody, apply force 
             Rigidbody rockRb = currentRock.GetComponent<Rigidbody>();
-            rockRb.mass = length - 1;
+            rockRb.mass = length;
             rockRb.AddForce(mouseDir * holdingPower, ForceMode.Impulse);
             currentRock.GetComponent<BaseGravitation>().enabled = true;
 
