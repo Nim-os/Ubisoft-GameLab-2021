@@ -10,9 +10,6 @@ using Photon.Realtime;
 public class PlayerPropulsion : MonoBehaviour
 {
     public InputSystem input;
-    public float gasUIMultiplier = 0.002f;
-    public float massMultiplier = 0.01f;
-    public float scaleMultiplier = 0.01f;
 
     public float propulsionForce;
     public float gas;
