@@ -32,6 +32,7 @@ public class TutorialManager : MonoBehaviour
     bool sunChasing = false;
     bool escaped = false;
     float previousMass;
+    float threshold;
 
     void Awake()
     {
@@ -81,10 +82,10 @@ public class TutorialManager : MonoBehaviour
 
 
             if (state == 0) GravitationToPlayer(); // Approach other player with RMB/propulse
-            else if (state == 1) Propulsion(); // Propulse with LMB
-            else if (state == 2) GravitationToPlanet(); // Gravitate to basic planet with RMB
+            else if (state == 1) GravitationToPlanet(); // Gravitate to basic planet with RMB
+            else if (state == 2) MassAbsorption(); // Absorb small mass on collision
             else if (state == 3) MassEjection(); // Eject mass with 'z'
-            else if (state == 4) MassAbsorption(); // Absorb small mass on collision
+            else if (state == 4) Propulsion(); // Propulse with LMB
             else if (state == 5) Escape(); // Escape an obstacle field with sun enabled
         }
     }
@@ -141,7 +142,7 @@ public class TutorialManager : MonoBehaviour
         }
         // Proceeds to the next stage if players are close enough wehether due to gravity or propulsion.
         else if (players.Length < 2) return;
-        else if (Vector3.Distance(players[0].transform.position, players[1].transform.position) < 15 && markers[state].enabled)
+        else if (holdingRMB && player.GetComponent<PlayerGravitation>().currentSelection != null && Vector3.Distance(players[0].transform.position, players[1].transform.position) < 15 && markers[state].enabled)
         {
             TearDown();
             previousMass = player.GetComponent<Rigidbody>().mass;
@@ -152,12 +153,9 @@ public class TutorialManager : MonoBehaviour
         if (markers.Count == state)
         {
             SetUp("Hold/Tap LMB to propulse.");
-            // Instantiate a planet to be gravitated towards in the next stage, providing a visible goal to approach in the current stage.
-            firstPlanet = Instantiate(basicPlanet, new Vector3(50, 1, 0), Quaternion.identity);
-            firstPlanet.transform.localScale = new Vector3(6, 6, 6);
-            firstPlanet.GetComponent<Rigidbody>().mass = 8;
+            threshold = player.transform.position.x;
         }
-        else if ((mainCamera.WorldToScreenPoint(firstPlanet.transform.position).x < Screen.width - 40) && markers[state].enabled)
+        else if (player.transform.position.x > (threshold + 30) && markers[state].enabled)
         {
             TearDown();
         }
@@ -167,9 +165,17 @@ public class TutorialManager : MonoBehaviour
         if (markers.Count == state)
         {
             SetUp("Hold RMB to gravitate.");
+            // TODO: Instantiate a maze here.
+            firstPlanet = Instantiate(basicPlanet, new Vector3(player.transform.position.x + 12, 0, player.transform.position.z - 8), Quaternion.identity);
+            firstPlanet.transform.localScale = new Vector3(5, 5, 5);
+            firstPlanet.GetComponent<Rigidbody>().mass = 8;
         }
-        else if (holdingRMB && player.GetComponent<PlayerGravitation>().currentSelection != null && markers[state].enabled)
+        if (!(holdingRMB && player.GetComponent<PlayerGravitation>().currentSelection != null && markers[state].enabled))
         {
+            canv.transform.GetChild(state).transform.position = Camera.main.WorldToScreenPoint(firstPlanet.transform.position);
+        }
+        else
+        { 
             TearDown();
         }
     }
@@ -192,13 +198,16 @@ public class TutorialManager : MonoBehaviour
             SetUp("Collide with mass smaller than yourself to absorb it.");
             // Spawn some asteroids.
             // TODO: Allow instantiations from one player to be seen as ghostly/uninteractable obstacles on the other player's screen.
-            for (int i = 0; i < 5; i++)
+            float tempX = player.transform.position.x;
+            int j = 5;
+            for (int i = 0; i < j; i++)
             {
-                Instantiate(basicAsteroid, new Vector3(100 + (i * 10), 1, player.transform.position.z), Quaternion.identity);
+                Instantiate(basicAsteroid, new Vector3((tempX + 25) + (i * 10), 1, player.transform.position.z), Quaternion.identity);
             }
+            threshold = tempX + 25 + (j * 10);
         }
         // Proceeds to next stage after player is mostly through the asteroid field. 
-        else if (player.transform.position.x > 130 && markers[state].enabled)
+        else if (player.transform.position.x > threshold && markers[state].enabled)
         {
             TearDown();
         }
@@ -209,7 +218,7 @@ public class TutorialManager : MonoBehaviour
         {
             SetUp("Escape the solar system!");
             sunChasing = true;
-            sun.transform.position = new Vector3(60, 1, player.transform.position.z);
+            sun.transform.position = new Vector3(player.transform.position.x - 75, 1, player.transform.position.z);
             endCluster.SetActive(true);
             endCluster.transform.position = new Vector3(player.transform.position.x + 25, 1, player.transform.position.z);
         }
