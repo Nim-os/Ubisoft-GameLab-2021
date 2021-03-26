@@ -82,10 +82,10 @@ public class TutorialManager : MonoBehaviour
 
 
             if (state == 0) GravitationToPlayer(); // Approach other player with RMB/propulse
-            else if (state == 1) GravitationToPlanet(); // Gravitate to basic planet with RMB
-            else if (state == 2) MassAbsorption(); // Absorb small mass on collision
-            else if (state == 3) MassEjection(); // Eject mass with 'z'
-            else if (state == 4) Propulsion(); // Propulse with LMB
+            else if (state == 1) Propulsion(); // Propulse with LMB
+            else if (state == 2) GravitationToPlanet(); // Gravitate to basic planet with RMB
+            else if (state == 3) MassAbsorption(); // Absorb small mass on collision
+            else if (state == 4) MassEjection(); // Eject mass with 'z'
             else if (state == 5) Escape(); // Escape an obstacle field with sun enabled
         }
     }
