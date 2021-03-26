@@ -36,12 +36,31 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 	public bool forceStart = false;
 
 	private string roomCode = "";
-
 	private bool isHost = false;
 
 	private void Start()
 	{
-		Log("Connecting to game server...");
+		// Check if we are already connected
+		if (!PhotonNetwork.IsConnected)
+		{
+			Log("Connecting to game server...");
+		}
+		// Check if we are already in a room
+		else if (PhotonNetwork.InRoom)
+		{
+			// Set host
+			isHost = PhotonNetwork.IsMasterClient;
+
+			Log("Rejoined room.");
+
+			// Cycle through states not normally hit
+			SetConnectionState(ConnectionState.Idle);
+			SetConnectionState(ConnectionState.Connecting);
+			SetConnectionState(ConnectionState.Joined);
+
+			// Replace room code
+			inputField.SetTextWithoutNotify(PhotonNetwork.CurrentRoom.Name);
+		}
 	}
 
 	#region Room Logic
