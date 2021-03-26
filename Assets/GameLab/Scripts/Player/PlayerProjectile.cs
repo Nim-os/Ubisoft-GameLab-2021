@@ -67,7 +67,7 @@ public class PlayerProjectile : MonoBehaviour
         // holding and growing
         if (holding && (holdingPower < rockSizeLimit) && (propulsionScript.gas > 0)){
             holdingPower++;
-            float length = 1 + holdingPower*0.01f;
+            float length = 1 + holdingPower*0.002f*(1/5);
             currentRock.transform.localScale = new Vector3(length, length, length);
             currentRock.transform.localPosition = transform.position + mouseDir*(playerSize+2);
         
@@ -90,11 +90,11 @@ public class PlayerProjectile : MonoBehaviour
             float playerSize = transform.localScale.x;
             propulsionScript.ChangeMass(-holdingPower);
             
-            float length = 1 + holdingPower*0.01f;
+            float length = 1 + holdingPower*0.002f*(1/5);
 
             // rock rigidbody, apply force 
             Rigidbody rockRb = currentRock.GetComponent<Rigidbody>();
-            rockRb.mass = length;
+            rockRb.mass = length - 1;
             rockRb.AddForce(mouseDir * holdingPower, ForceMode.Impulse);
             currentRock.GetComponent<BaseGravitation>().enabled = true;
 

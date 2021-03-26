@@ -122,7 +122,7 @@ public class PlayerPropulsion : MonoBehaviour
         if (gas > 0)
         {
             // Use up gas when propulsion
-            ChangeMass(-1);
+            ChangeMass(-0.002f);
 
             Vector3 mouseDirection = Utils.GetMouseDirection(mousePos, gameObject);
             rb.AddForce(mouseDirection * propulsionForce, ForceMode.Impulse);
@@ -137,10 +137,16 @@ public class PlayerPropulsion : MonoBehaviour
 	/// <param name="amount">The amount to add</param>
     public void ChangeMass(float amount)
     {
+        float maxWidth = 400f;
+
+        // adjust gas
         gas += amount;
-        rb.mass += amount * massMultiplier;
-        transform.localScale += new Vector3(scaleMultiplier*amount,scaleMultiplier*amount,scaleMultiplier*amount);
-        gasBar.fillAmount += (float) amount * gasUIMultiplier;
+
+        // adjust other values based off of gas
+        float newScale = gas * (1/5);
+        transform.localScale = new Vector3(1 + newScale,1 + newScale,1 + newScale);
+        gasBar.fillAmount = maxWidth * (((float) gas)/100f);
+        rb.mass = newScale;
     }
     
     /// <summary>
