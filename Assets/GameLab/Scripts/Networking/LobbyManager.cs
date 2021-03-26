@@ -53,6 +53,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
 			Log("Rejoined room.");
 
+			if (isHost)
+			{
+				Log("You are the host.");
+			}
+
 			// Cycle through states not normally hit
 			SetConnectionState(ConnectionState.Idle);
 			SetConnectionState(ConnectionState.Connecting);
@@ -127,8 +132,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
 			SetConnectionState(ConnectionState.Connecting);
 
-			// Attempt to join the room if the input is valid
-			PhotonNetwork.JoinRoom(inputField.text);
+			roomCode = inputField.text;
+
+			// Attempt to join the room
+			PhotonNetwork.JoinRoom(roomCode);
+
 		}
 	}
 
@@ -230,7 +238,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
 		isHost = true;
 
-		Log($"Created room {roomCode} !");
+		Log($"Created room {roomCode}!");
 		Log($"You are the host.");
 	}
 
@@ -264,7 +272,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 	{
 		if (!isHost)
 		{
-			Log($"Joined room {roomCode} !");
+			Log($"Joined room {roomCode}!");
 		}
 
 		SetConnectionState(ConnectionState.Joined);
@@ -320,6 +328,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 		if (!isHost && PhotonNetwork.IsMasterClient)
 		{
 			isHost = true;
+			playButton.interactable = true;
+
 			Log("You are now the host.");
 		}
 	}
