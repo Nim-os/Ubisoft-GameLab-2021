@@ -1237,9 +1237,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mazeRows: 10
   _mazeColumns: 10
-  _spacing: 25
-  _planetSizeMinimum: 2
-  _planetSizeMaximum: 10
+  _spacing: 50
+  _planetSizeMinimum: 7
+  _planetSizeMaximum: 14
 --- !u!1 &737146705
 GameObject:
   m_ObjectHideFlags: 0
@@ -1767,7 +1767,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 559a87d9cfe0fa04fade747cab6e0807, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serverMode: 0
+  serverMode: 1
 --- !u!4 &1228304619
 Transform:
   m_ObjectHideFlags: 0

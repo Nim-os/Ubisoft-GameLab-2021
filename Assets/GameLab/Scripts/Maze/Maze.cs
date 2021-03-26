@@ -72,7 +72,7 @@ public class Maze : MonoBehaviour
                     maze[row,col].northPlanet.transform.localScale = new Vector3(sizeN, sizeN, sizeN);
                     maze[row,col].northPlanet.transform.parent = this.transform;
                     maze[row,col].northPlanet.name = "North Planet (" + row + ", " + col + ")";
-                    maze[row,col].eastPlanet.GetComponent<Rigidbody>().mass = sizeN;
+                    maze[row,col].northPlanet.GetComponent<Rigidbody>().mass = sizeN;
                 }
 
                 // Instantiate South planet
@@ -82,7 +82,7 @@ public class Maze : MonoBehaviour
                 maze[row,col].southPlanet.transform.localScale = new Vector3(sizeS, sizeS, sizeS);
                 maze[row,col].southPlanet.transform.parent = this.transform;
                 maze[row,col].southPlanet.name = "South Planet (" + row + ", " + col + ")";
-                maze[row,col].eastPlanet.GetComponent<Rigidbody>().mass = sizeS;
+                maze[row,col].southPlanet.GetComponent<Rigidbody>().mass = sizeS;
             }
         }
     }
