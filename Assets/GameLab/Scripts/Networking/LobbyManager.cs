@@ -36,12 +36,36 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 	public bool forceStart = false;
 
 	private string roomCode = "";
-
 	private bool isHost = false;
 
 	private void Start()
 	{
-		Log("Connecting to game server...");
+		// Check if we are already connected
+		if (!PhotonNetwork.IsConnected)
+		{
+			Log("Connecting to game server...");
+		}
+		// Check if we are already in a room
+		else if (PhotonNetwork.InRoom)
+		{
+			// Set host
+			isHost = PhotonNetwork.IsMasterClient;
+
+			Log("Rejoined room.");
+
+			if (isHost)
+			{
+				Log("You are the host.");
+			}
+
+			// Cycle through states not normally hit
+			SetConnectionState(ConnectionState.Idle);
+			SetConnectionState(ConnectionState.Connecting);
+			SetConnectionState(ConnectionState.Joined);
+
+			// Replace room code
+			inputField.SetTextWithoutNotify(PhotonNetwork.CurrentRoom.Name);
+		}
 	}
 
 	#region Room Logic
@@ -108,8 +132,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
 			SetConnectionState(ConnectionState.Connecting);
 
-			// Attempt to join the room if the input is valid
-			PhotonNetwork.JoinRoom(inputField.text);
+			roomCode = inputField.text;
+
+			// Attempt to join the room
+			PhotonNetwork.JoinRoom(roomCode);
+
 		}
 	}
 
@@ -156,9 +183,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 	/// <summary>
 	/// Brings player back to main menu and disconnects from photon
 	/// </summary>
-	public void BackToMain(){
-		PhotonNetwork.LoadLevel(0);
-		PhotonNetwork.Disconnect();
+	public void BackToMain()
+	{
+		ServerManager.instance.Close();
+
+		UnityEngine.SceneManagement.SceneManager.LoadScene(0);
 	}
 
 	/// <summary>
@@ -209,7 +238,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
 		isHost = true;
 
-		Log($"Created room {roomCode} !");
+		Log($"Created room {roomCode}!");
 		Log($"You are the host.");
 	}
 
@@ -243,7 +272,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 	{
 		if (!isHost)
 		{
-			Log($"Joined room {roomCode} !");
+			Log($"Joined room {roomCode}!");
 		}
 
 		SetConnectionState(ConnectionState.Joined);
@@ -299,6 +328,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 		if (!isHost && PhotonNetwork.IsMasterClient)
 		{
 			isHost = true;
+			playButton.interactable = true;
+
 			Log("You are now the host.");
 		}
 	}
@@ -366,7 +397,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 				break;
 
 			case ConnectionState.Joined:
-				if (isHost) {
+				if (isHost)
+				{
 					playButton.interactable = true;
 				}
 				
