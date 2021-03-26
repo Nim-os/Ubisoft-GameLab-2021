@@ -222,27 +222,10 @@ public class TutorialManager : MonoBehaviour
 			{
                 escaped = true;
 
-                if (PhotonNetwork.IsMasterClient)
-                {
-                    LoadNextLevel();
-                }
-                else
-                {
-                    // Go to next scene.
-                    photonView.RPC("LoadNextLevel", RpcTarget.MasterClient, new object[] { });
-                }
+                ServerManager.instance.LoadRoomLevel(1);
 			}
         }
     }
-
-    /// <summary>
-    /// Function to load the next level, only should be run by the master client aka host.
-    /// </summary>
-    [PunRPC]
-    private void LoadNextLevel()
-	{
-        PhotonNetwork.LoadLevel(1);
-	}
 
     #endregion
 

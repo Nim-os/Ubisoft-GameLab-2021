@@ -74,7 +74,34 @@ public class ServerManager : MonoBehaviourPunCallbacks
 
 	#region Logic
 
-	
+	/// <summary>
+	/// Loads the level of all players in the room.
+	/// </summary>
+	/// <param name="nextLevel">The desired level index</param>
+	public void LoadRoomLevel(int nextLevel)
+	{
+		// Load level directly if we are the host
+		if (PhotonNetwork.IsMasterClient)
+		{
+			HostLoadLevel(nextLevel);
+		}
+		// Load level 
+		else
+		{
+			// Tell host to load the desired level
+			photonView.RPC("HostLoadLevel", RpcTarget.MasterClient, new object[] { nextLevel });
+		}
+	}
+
+	/// <summary>
+	/// Loads the level.
+	/// </summary>
+	/// <param name="level">The level index</param>
+	[PunRPC]
+	private void HostLoadLevel(int level)
+	{
+		PhotonNetwork.LoadLevel(level);
+	}
 
 	#endregion
 
