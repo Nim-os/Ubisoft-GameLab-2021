@@ -52,7 +52,7 @@ public class HuntKill : Algorithm
         if (planet != null)
         {
             // Destroy;
-            GameObject.Destroy(planet);
+            PhotonNetwork.Destroy(planet);
         }
     }
 
