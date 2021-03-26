@@ -166,7 +166,7 @@ public class TutorialManager : MonoBehaviour
         {
             SetUp("Hold RMB to gravitate.");
             // TODO: Instantiate a maze here.
-            firstPlanet = Instantiate(basicPlanet, new Vector3(player.transform.position.x + 12, 0, player.transform.position.z - 8), Quaternion.identity);
+            firstPlanet = Instantiate(basicPlanet, new Vector3(player.transform.position.x + 45, 0, player.transform.position.z - 8), Quaternion.identity);
             firstPlanet.transform.localScale = new Vector3(5, 5, 5);
             firstPlanet.GetComponent<Rigidbody>().mass = 8;
         }
@@ -202,7 +202,7 @@ public class TutorialManager : MonoBehaviour
             int j = 5;
             for (int i = 0; i < j; i++)
             {
-                Instantiate(basicAsteroid, new Vector3((tempX + 25) + (i * 10), 1, player.transform.position.z), Quaternion.identity);
+                Instantiate(basicAsteroid, new Vector3((tempX + 50) + (i * 10), 1, player.transform.position.z), Quaternion.identity);
             }
             threshold = tempX + 25 + (j * 10);
         }
@@ -218,7 +218,7 @@ public class TutorialManager : MonoBehaviour
         {
             SetUp("Escape the solar system!");
             sunChasing = true;
-            sun.transform.position = new Vector3(player.transform.position.x - 75, 1, player.transform.position.z);
+            sun.transform.position = new Vector3(player.transform.position.x - 100, 1, player.transform.position.z);
             endCluster.SetActive(true);
             endCluster.transform.position = new Vector3(player.transform.position.x + 25, 1, player.transform.position.z);
         }
