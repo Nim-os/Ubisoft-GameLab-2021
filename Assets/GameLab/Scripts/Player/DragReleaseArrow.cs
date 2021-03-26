@@ -35,7 +35,7 @@ public class DragReleaseArrow : MonoBehaviour
             }
             if (gameObject.GetComponent<Photon.Pun.PhotonView>().IsMine)
             {
-                currentArrow.transform.localScale = new Vector3(Utils.DistanceMouseObj(mousePos, gameObject) * .1f, 1, 1);
+                currentArrow.transform.localScale = new Vector3(.8f, .5f, 1); // Length of arrow is fixed relative to player size.
 
                 Vector2 mousePosTemp = Vector2.zero;
                 Vector3 playerPos = Camera.main.WorldToScreenPoint(transform.position);
