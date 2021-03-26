@@ -51,6 +51,7 @@ public class PlayerPropulsion : MonoBehaviour
         cameraTransposer = GameObject.Find("CM vcam1").GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineTransposer>();
         cameraHeight = cameraTransposer.m_FollowOffset.y;
         propulsionParticles = this.GetComponent<ParticleSystem>();
+        ChangeMass(0);
     }
 
 	private void Update()
@@ -119,7 +120,7 @@ public class PlayerPropulsion : MonoBehaviour
         if (gas > 0)
         {
             // Use up gas when propulsion
-            ChangeMass(-0.002f);
+            ChangeMass(-0.1f);
 
             Vector3 mouseDirection = Utils.GetMouseDirection(mousePos, gameObject);
             rb.AddForce(mouseDirection * propulsionForce, ForceMode.Impulse);
@@ -134,15 +135,13 @@ public class PlayerPropulsion : MonoBehaviour
 	/// <param name="amount">The amount to add</param>
     public void ChangeMass(float amount)
     {
-        float maxWidth = 400f;
-
         // adjust gas
         gas += amount;
 
         // adjust other values based off of gas
-        float newScale = 1 + (gas * (1/5));
+        float newScale = gas * 0.2f + 1;
         transform.localScale = new Vector3(newScale, newScale, newScale);
-        gasBar.fillAmount = maxWidth * (((float) gas)/100f);
+        gasBar.fillAmount = ((float) gas)/100f;
         rb.mass = newScale;
     }
     
