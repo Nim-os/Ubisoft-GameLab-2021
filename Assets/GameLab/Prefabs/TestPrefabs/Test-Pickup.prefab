@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 960525684052289591}
   - component: {fileID: 4048950193422927822}
   - component: {fileID: 435687658098908603}
+  - component: {fileID: 5457907514065079946}
   m_Layer: 0
   m_Name: Test-Pickup
   m_TagString: Untagged
@@ -93,3 +94,16 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5457907514065079946
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7786179331071512833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ad71ce9ab472444abdb0b5c9c48811b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  amount: 10
