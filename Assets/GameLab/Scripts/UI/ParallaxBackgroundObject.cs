@@ -18,9 +18,9 @@ public class ParallaxBackgroundObject : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        startPosition = transform.position;
-        spriteLength = GetComponent<SpriteRenderer>().bounds.size.x / 3;
-        spriteWidth = GetComponent<SpriteRenderer>().bounds.size.z / 3;
+        startPosition = transform.position -Vector3.forward *10f;
+        spriteLength = GetComponent<SpriteRenderer>().bounds.size.x/2 ;
+        spriteWidth = GetComponent<SpriteRenderer>().bounds.size.z/2 ;
     }
 
     // Update is called once per frame
