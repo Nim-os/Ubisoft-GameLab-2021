@@ -783,6 +783,8 @@ MonoBehaviour:
   basicAsteroid: {fileID: 1828997230809920408, guid: d447f6622ba265f42a8056c87416bde2,
     type: 3}
   sun: {fileID: 473507173}
+  gravPlanetCluster: {fileID: 582631218}
+  massAbsorpCluster: {fileID: 1258553733}
   endCluster: {fileID: 1505722894}
   canv: {fileID: 1337245466}
   arrow: {fileID: 1262144753}
@@ -1809,7 +1811,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 559a87d9cfe0fa04fade747cab6e0807, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serverMode: 1
+  serverMode: 0
 --- !u!4 &1228304619
 Transform:
   m_ObjectHideFlags: 0

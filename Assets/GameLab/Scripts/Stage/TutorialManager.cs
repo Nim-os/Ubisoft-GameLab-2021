@@ -21,6 +21,8 @@ public class TutorialManager : MonoBehaviour
 
     public GameObject sun;
     GameObject firstPlanet;
+    public GameObject gravPlanetCluster;
+    public GameObject massAbsorpCluster;
     public GameObject endCluster;
     public Canvas canv;
     public Image arrow;
@@ -165,18 +167,24 @@ public class TutorialManager : MonoBehaviour
         if (markers.Count == state)
         {
             SetUp("Hold RMB to gravitate.");
-            // TODO: Instantiate a maze here.
-            firstPlanet = Instantiate(basicPlanet, new Vector3(player.transform.position.x + 45, 0, player.transform.position.z - 8), Quaternion.identity);
+            firstPlanet = Instantiate(basicPlanet, new Vector3(player.transform.position.x + 45, 0, player.transform.position.z - 12), Quaternion.identity);
             firstPlanet.transform.localScale = new Vector3(5, 5, 5);
             firstPlanet.GetComponent<Rigidbody>().mass = 8;
+            gravPlanetCluster.transform.position = firstPlanet.transform.position + new Vector3(60, 0, -15);
+            gravPlanetCluster.SetActive(true);
         }
-        if (!(holdingRMB && player.GetComponent<PlayerGravitation>().currentSelection != null && markers[state].enabled))
+        if (player.transform.position.x > (gravPlanetCluster.transform.position.x + 80))
+        {
+            TearDown();
+            gravPlanetCluster.SetActive(false);
+        }
+        else if (!(holdingRMB && player.GetComponent<PlayerGravitation>().currentSelection != null && markers[state].enabled))
         {
             canv.transform.GetChild(state).transform.position = Camera.main.WorldToScreenPoint(firstPlanet.transform.position);
         }
-        else if (player.GetComponent<PlayerGravitation>().currentSelection.gameObject.tag != "Player")
-        { 
-            TearDown();
+        if (player.GetComponent<PlayerGravitation>().currentSelection.gameObject.tag != "Player")
+        {
+            canv.transform.GetChild(state).transform.GetChild(0).GetComponent<Text>().text = "Keep going!";
         }
     }
     void MassEjection()
@@ -205,6 +213,9 @@ public class TutorialManager : MonoBehaviour
                 Instantiate(basicAsteroid, new Vector3((tempX + 50) + (i * 10), 1, player.transform.position.z), Quaternion.identity);
             }
             threshold = tempX + 25 + (j * 10);
+
+            //massAbsorpCluster.transform.position = new Vector3(tempX + 60, 0, 15);
+            //massAbsorpCluster.SetActive(true);
         }
         // Proceeds to next stage after player is mostly through the asteroid field. 
         else if (player.transform.position.x > threshold && markers[state].enabled)
@@ -220,7 +231,7 @@ public class TutorialManager : MonoBehaviour
             sunChasing = true;
             sun.transform.position = new Vector3(player.transform.position.x - 100, 1, player.transform.position.z);
             endCluster.SetActive(true);
-            endCluster.transform.position = new Vector3(player.transform.position.x + 25, 1, player.transform.position.z);
+            endCluster.transform.position = new Vector3(player.transform.position.x + 60, 1, player.transform.position.z);
         }
         else if (player.transform.position.x >= endCluster.transform.position.x + 100)
         {
