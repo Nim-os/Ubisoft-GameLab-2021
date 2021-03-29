@@ -62,7 +62,6 @@ public class Maze : MonoBehaviour
                 maze[row,col].eastPlanet = PhotonNetwork.Instantiate("BasicPlanet", this.transform.position+new Vector3 (row * _spacing, 0,col*_spacing + _spacing/2f), Quaternion.identity);
                 float newMassE = ((float) sizeE)/2;
                 maze[row,col].eastPlanet.GetComponent<Rigidbody>().mass = newMassE;
-                PhotonTransformViewClassicEditor.
                 maze[row,col].eastPlanet.GetPhotonView().transform.parent = GameObject.FindGameObjectWithTag("Maze").transform;
                 maze[row,col].eastPlanet.transform.localScale += new Vector3(0.1f, 0.1f, 0.1f) * sizeE;
                 maze[row,col].eastPlanet.transform.parent = GameObject.FindGameObjectWithTag("Maze").transform;
