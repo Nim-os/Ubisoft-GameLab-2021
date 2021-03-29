@@ -47,11 +47,11 @@ public class Maze : MonoBehaviour
                     maze[row,col].westPlanet.GetComponent<Rigidbody>().mass = newMassW;
                     // Set random size
                     maze[row,col].westPlanet.transform.localScale += new Vector3(0.1f, 0.1f, 0.1f) * sizeW;
-                    maze[row,col].westPlanet.GetPhotonView().transform.parent = this.transform;
+                    maze[row,col].westPlanet.GetPhotonView().transform.parent = GameObject.FindGameObjectWithTag("Maze").transform;
                     // Set inside GameObject where maze is initiated for cleaner scene hierarchy
-                    maze[row,col].westPlanet.transform.parent = this.transform;
+                    maze[row,col].westPlanet.transform.parent = GameObject.FindGameObjectWithTag("Maze").transform;
                     // Change name of object with relative coordinate attached;
-                    maze[row,col].westPlanet.name = "West Planet (" + row + ", " + col + ")";
+                    maze[row,col].westPlanet.transform.name = "West Planet (" + row + ", " + col + ")";
                     maze[row,col].westPlanet.GetPhotonView().transform.name = "West Planet (" + row + ", " + col + ")";
                     
                 }
@@ -62,10 +62,11 @@ public class Maze : MonoBehaviour
                 maze[row,col].eastPlanet = PhotonNetwork.Instantiate("BasicPlanet", this.transform.position+new Vector3 (row * _spacing, 0,col*_spacing + _spacing/2f), Quaternion.identity);
                 float newMassE = ((float) sizeE)/2;
                 maze[row,col].eastPlanet.GetComponent<Rigidbody>().mass = newMassE;
-                maze[row,col].eastPlanet.GetPhotonView().transform.parent = this.transform;
+                PhotonTransformViewClassicEditor.
+                maze[row,col].eastPlanet.GetPhotonView().transform.parent = GameObject.FindGameObjectWithTag("Maze").transform;
                 maze[row,col].eastPlanet.transform.localScale += new Vector3(0.1f, 0.1f, 0.1f) * sizeE;
-                maze[row,col].eastPlanet.transform.parent = this.transform;
-                maze[row,col].eastPlanet.name = "East Planet (" + row + ", " + col + ")";
+                maze[row,col].eastPlanet.transform.parent = GameObject.FindGameObjectWithTag("Maze").transform;
+                maze[row,col].eastPlanet.transform.name = "East Planet (" + row + ", " + col + ")";
                 maze[row,col].eastPlanet.GetPhotonView().transform.name = "East Planet (" + row + ", " + col + ")";
 
                 // Instantiate North planet
@@ -76,9 +77,9 @@ public class Maze : MonoBehaviour
                     float newMassN = ((float) sizeN)/2;
                     maze[row,col].northPlanet.GetComponent<Rigidbody>().mass = newMassN;
                     maze[row,col].northPlanet.transform.localScale += new Vector3(0.1f, 0.1f, 0.1f) * sizeN;
-                    maze[row,col].northPlanet.transform.parent = this.transform;
+                    maze[row,col].northPlanet.transform.parent = GameObject.FindGameObjectWithTag("Maze").transform;
                     maze[row,col].northPlanet.GetPhotonView().transform.parent = this.transform;
-                    maze[row,col].northPlanet.name = "North Planet (" + row + ", " + col + ")";
+                    maze[row,col].northPlanet.transform.name = "North Planet (" + row + ", " + col + ")";
                     maze[row,col].northPlanet.GetPhotonView().transform.name = "North Planet (" + row + ", " + col + ")";
                     
                 }
@@ -90,9 +91,9 @@ public class Maze : MonoBehaviour
                 float newMassS = ((float) sizeS)/2;
                 maze[row,col].southPlanet.GetComponent<Rigidbody>().mass = newMassS;
                 maze[row,col].southPlanet.transform.localScale += new Vector3(0.1f, 0.1f, 0.1f) * sizeS;
-                maze[row,col].southPlanet.transform.parent = this.transform;
-                maze[row,col].southPlanet.GetPhotonView().transform.parent = this.transform;
-                maze[row,col].southPlanet.name = "South Planet (" + row + ", " + col + ")";
+                maze[row,col].southPlanet.transform.parent = GameObject.FindGameObjectWithTag("Maze").transform;
+                maze[row,col].southPlanet.GetPhotonView().transform.parent = GameObject.FindGameObjectWithTag("Maze").transform;
+                maze[row,col].southPlanet.transform.name = "South Planet (" + row + ", " + col + ")";
                 maze[row,col].southPlanet.GetPhotonView().transform.name = "South Planet (" + row + ", " + col + ")";
                 
             }
