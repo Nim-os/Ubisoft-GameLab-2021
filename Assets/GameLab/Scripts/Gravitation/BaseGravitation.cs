@@ -11,7 +11,7 @@ public class BaseGravitation : MonoBehaviour
     public bool playerSelected = false;
     public bool beginRotating = false;
 
-    private readonly float G = 6.7f;
+    private readonly float G = 1f;
     public List<BaseGravitation> ObjectsWithinRange = new List<BaseGravitation>();
     private Rigidbody rb;
     private bool isPlayer, holdingRMB = false;
@@ -72,16 +72,14 @@ public class BaseGravitation : MonoBehaviour
         // Calculate magnitude and direction to apply force
         Rigidbody otherRb = other.rb;
         Vector3 dir = rb.position - otherRb.position;
-        // 
         float mag = dir.magnitude;
-        float forceMag = 8 * (rb.mass * otherRb.mass * G) / Mathf.Pow(mag,2);
+        float forceMag = 100 * (rb.mass * otherRb.mass * G) / Mathf.Pow(mag,2);
         Vector3 forceVector = -dir.normalized * forceMag;
 
         // ACTIONS
         //rb.AddForce(forceVector); // this body goes towards other
-        Vector3 newDir = otherRb.transform.forward.normalized;
-        otherRb.AddForce(newDir, ForceMode.Acceleration);
-        otherRb.AddForce(-forceVector, ForceMode.Acceleration); // other goes towards this
+        //otherRb.AddForce(forceVector); // other goes away from this
+        otherRb.AddForce(-forceVector); // other goes towards this
     }
 
     /*
