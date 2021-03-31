@@ -25,7 +25,7 @@ TagManager:
   - 
   - 
   - 
-  - Background
+  - 
   - 
   - 
   - 
@@ -44,7 +44,4 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
-    locked: 0
-  - name: Bckgrd
-    uniqueID: 3192620805
     locked: 0
