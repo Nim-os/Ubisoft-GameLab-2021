@@ -1,18 +1,32 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class NetworkPrefab : MonoBehaviour
+[System.Serializable]
+public class NetworkPrefab
 {
-    // Start is called before the first frame update
-    void Start()
+    public GameObject Prefab;
+    public string Path;
+
+    public NetworkPrefab(GameObject obj, string path)
     {
-        
+        Prefab = obj;
+        Path = GetPrefabPath(path);
     }
 
-    // Update is called once per frame
-    void Update()
+    private string GetPrefabPath(string path)
     {
-        
+        int extension = System.IO.Path.GetExtension(path).Length;
+        int startIndex = path.ToLower().IndexOf("resources");
+        // If resources not found for some reason
+        if (startIndex == -1)
+        {
+            Debug.LogError("WARNING: The path specificed does not contain a \"Resources\" directory.");
+            return string.Empty;
+        } else 
+        {
+            // Looks for 'Resources' directory within specified path.
+            return path.Substring(startIndex, path.Length - (startIndex + extension));
+        }
     }
+
 }
