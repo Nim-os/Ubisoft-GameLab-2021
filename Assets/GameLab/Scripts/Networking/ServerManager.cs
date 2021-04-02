@@ -104,6 +104,17 @@ public class ServerManager : MonoBehaviourPunCallbacks
 		PhotonNetwork.LoadLevel(level);
 	}
 
+	public void KickAll()
+	{
+		if (photonView == null)
+		{
+			Debug.Log("why?");
+		}
+		Debug.Log(photonView);
+		photonView.RPC("LeaveLevel", RpcTarget.Others);
+		LeaveLevel();
+	}
+
 	[PunRPC]
 	private void LeaveLevel()
 	{

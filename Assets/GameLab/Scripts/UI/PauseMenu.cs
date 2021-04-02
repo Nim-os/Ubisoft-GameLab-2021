@@ -65,7 +65,7 @@ public class PauseMenu : MonoBehaviour
     {
         disconnecting = true;
 
-        ServerManager.instance.photonView.RPC("LeaveLevel", RpcTarget.All, new object[] { });
+        ServerManager.instance.KickAll();
     }
 
 	private void OnEnable()
