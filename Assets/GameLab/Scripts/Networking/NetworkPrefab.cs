@@ -25,7 +25,7 @@ public class NetworkPrefab
         } else 
         {
             // Looks for 'Resources' directory within specified path.
-            return path.Substring(startIndex, path.Length - (startIndex + extension));
+            return path.Substring(startIndex+10, path.Length - (startIndex + extension));
         }
     }
 

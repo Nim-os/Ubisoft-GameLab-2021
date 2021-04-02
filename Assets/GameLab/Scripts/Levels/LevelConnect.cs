@@ -7,10 +7,6 @@ public class LevelConnect : MonoBehaviourPunCallbacks
      private void Start()
     {
         Debug.Log(this.name + " is connecting to the server...");
-        // Sets LOCAL variables for Photon from SERVER variables
-        PhotonNetwork.NickName = LevelManager.GameSettings.NickName;
-        PhotonNetwork.GameVersion = LevelManager.GameSettings.GameVersion;
-        PhotonNetwork.ConnectUsingSettings();
     }
 
     public override void OnConnectedToMaster()

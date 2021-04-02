@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using Photon.Pun;
 using Photon.Realtime;
 [CreateAssetMenu(menuName = "Singletons/LevelManager")]
@@ -18,6 +20,7 @@ public class LevelManager : SingletonScriptableObject<LevelManager>
 
     public static GameObject NetworkInstantiate(GameObject obj, Vector3 pos, Quaternion rot)
     {
+        
         foreach (NetworkPrefab item in Instance._networkPrefabs)
         {
             if (item.Prefab == obj)
@@ -37,8 +40,8 @@ public class LevelManager : SingletonScriptableObject<LevelManager>
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     private static void PopulateNetworkedPrefabs()
     {
-        if (!Application.isEditor) return;
-        
+#if UNITY_EDITOR
+        Instance._networkPrefabs.Clear();
         GameObject[] res = Resources.LoadAll<GameObject>("");
         for (int i=0; i< res.Length; i++)
         {
@@ -48,12 +51,6 @@ public class LevelManager : SingletonScriptableObject<LevelManager>
                 Instance._networkPrefabs.Add(new NetworkPrefab(res[i], path));
             }
         }
-
-        // For debug
-        for (int i=0; i<Instance._networkPrefabs.Count; i++)
-        {
-            
-            Debug.Log("Instantiated object \"" + Instance._networkPrefabs[i].Prefab.name + "\" from path:\n" + Instance._networkPrefabs[i].Path);
-        }
+#endif
     }
 }

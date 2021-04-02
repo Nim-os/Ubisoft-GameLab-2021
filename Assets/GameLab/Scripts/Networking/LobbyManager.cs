@@ -25,7 +25,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 	public Button devButton;
 	public Button messageButton;
 	public Button backButton;
-
 	public TMP_InputField inputField;
 
 	public TextMeshProUGUI logPanel;
@@ -57,12 +56,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 			{
 				Log("You are the host.");
 			}
-
 			// Cycle through states not normally hit
 			SetConnectionState(ConnectionState.Idle);
 			SetConnectionState(ConnectionState.Connecting);
 			SetConnectionState(ConnectionState.Joined);
-
 			// Replace room code
 			inputField.SetTextWithoutNotify(PhotonNetwork.CurrentRoom.Name);
 		}
@@ -229,6 +226,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 		Log("Connected to game server.");
 
 		SetConnectionState(ConnectionState.Idle);
+		if (!PhotonNetwork.InLobby) PhotonNetwork.JoinLobby();
 	}
 
 	public override void OnCreatedRoom()

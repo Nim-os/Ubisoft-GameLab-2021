@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
@@ -8,8 +10,13 @@ public class Maze : MonoBehaviour
     private float _spacing = 30f;
     [SerializeField]
     private float _planetSizeMinimum, _planetSizeMaximum;
+    
+
+    private Vector3 _referencedOrigin;
 
     int count = 0;
+
+    private Player[] players = PhotonNetwork.PlayerList;
 
     private MazeCells[,] maze;
 
