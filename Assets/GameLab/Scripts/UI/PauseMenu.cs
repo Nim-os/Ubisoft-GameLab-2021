@@ -61,13 +61,11 @@ public class PauseMenu : MonoBehaviour
     }
 
 
-    public void backToLobby(){
-        disconnecting=true;
+    public void backToLobby()
+    {
+        disconnecting = true;
 
-        Time.timeScale = 1f;
-
-        ServerManager.instance.Close();
-        SceneManager.LoadScene(0);
+        ServerManager.instance.photonView.RPC("LeaveLevel", RpcTarget.All, new object[] { });
     }
 
 	private void OnEnable()
@@ -78,6 +76,7 @@ public class PauseMenu : MonoBehaviour
 	private void OnDisable()
 	{
         input.Disable();
-	}
+        Time.timeScale = 1f;
+    }
 
 }

@@ -104,6 +104,16 @@ public class ServerManager : MonoBehaviourPunCallbacks
 		PhotonNetwork.LoadLevel(level);
 	}
 
+	[PunRPC]
+	private void LeaveLevel()
+	{
+		Time.timeScale = 1f;
+
+		Close();
+
+		UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+	}
+
 	#endregion
 
 	#region Callbacks
