@@ -158,7 +158,7 @@ public class TutorialManager : MonoBehaviour
     {
         if (markers.Count == state)
         {
-            SetUp("Hover a position on your screen and tap SPACE to ping it.");
+            SetUp("Hover a position on your screen and tap SPACE to ping it. (Player = Blue, Hazard = Red, Location = Yellow)");
         }
         // Proceeds to the next stage if player sends ping.
         else if (pinging)
