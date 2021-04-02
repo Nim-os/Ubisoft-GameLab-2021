@@ -133,7 +133,17 @@ public class ServerManager : MonoBehaviourPunCallbacks
 		if (serverMode == Mode.LocalSceneOnline)
 		{
 			PhotonNetwork.Instantiate("Player", Vector3.zero, Quaternion.identity);
+			PauseMenu.GameIsPaused=false;
+			PauseMenu.disconnecting=false;
 		}
+	}
+
+
+	public override void OnLeftRoom()
+	{
+ 
+    UnityEngine.SceneManagement.SceneManager.LoadScene(1);
+	base.OnLeftRoom();
 	}
 
 
