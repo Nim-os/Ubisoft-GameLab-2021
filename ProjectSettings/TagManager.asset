@@ -8,6 +8,9 @@ TagManager:
   - Planet
   - Bullet
   - Rock
+  - mass
+  - Key
+  - Key-m
   layers:
   - Default
   - TransparentFX
