@@ -31,6 +31,7 @@ public class TutorialManager : MonoBehaviour
     private PhotonView photonView;
 
     bool holdingRMB = false;
+    bool pinging = false;
     bool sunChasing = false;
     bool escaped = false;
     float previousMass;
@@ -42,6 +43,8 @@ public class TutorialManager : MonoBehaviour
 
         input.Game.Secondary.performed += x => holdingRMB = true;
         input.Game.Secondary.canceled += x => holdingRMB = false;
+        input.Game.Ping.performed += x => pinging = true;
+        input.Game.Ping.canceled += x => pinging = false;
 
         mainCamera = Camera.main;
         photonView = GetComponent<PhotonView>();
@@ -84,11 +87,12 @@ public class TutorialManager : MonoBehaviour
 
 
             if (state == 0) GravitationToPlayer(); // Approach other player with RMB/propulse
-            else if (state == 1) Propulsion(); // Propulse with LMB
-            else if (state == 2) GravitationToPlanet(); // Gravitate to basic planet with RMB
-            else if (state == 3) MassAbsorption(); // Absorb small mass on collision
-            else if (state == 4) MassEjection(); // Eject mass with 'z'
-            else if (state == 5) Escape(); // Escape an obstacle field with sun enabled
+            else if (state == 1) Ping(); // Ping to communicate. 
+            else if (state == 2) Propulsion(); // Propulse with LMB
+            else if (state == 3) GravitationToPlanet(); // Gravitate to basic planet with RMB
+            else if (state == 4) MassAbsorption(); // Absorb small mass on collision
+            else if (state == 5) MassEjection(); // Eject mass with 'z'
+            else if (state == 6) Escape(); // Escape an obstacle field with sun enabled
         }
     }
 
@@ -148,6 +152,18 @@ public class TutorialManager : MonoBehaviour
         {
             TearDown();
             previousMass = player.GetComponent<Rigidbody>().mass;
+        }
+    }
+    void Ping()
+    {
+        if (markers.Count == state)
+        {
+            SetUp("Hover a position on your screen and tap SPACE to ping it.");
+        }
+        // Proceeds to the next stage if player sends ping.
+        else if (pinging)
+        {
+            TearDown();
         }
     }
     void Propulsion()
