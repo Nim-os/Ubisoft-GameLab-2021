@@ -79,7 +79,7 @@ public class PlayerPropulsion : MonoBehaviour
 
 	void FixedUpdate()
     {
-        if (propulsing)
+        if (propulsing && !PauseMenu.GameIsPaused)
 		{
             OnPropulsion();
         }

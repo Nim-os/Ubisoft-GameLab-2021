@@ -57,6 +57,14 @@ public class @InputSystem : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""7a874a96-559a-4863-8e73-38104325eb17"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -112,6 +120,28 @@ public class @InputSystem : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard & Mouse"",
                     ""action"": ""Projectile"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a77ea07f-be89-47d5-ace8-6aea8de64992"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard & Mouse"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""88257979-c642-4262-bb59-7eca8dc506e9"",
+                    ""path"": ""<Keyboard>/p"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard & Mouse"",
+                    ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -209,6 +239,7 @@ public class @InputSystem : IInputActionCollection, IDisposable
         m_Game_Ping = m_Game.FindAction("Ping", throwIfNotFound: true);
         m_Game_MousePosition = m_Game.FindAction("MousePosition", throwIfNotFound: true);
         m_Game_Projectile = m_Game.FindAction("Projectile", throwIfNotFound: true);
+        m_Game_Pause = m_Game.FindAction("Pause", throwIfNotFound: true);
         // Game Debug
         m_GameDebug = asset.FindActionMap("Game Debug", throwIfNotFound: true);
         m_GameDebug_GasUp = m_GameDebug.FindAction("GasUp", throwIfNotFound: true);
@@ -268,6 +299,7 @@ public class @InputSystem : IInputActionCollection, IDisposable
     private readonly InputAction m_Game_Ping;
     private readonly InputAction m_Game_MousePosition;
     private readonly InputAction m_Game_Projectile;
+    private readonly InputAction m_Game_Pause;
     public struct GameActions
     {
         private @InputSystem m_Wrapper;
@@ -277,6 +309,7 @@ public class @InputSystem : IInputActionCollection, IDisposable
         public InputAction @Ping => m_Wrapper.m_Game_Ping;
         public InputAction @MousePosition => m_Wrapper.m_Game_MousePosition;
         public InputAction @Projectile => m_Wrapper.m_Game_Projectile;
+        public InputAction @Pause => m_Wrapper.m_Game_Pause;
         public InputActionMap Get() { return m_Wrapper.m_Game; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -301,6 +334,9 @@ public class @InputSystem : IInputActionCollection, IDisposable
                 @Projectile.started -= m_Wrapper.m_GameActionsCallbackInterface.OnProjectile;
                 @Projectile.performed -= m_Wrapper.m_GameActionsCallbackInterface.OnProjectile;
                 @Projectile.canceled -= m_Wrapper.m_GameActionsCallbackInterface.OnProjectile;
+                @Pause.started -= m_Wrapper.m_GameActionsCallbackInterface.OnPause;
+                @Pause.performed -= m_Wrapper.m_GameActionsCallbackInterface.OnPause;
+                @Pause.canceled -= m_Wrapper.m_GameActionsCallbackInterface.OnPause;
             }
             m_Wrapper.m_GameActionsCallbackInterface = instance;
             if (instance != null)
@@ -320,6 +356,9 @@ public class @InputSystem : IInputActionCollection, IDisposable
                 @Projectile.started += instance.OnProjectile;
                 @Projectile.performed += instance.OnProjectile;
                 @Projectile.canceled += instance.OnProjectile;
+                @Pause.started += instance.OnPause;
+                @Pause.performed += instance.OnPause;
+                @Pause.canceled += instance.OnPause;
             }
         }
     }
@@ -389,6 +428,7 @@ public class @InputSystem : IInputActionCollection, IDisposable
         void OnPing(InputAction.CallbackContext context);
         void OnMousePosition(InputAction.CallbackContext context);
         void OnProjectile(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
     }
     public interface IGameDebugActions
     {
