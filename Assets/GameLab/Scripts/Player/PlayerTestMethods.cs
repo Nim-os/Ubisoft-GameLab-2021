@@ -9,8 +9,6 @@ public class PlayerTestMethods : MonoBehaviour
     public InputSystem input;
 
     private Rigidbody rb;
-    private float initGas;
-    private float initMass;
     private Vector3 initScale;
     private GameObject gasbarUI;
 
@@ -40,8 +38,6 @@ public class PlayerTestMethods : MonoBehaviour
     {
         gasbarUI = GameObject.Find("GasBarUI");
         rb = gameObject.GetComponent<Rigidbody>();
-        initGas = this.GetComponent<PlayerPropulsion>().gas;
-        initMass = rb.mass;
         initScale = this.transform.localScale;
     }
 
@@ -60,13 +56,11 @@ public class PlayerTestMethods : MonoBehaviour
         this.transform.position = Vector3.zero;
     }
 
-    /// <summary> Reset location of player on "g".</summary>
+    /// <summary> Reset gas of player on "g".</summary>
     private void OnFillUpGas()
     {
-        gameObject.GetComponent<PlayerPropulsion>().gas = initGas;
-        rb.mass = initMass;
-        transform.localScale = initScale;
-        gasbarUI.GetComponent<Image>().fillAmount = 1f;
+        PlayerPropulsion propulsion = gameObject.GetComponent<PlayerPropulsion>();
+        propulsion.ChangeMass(100f - propulsion.gas);
     }
 
     /// <summary> Print out Vector3 mouse position</summary>
