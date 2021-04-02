@@ -40,7 +40,7 @@ public class PlayerProjectile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isMe)
+        if (isMe && !PauseMenu.GameIsPaused)
         {
             OnHold();
         }

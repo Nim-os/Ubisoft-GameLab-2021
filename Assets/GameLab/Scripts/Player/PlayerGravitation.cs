@@ -32,7 +32,7 @@ public class PlayerGravitation : MonoBehaviour
 
 	void FixedUpdate()
     {
-        if (isMe)
+        if (isMe && !PauseMenu.GameIsPaused)
 		{
             ToggleOnGravity();
         }

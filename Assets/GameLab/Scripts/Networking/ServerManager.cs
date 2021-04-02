@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 
+[RequireComponent(typeof(PhotonView))]
 public class ServerManager : MonoBehaviourPunCallbacks
 {
 	public enum Mode
@@ -66,10 +67,11 @@ public class ServerManager : MonoBehaviourPunCallbacks
 	public void Close()
 	{
 		instance = null;
+		PhotonNetwork.AutomaticallySyncScene = false;
 
 		PhotonNetwork.Disconnect();
 
-		Destroy(this);		
+		Destroy(this);
 	}
 
 	#region Logic
@@ -103,6 +105,23 @@ public class ServerManager : MonoBehaviourPunCallbacks
 		PhotonNetwork.LoadLevel(level);
 	}
 
+	public void KickAll()
+	{
+		photonView.RPC("LeaveLevel", RpcTarget.Others);
+
+		LeaveLevel();
+	}
+
+	[PunRPC]
+	private void LeaveLevel()
+	{
+		Time.timeScale = 1f;
+
+		Close();
+
+		UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+	}
+
 	#endregion
 
 	#region Callbacks
@@ -133,7 +152,17 @@ public class ServerManager : MonoBehaviourPunCallbacks
 		if (serverMode == Mode.LocalSceneOnline)
 		{
 			PhotonNetwork.Instantiate("Player", Vector3.zero, Quaternion.identity);
+			PauseMenu.GameIsPaused=false;
+			PauseMenu.disconnecting=false;
 		}
+	}
+
+
+	public override void OnLeftRoom()
+	{
+ 
+    UnityEngine.SceneManagement.SceneManager.LoadScene(1);
+	base.OnLeftRoom();
 	}
 
 

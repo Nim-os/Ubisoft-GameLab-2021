@@ -12,7 +12,11 @@ public class PlayerPropulsion : MonoBehaviour
     public InputSystem input;
 
     public float propulsionForce;
-    public float gas;
+
+    [Range(0, 100)]
+    public float startingGas = 25;
+    public float gas { get; private set; }
+
     public int holdingPower;
 
     [SerializeField] private GameObject rockPrefab;
@@ -51,6 +55,7 @@ public class PlayerPropulsion : MonoBehaviour
         cameraTransposer = GameObject.Find("CM vcam1").GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineTransposer>();
         cameraHeight = cameraTransposer.m_FollowOffset.y;
         propulsionParticles = this.GetComponent<ParticleSystem>();
+        gas = startingGas;
         ChangeMass(0);
     }
 
@@ -74,7 +79,7 @@ public class PlayerPropulsion : MonoBehaviour
 
 	void FixedUpdate()
     {
-        if (propulsing)
+        if (propulsing && !PauseMenu.GameIsPaused)
 		{
             OnPropulsion();
         }
@@ -135,6 +140,23 @@ public class PlayerPropulsion : MonoBehaviour
 	/// <param name="amount">The amount to add</param>
     public void ChangeMass(float amount)
     {
+        if (PhotonNetwork.LocalPlayer.Equals(photonView.Owner))
+		{
+            ChangeMassNetwork(amount);
+		}
+        else
+        {
+            photonView.RPC("ChangeMassNetwork", photonView.Owner, new object[] { amount });
+        }
+    }
+
+    /// <summary>
+    /// Changes the mass of the player. This is only meant to be called by RPC
+    /// </summary>
+    /// <param name="amount">Amount to add</param>
+    [PunRPC]
+    private void ChangeMassNetwork(float amount)
+    {
         // adjust gas
         gas += amount;
 
@@ -144,7 +166,7 @@ public class PlayerPropulsion : MonoBehaviour
         // adjust other values based off of gas
         float newScale = gas * 0.2f + 1;
         transform.localScale = new Vector3(newScale, newScale, newScale);
-        gasBar.fillAmount = ((float) gas)/100f;
+        gasBar.fillAmount = ((float)gas) / 100f;
         rb.mass = newScale;
     }
     
