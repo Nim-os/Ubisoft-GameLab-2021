@@ -125,6 +125,17 @@ public class @InputSystem : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""a77ea07f-be89-47d5-ace8-6aea8de64992"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard & Mouse"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""88257979-c642-4262-bb59-7eca8dc506e9"",
                     ""path"": ""<Keyboard>/p"",
                     ""interactions"": """",
