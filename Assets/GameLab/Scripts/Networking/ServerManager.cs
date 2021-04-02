@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 
+[RequireComponent(typeof(PhotonView))]
 public class ServerManager : MonoBehaviourPunCallbacks
 {
 	public enum Mode
@@ -70,7 +71,7 @@ public class ServerManager : MonoBehaviourPunCallbacks
 
 		PhotonNetwork.Disconnect();
 
-		Destroy(this);		
+		Destroy(this);
 	}
 
 	#region Logic
@@ -106,12 +107,8 @@ public class ServerManager : MonoBehaviourPunCallbacks
 
 	public void KickAll()
 	{
-		if (photonView == null)
-		{
-			Debug.Log("why?");
-		}
-		Debug.Log(photonView);
 		photonView.RPC("LeaveLevel", RpcTarget.Others);
+
 		LeaveLevel();
 	}
 
