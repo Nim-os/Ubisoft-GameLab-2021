@@ -66,6 +66,7 @@ public class ServerManager : MonoBehaviourPunCallbacks
 	public void Close()
 	{
 		instance = null;
+		PhotonNetwork.AutomaticallySyncScene = false;
 
 		PhotonNetwork.Disconnect();
 

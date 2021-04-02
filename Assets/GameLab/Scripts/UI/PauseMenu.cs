@@ -11,27 +11,33 @@ public class PauseMenu : MonoBehaviour
     
     public static bool GameIsPaused = false;
     public static bool disconnecting=false;
+
+    public InputSystem input;
+
     public GameObject PauseMenuUI;
     public GameObject gasbarUI;
     public GameObject gastextUI;
     public GameObject gasBoarder;
 
+	private void Awake()
+	{
+        input = new InputSystem();
 
-
-    // Update is called once per frame
-    void Update()
-    {
-        //use escape button to pause
-        if (Input.GetKeyDown(KeyCode.Escape)){
-            if(!disconnecting){
-                if(GameIsPaused ){
+        input.Game.Pause.performed += x =>
+        {
+            if (!disconnecting)
+            {
+                if (GameIsPaused)
+                {
                     Resume();
-                }else{
+                }
+                else
+                {
                     Pause();
                 }
             }
-        }
-    }
+        };
+	}
 
 
 
@@ -57,15 +63,21 @@ public class PauseMenu : MonoBehaviour
 
     public void backToLobby(){
         disconnecting=true;
-        Debug.Log("Back to main menu");
 
-		PhotonNetwork.LeaveRoom();
-        PhotonNetwork.Disconnect();
-        //PhotonNetwork.LoadLevel(1);
-        //UnityEngine.SceneManagement.SceneManager.LoadScene(1);
+        Time.timeScale = 1f;
 
+        ServerManager.instance.Close();
+        SceneManager.LoadScene(0);
     }
 
+	private void OnEnable()
+	{
+        input.Enable();
+	}
 
+	private void OnDisable()
+	{
+        input.Disable();
+	}
 
 }
