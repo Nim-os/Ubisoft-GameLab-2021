@@ -93,7 +93,7 @@ public class BaseGravitation : MonoBehaviour
             // if one of the objects within range is a player
             if (o.isPlayer){
                 // remove this object from its range
-                o.GetComponent<PlayerGravitation>().RemoveFromGravityCheck(this.GetComponent<BaseGravitation>());
+                if (o != null) o.GetComponent<PlayerGravitation>().RemoveFromGravityCheck(this.GetComponent<BaseGravitation>());
             }
             RemoveWithinRange(o);
         }
