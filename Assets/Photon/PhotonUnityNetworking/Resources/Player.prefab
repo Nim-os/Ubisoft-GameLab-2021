@@ -226,7 +226,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4120421440658146743}
   serializedVersion: 2
-  m_Mass: 5
+  m_Mass: 6
   m_Drag: 0
   m_AngularDrag: 0
   m_UseGravity: 0
@@ -4978,7 +4978,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   propulsionForce: 5
-  gas: 25
+  startingGas: 25
   holdingPower: 0
   rockPrefab: {fileID: 2682222205282339131, guid: 9c81ee6cad40bef428bf18990e458408,
     type: 3}
