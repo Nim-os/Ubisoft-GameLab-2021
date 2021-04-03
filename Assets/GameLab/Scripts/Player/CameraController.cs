@@ -38,7 +38,7 @@ public class CameraController : MonoBehaviour
             minDistance = Vector3.Distance(Camera.main.ScreenToWorldPoint(new Vector3(0, 0, cameraHeight)), Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height, cameraHeight)));
 
             // Moves the camera up (away) or down (closer) to keep players on-screen.
-            if (players.Length == 2)
+            if (players.Length == 2 && players[0] != null || players[1] != null)
             {
                 float distance = Vector3.Distance(players[0].transform.position, players[1].transform.position);
                 if ((distance <= (0.5f * minDistance)) && (cameraHeight >= (0.25f * cameraHeightThreshold)))

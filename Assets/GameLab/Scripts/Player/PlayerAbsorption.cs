@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+using Photon.Pun;
 public class PlayerAbsorption : MonoBehaviour
 {
     [SerializeField] Rigidbody rb;
     private PlayerPropulsion propulsionScript;
-
     void Start()
     {
         rb = gameObject.GetComponent<Rigidbody>();
@@ -15,11 +14,12 @@ public class PlayerAbsorption : MonoBehaviour
     }
 
     void OnCollisionEnter(Collision collision){
+
         bool hasRigidBody = collision.rigidbody;
         bool isGravitationalObj = (collision.gameObject.GetComponent<BaseGravitation>());
-        bool hasLowerMass = (hasRigidBody) && (collision.rigidbody.mass < rb.mass);
+      
 
-        if (isGravitationalObj && hasLowerMass)
+        if (isGravitationalObj && collision.gameObject.tag == "mass")
         {
             float colliderMass = collision.rigidbody.mass;
             if (collision.gameObject.CompareTag("Player"))
@@ -28,8 +28,8 @@ public class PlayerAbsorption : MonoBehaviour
                 return;
             }
 
-            Destroy(collision.gameObject);
-            propulsionScript.ChangeMass(colliderMass * 0.75f);
+            PhotonNetwork.Destroy(collision.gameObject);
+            propulsionScript.ChangeMass(colliderMass);
         }
     }
 }

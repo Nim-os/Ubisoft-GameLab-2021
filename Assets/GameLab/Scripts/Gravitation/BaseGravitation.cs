@@ -11,7 +11,7 @@ public class BaseGravitation : MonoBehaviour
     public bool playerSelected = false;
     public bool beginRotating = false;
 
-    private readonly float G = 1f;
+    private readonly float G = 6.7f;
     public List<BaseGravitation> ObjectsWithinRange = new List<BaseGravitation>();
     private Rigidbody rb;
     private bool isPlayer, holdingRMB = false;
@@ -93,7 +93,7 @@ public class BaseGravitation : MonoBehaviour
             // if one of the objects within range is a player
             if (o.isPlayer){
                 // remove this object from its range
-                o.GetComponent<PlayerGravitation>().RemoveFromGravityCheck(this.GetComponent<BaseGravitation>());
+                if (o != null) o.GetComponent<PlayerGravitation>().RemoveFromGravityCheck(this.GetComponent<BaseGravitation>());
             }
             RemoveWithinRange(o);
         }
