@@ -51,6 +51,13 @@ public class BaseGravitation : MonoBehaviour
 
     /// <summary> Add new object to ObjectsWithinRange list </summary>
     public void AddWithinRange(BaseGravitation collider){
+        // if this is a rock we don't want it caught in player's gravitation at launch
+        if ((this.gameObject.CompareTag("Rock") && collider.gameObject.tag == "Player") ||
+            (this.gameObject.CompareTag("Player") && collider.gameObject.tag == "Rock")
+            ){
+            return;
+        }
+
         //if new object is a player, add this object to player's gravity check list
         if (collider.gameObject.tag == "Player"){
             collider.gameObject.GetComponent<PlayerGravitation>().AddToGravityCheck(this);
