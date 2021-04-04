@@ -11,6 +11,7 @@ TagManager:
   - mass
   - Key
   - Key-m
+  - GasBar
   layers:
   - Default
   - TransparentFX
