@@ -18,7 +18,13 @@ public class PlayerPropulsion : MonoBehaviour
     public float gas { get; private set; }
 
     public int holdingPower;
-
+    [SerializeField]
+    private float _massLossRatio;
+    public float MassLossRatio 
+    {
+        get {return _massLossRatio;}
+        set {_massLossRatio = Mathf.Clamp(_massLossRatio, 0, 1);}
+    }
     [SerializeField] private GameObject rockPrefab;
     private float rockDespawnTime = 10;
     [SerializeField] private Rigidbody rb;
@@ -51,7 +57,6 @@ public class PlayerPropulsion : MonoBehaviour
 
 	void Start()
     {
-        gasBar = GameObject.Find("GasBarUI").GetComponent<Image>();
         cameraTransposer = GameObject.Find("CM vcam1").GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineTransposer>();
         cameraHeight = cameraTransposer.m_FollowOffset.y;
         propulsionParticles = this.GetComponent<ParticleSystem>();
@@ -91,7 +96,10 @@ public class PlayerPropulsion : MonoBehaviour
     {
         if (propulsing && gas > 0){
             holdingPower++;
-            gas--;
+            gas=gas - 1*_massLossRatio;
+            // if _massLossRatio == 0 then no mass lost during propulsion (GOOD FOR TESTING)
+            // if _massLossRatio = 1, Initial setting pre _massLossRatio
+            // Currently set to 0.33
         }
     }
 
