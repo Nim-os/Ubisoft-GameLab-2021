@@ -13,7 +13,7 @@ public class Rocks : MonoBehaviour
     }
 
     void OnTriggerEnter(Collider col) {
-        if (col.gameObject.tag == "Player")
+        if (col.gameObject.CompareTag("Player"))
         {
             col.gameObject.GetComponent<PlayerPropulsion>().ChangeMass(rb.mass);
             Destroy(this.gameObject);

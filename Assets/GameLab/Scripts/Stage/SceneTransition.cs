@@ -7,7 +7,7 @@ public class SceneTransition : MonoBehaviour
 {
     void OnTriggerEnter(Collider col)
     {
-        if (col.gameObject.tag == "Player") 
+        if (col.gameObject.CompareTag("Player")) 
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 }

@@ -16,7 +16,7 @@ public class PlayerPropulsion : MonoBehaviour
 
     [Range(0, 100)]
     public float startingGas = 30;
-    public float gas { get; set; }
+    public float gas { get;private set; }
 
     public int holdingPower;
     [SerializeField]

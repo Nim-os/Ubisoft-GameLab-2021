@@ -25,7 +25,7 @@ public class RangeDetector : MonoBehaviour
 
     private void OnTriggerExit(Collider other) {
         var hitObject = other.gameObject;
-        if (hitObject.tag != "mass")
+        if (!hitObject.CompareTag("mass"))
             body.RemoveWithinRange(hitObject.GetComponent<BaseGravitation>());
     }
 }
