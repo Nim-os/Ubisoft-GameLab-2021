@@ -11,7 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/GameLab/Scenes/Lobby.unity
     guid: f2b5dd3cc1bff46459eff804ae43db6e
-  - enabled: 1
+  - enabled: 0
     path: Assets/GameLab/Scenes/Tutorial.unity
     guid: 6f46953bca0a8bb4893d44f5335de0d2
   - enabled: 0
@@ -26,7 +26,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/GameLab/Scenes/IndividualTestScenes/LevelOne.unity
     guid: 4912ab0e31e05604a88801caa5105c1e
-  - enabled: 1
+  - enabled: 0
     path: Assets/GameLab/Scenes/IndividualTestScenes/LevelOne 1.unity
     guid: 8458e3a54f39d054f850858191f2d7e1
   m_configObjects:

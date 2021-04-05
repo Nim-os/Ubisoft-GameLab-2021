@@ -124,15 +124,13 @@ GameObject:
   - component: {fileID: -4349265480166907863}
   - component: {fileID: 6180890277643086484}
   - component: {fileID: 5637089395531564946}
-  - component: {fileID: 4120421440658146700}
   - component: {fileID: 3329302069819961951}
+  - component: {fileID: 4905568539992263416}
   - component: {fileID: 683876101074707695}
   - component: {fileID: 6205053968602867674}
   - component: {fileID: 7963721331874415681}
-  - component: {fileID: -259947647004732247}
   - component: {fileID: 7938066167103103702}
   - component: {fileID: 1931232593522704598}
-  - component: {fileID: 5341348237025410978}
   - component: {fileID: 3233282542210786542}
   m_Layer: 9
   m_Name: Player
@@ -148,7 +146,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4120421440658146743}
-  m_LocalRotation: {x: -0, y: 0.70710576, z: -0, w: 0.70710784}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.70710677}
   m_LocalPosition: {x: -2.8750002, y: 0.5, z: -0.3750063}
   m_LocalScale: {x: 6, y: 6, z: 6}
   m_Children:
@@ -213,7 +211,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4120421440658146743}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -4965,24 +4963,6 @@ MonoBehaviour:
     InterpolateOption: 2
     InterpolateMoveTowardsSpeed: 1
     InterpolateLerpSpeed: 5
---- !u!114 &4120421440658146700
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4120421440658146743}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a835b0a3bd34bf44489ba14db3dce51c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  propulsionForce: 5
-  startingGas: 25
-  holdingPower: 0
-  rockPrefab: {fileID: 2682222205282339131, guid: 9c81ee6cad40bef428bf18990e458408,
-    type: 3}
-  rb: {fileID: 4120421440658146701}
 --- !u!114 &3329302069819961951
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4999,6 +4979,25 @@ MonoBehaviour:
   playerSelected: 0
   beginRotating: 1
   ObjectsWithinRange: []
+--- !u!114 &4905568539992263416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4120421440658146743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a835b0a3bd34bf44489ba14db3dce51c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  propulsionForce: 5
+  startingGas: 30
+  holdingPower: 5
+  _massLossRatio: 0.5
+  rockPrefab: {fileID: 2682222205282339131, guid: 9c81ee6cad40bef428bf18990e458408,
+    type: 3}
+  rb: {fileID: 4120421440658146701}
 --- !u!114 &683876101074707695
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5040,19 +5039,6 @@ MonoBehaviour:
   host_mesh: {fileID: -2432090755550338912, guid: 9ce2a9daa3211e543ad4336ed86e204d,
     type: 3}
   host_mat: {fileID: 2100000, guid: db2e4be659b9209419ebb6333c0ca543, type: 2}
---- !u!114 &-259947647004732247
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4120421440658146743}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2207ed3bc157a4f54842726bbacbc4ea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rb: {fileID: 4120421440658146701}
 --- !u!199 &7938066167103103702
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -5131,19 +5117,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   arrowPrefab: {fileID: 6824493199263688449, guid: d83595f56f715f0488e948b140741d94,
     type: 3}
---- !u!114 &5341348237025410978
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4120421440658146743}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2207ed3bc157a4f54842726bbacbc4ea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rb: {fileID: 4120421440658146701}
 --- !u!114 &3233282542210786542
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5161,7 +5134,7 @@ MonoBehaviour:
   holding: 0
   rockPrefab: {fileID: 2682222205282339131, guid: 9c81ee6cad40bef428bf18990e458408,
     type: 3}
-  propulsionScript: {fileID: 4120421440658146700}
+  propulsionScript: {fileID: 4905568539992263416}
 --- !u!1 &6006040373670806936
 GameObject:
   m_ObjectHideFlags: 0

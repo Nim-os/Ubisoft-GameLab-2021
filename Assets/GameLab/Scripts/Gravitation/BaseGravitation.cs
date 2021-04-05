@@ -26,7 +26,7 @@ public class BaseGravitation : MonoBehaviour
 
 	private void Start(){
         rb = gameObject.GetComponent<Rigidbody>();
-        isPlayer = gameObject.tag == "Player" ? true : false;
+        isPlayer = gameObject.tag == "Player"? true : false;
 
         StartCoroutine(PassiveStartRotation());
         
@@ -76,6 +76,8 @@ public class BaseGravitation : MonoBehaviour
 
     /// <summary> Attract the other object towards this object </summary>
     private void AttractMass(BaseGravitation other){
+        if (other.tag != "mass")
+        {
         // Calculate magnitude and direction to apply force
         Rigidbody otherRb = other.rb;
         Vector3 dir = rb.position - otherRb.position;
@@ -87,6 +89,7 @@ public class BaseGravitation : MonoBehaviour
         //rb.AddForce(forceVector); // this body goes towards other
         //otherRb.AddForce(forceVector); // other goes away from this
         otherRb.AddForce(-forceVector); // other goes towards this
+        }
     }
 
     /*
