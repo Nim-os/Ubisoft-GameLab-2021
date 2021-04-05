@@ -8,6 +8,8 @@ public class PlayerNetworking : MonoBehaviourPun
 
 	public Mesh host_mesh;
 	public Material host_mat;
+    public Mesh client_mesh;
+    public Material client_mat;
 
 	private void Start()
 	{
@@ -17,5 +19,10 @@ public class PlayerNetworking : MonoBehaviourPun
 			GetComponent<MeshFilter>().mesh = host_mesh;
 			GetComponent<MeshRenderer>().material = host_mat;
 		}
+        else
+        {
+            GetComponent<MeshFilter>().mesh = client_mesh;
+            GetComponent<MeshRenderer>().material = client_mat;
+        }
 	}
 }
