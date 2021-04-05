@@ -4995,6 +4995,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f65fc4a78354324a9346398c2f6a922, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selectionIndicator: {fileID: 101, guid: 0000000000000000f000000000000000, type: 0}
   freezePosition: 0
   playerSelected: 0
   beginRotating: 1
