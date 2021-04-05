@@ -7,6 +7,7 @@ public class BaseGravitation : MonoBehaviour
 {
     public InputSystem input;
 
+    public Renderer rend;
     public Shader selectionIndicator;
 
     public bool freezePosition = false;
@@ -16,7 +17,6 @@ public class BaseGravitation : MonoBehaviour
     private readonly float G = 6.7f;
     public List<BaseGravitation> ObjectsWithinRange = new List<BaseGravitation>();
     private Rigidbody rb;
-    private Renderer rend;
     private Shader defaultShader;
     private bool isPlayer, holdingRMB = false;
 
@@ -30,7 +30,6 @@ public class BaseGravitation : MonoBehaviour
 
 	private void Start(){
         rb = gameObject.GetComponent<Rigidbody>();
-        rend = gameObject.GetComponentInChildren<Renderer>();
 
         defaultShader = rend.material.shader;
 
@@ -130,7 +129,6 @@ public class BaseGravitation : MonoBehaviour
     /// </summary>
     public void ShowIndicator()
 	{
-        Debug.Log($"Started gravitating on {gameObject.name}");
         rend.material.shader = selectionIndicator;
 	}
 
@@ -139,7 +137,6 @@ public class BaseGravitation : MonoBehaviour
     /// </summary>
     public void HideIndicator()
     {
-        Debug.Log($"Stopped gravitating on {gameObject.name}");
         rend.material.shader = defaultShader;
 	}
 

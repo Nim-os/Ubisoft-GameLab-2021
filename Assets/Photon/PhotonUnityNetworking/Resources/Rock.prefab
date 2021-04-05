@@ -353,6 +353,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f65fc4a78354324a9346398c2f6a922, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rend: {fileID: 2682222205282339127}
+  selectionIndicator: {fileID: 4800000, guid: cde35ad6fe7c3b3459fe465d498e086f, type: 3}
   freezePosition: 0
   playerSelected: 0
   beginRotating: 1
@@ -375,7 +377,8 @@ MonoBehaviour:
   observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 0
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: 5801414041166168732}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
