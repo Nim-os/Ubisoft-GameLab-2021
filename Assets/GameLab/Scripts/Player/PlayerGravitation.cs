@@ -10,6 +10,8 @@ public class PlayerGravitation : MonoBehaviour
     public List<BaseGravitation> playerGravityCheckList = new List<BaseGravitation>();
     public BaseGravitation currentSelection = null;
 
+    private BaseGravitation lastSelection = null;
+
     private float range = 10f; // mouse position hold range
     private bool isMe, holdingRMB = false;
 
@@ -55,13 +57,25 @@ public class PlayerGravitation : MonoBehaviour
         {
             BaseGravitation o = SelectGravitationalObject();
 
+
             // if selects an object
             if (o != null){
                 o.playerSelected = true;
                 currentSelection = o;
             }
+
+            if (lastSelection != o)
+            {
+                lastSelection.HideIndicator();
+
+				o?.ShowIndicator();
+            }
+
+            lastSelection = currentSelection;
+        }
         // else not holding RMB OR no objects to select
-        }else {
+        else
+        {
             if (currentSelection != null){
                 currentSelection.playerSelected = false;
             }
