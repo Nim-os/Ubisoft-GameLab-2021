@@ -31,7 +31,10 @@ public class BaseGravitation : MonoBehaviour
 	private void Start(){
         rb = gameObject.GetComponent<Rigidbody>();
 
-        defaultShader = rend.material.shader;
+        if (rend != null)
+        {
+            defaultShader = rend.material.shader;
+        }
 
         isPlayer = gameObject.tag == "Player" ? true : false;
 
