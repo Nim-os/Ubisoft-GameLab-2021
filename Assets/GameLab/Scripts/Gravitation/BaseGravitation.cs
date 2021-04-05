@@ -30,7 +30,7 @@ public class BaseGravitation : MonoBehaviour
 
 	private void Start(){
         rb = gameObject.GetComponent<Rigidbody>();
-        rend = gameObject.GetComponent<Renderer>();
+        rend = gameObject.GetComponentInChildren<Renderer>();
 
         defaultShader = rend.material.shader;
 

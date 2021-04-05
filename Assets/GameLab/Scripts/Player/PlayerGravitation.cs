@@ -66,7 +66,7 @@ public class PlayerGravitation : MonoBehaviour
 
             if (lastSelection != o)
             {
-                lastSelection.HideIndicator();
+                lastSelection?.HideIndicator();
 
 				o?.ShowIndicator();
             }
@@ -80,6 +80,8 @@ public class PlayerGravitation : MonoBehaviour
                 currentSelection.playerSelected = false;
             }
             currentSelection = null;
+
+            lastSelection?.HideIndicator();
         }
     }
 
