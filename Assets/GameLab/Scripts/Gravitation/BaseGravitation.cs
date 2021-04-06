@@ -7,6 +7,9 @@ public class BaseGravitation : MonoBehaviour
 {
     public InputSystem input;
 
+    public Renderer rend;
+    public Shader selectionIndicator;
+
     public bool freezePosition = false;
     public bool playerSelected = false;
     public bool beginRotating = false;
@@ -14,6 +17,7 @@ public class BaseGravitation : MonoBehaviour
     private readonly float G = 6.7f;
     public List<BaseGravitation> ObjectsWithinRange = new List<BaseGravitation>();
     private Rigidbody rb;
+    private Shader defaultShader;
     private bool isPlayer, holdingRMB = false;
 
 	private void Awake()
@@ -26,6 +30,12 @@ public class BaseGravitation : MonoBehaviour
 
 	private void Start(){
         rb = gameObject.GetComponent<Rigidbody>();
+
+        if (rend != null)
+        {
+            defaultShader = rend.material.shader;
+        }
+
         isPlayer = gameObject.tag == "Player" ? true : false;
 
         StartCoroutine(PassiveStartRotation());
@@ -76,6 +86,8 @@ public class BaseGravitation : MonoBehaviour
 
     /// <summary> Attract the other object towards this object </summary>
     private void AttractMass(BaseGravitation other){
+        if (other.tag != "mass")
+        {
         // Calculate magnitude and direction to apply force
         Rigidbody otherRb = other.rb;
         Vector3 dir = rb.position - otherRb.position;
@@ -87,6 +99,7 @@ public class BaseGravitation : MonoBehaviour
         //rb.AddForce(forceVector); // this body goes towards other
         //otherRb.AddForce(forceVector); // other goes away from this
         otherRb.AddForce(-forceVector); // other goes towards this
+        }
     }
 
     /*
@@ -116,6 +129,23 @@ public class BaseGravitation : MonoBehaviour
         
         yield return new WaitForSeconds(5);
     }
+
+    /// <summary>
+    /// Enables the shader to indicate gravitation
+    /// </summary>
+    public void ShowIndicator()
+	{
+        rend.material.shader = selectionIndicator;
+	}
+
+    /// <summary>
+    /// Hides the shader to indicator no gravitation
+    /// </summary>
+    public void HideIndicator()
+    {
+        rend.material.shader = defaultShader;
+	}
+
     private void OnEnable()
     {
         input.Enable();
