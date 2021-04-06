@@ -11,7 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/GameLab/Scenes/Lobby.unity
     guid: f2b5dd3cc1bff46459eff804ae43db6e
-  - enabled: 0
+  - enabled: 1
     path: Assets/GameLab/Scenes/Tutorial.unity
     guid: 6f46953bca0a8bb4893d44f5335de0d2
   - enabled: 0
