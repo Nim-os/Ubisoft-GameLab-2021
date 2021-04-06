@@ -213,10 +213,9 @@ GameObject:
   - component: {fileID: 2682222205282339128}
   - component: {fileID: 2682222205282339129}
   - component: {fileID: 8425487541542706288}
+  - component: {fileID: 4668376294454382898}
   - component: {fileID: 6199396423209817026}
   - component: {fileID: 5801414041166168732}
-  - component: {fileID: 3190249555239689567}
-  - component: {fileID: 326817158258642464}
   m_Layer: 9
   m_Name: Rock
   m_TagString: Rock
@@ -315,7 +314,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 36
+  m_Constraints: 4
   m_CollisionDetection: 0
 --- !u!114 &8425487541542706288
 MonoBehaviour:
@@ -342,6 +341,24 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 4c90f5f7f62141d4591dc47b53427140, type: 2}
   - {fileID: 2100000, guid: 021582c3d5a11ba4393d958255b48987, type: 2}
   - {fileID: 2100000, guid: 1818492e9bbeb9d44b8b3e0c6331da47, type: 2}
+--- !u!114 &4668376294454382898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2682222205282339131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f65fc4a78354324a9346398c2f6a922, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rend: {fileID: 2682222205282339127}
+  selectionIndicator: {fileID: 4800000, guid: cde35ad6fe7c3b3459fe465d498e086f, type: 3}
+  freezePosition: 0
+  playerSelected: 0
+  beginRotating: 1
+  ObjectsWithinRange: []
 --- !u!114 &6199396423209817026
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -378,38 +395,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_SynchronizePosition: 1
-  m_SynchronizeRotation: 0
+  m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
---- !u!114 &3190249555239689567
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2682222205282339131}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89beb021931d1c443928ab739a284d4f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  text: {fileID: 0}
---- !u!114 &326817158258642464
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2682222205282339131}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f65fc4a78354324a9346398c2f6a922, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  freezePosition: 0
-  playerSelected: 0
-  beginRotating: 1
-  ObjectsWithinRange: []
 --- !u!1 &6320323762123837009
 GameObject:
   m_ObjectHideFlags: 0
