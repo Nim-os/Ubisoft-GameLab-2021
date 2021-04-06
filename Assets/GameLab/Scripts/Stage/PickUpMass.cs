@@ -17,6 +17,14 @@ public class PickUpMass : MonoBehaviour
         meshRenderer = this.GetComponent<MeshRenderer>();
     }
 
+    void Update()
+    {
+        if (text == null)
+        {
+            text = GameObject.FindGameObjectWithTag("GasNot");
+        }
+    }
+
     void OnTriggerEnter(Collider col) {
         if (col.gameObject.tag == "Player" && meshRenderer.enabled)
         {

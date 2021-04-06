@@ -12,6 +12,7 @@ TagManager:
   - Key
   - Key-m
   - GasBar
+  - GasNot
   layers:
   - Default
   - TransparentFX
