@@ -9,16 +9,23 @@ using Photon.Realtime;
 /// <summary> Contains all methods related to self propulsion </summary>
 public class PlayerPropulsion : MonoBehaviour
 {
+    private Slider _gasBar;
     public InputSystem input;
 
     public float propulsionForce;
 
     [Range(0, 100)]
-    public float startingGas = 25;
-    public float gas { get; private set; }
+    public float startingGas = 30;
+    public float gas { get;private set; }
 
     public int holdingPower;
-
+    [SerializeField]
+    private float _massLossRatio;
+    public float MassLossRatio 
+    {
+        get {return _massLossRatio;}
+        set {_massLossRatio = Mathf.Clamp(_massLossRatio, 0, 1);}
+    }
     [SerializeField] private GameObject rockPrefab;
     private float rockDespawnTime = 10;
     [SerializeField] private Rigidbody rb;
@@ -28,7 +35,6 @@ public class PlayerPropulsion : MonoBehaviour
     private ParticleSystem propulsionParticles;
     private Vector2 mousePos = Vector2.zero;
     private bool propulsing = false, particlesEnabled = false, particlesLastState = false;
-    private Image gasBar;
 
     private PhotonView photonView;
     private float particleRPCDecay = 0.33f;
@@ -51,7 +57,8 @@ public class PlayerPropulsion : MonoBehaviour
 
 	void Start()
     {
-        gasBar = GameObject.Find("GasBarUI").GetComponent<Image>();
+        _gasBar = GameObject.FindGameObjectWithTag("GasBar").GetComponent<Slider>();
+        _gasBar.maxValue = 30;
         cameraTransposer = GameObject.Find("CM vcam1").GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineTransposer>();
         cameraHeight = cameraTransposer.m_FollowOffset.y;
         propulsionParticles = this.GetComponent<ParticleSystem>();
@@ -61,6 +68,7 @@ public class PlayerPropulsion : MonoBehaviour
 
 	private void Update()
 	{
+        _gasBar.value = gas;
         particleRPCDecay -= Time.deltaTime;
 
         // Check if we should update other players on if we are propulsing or not visually
@@ -91,7 +99,10 @@ public class PlayerPropulsion : MonoBehaviour
     {
         if (propulsing && gas > 0){
             holdingPower++;
-            gas--;
+            gas=gas - 1*_massLossRatio;
+            // if _massLossRatio == 0 then no mass lost during propulsion (GOOD FOR TESTING)
+            // if _massLossRatio = 1, Initial setting pre _massLossRatio
+            // Currently set to 0.33
         }
     }
 
@@ -125,7 +136,7 @@ public class PlayerPropulsion : MonoBehaviour
         if (gas > 0)
         {
             // Use up gas when propulsion
-            ChangeMass(-0.1f);
+            ChangeMass(-0.1f * _massLossRatio);
 
             Vector3 mouseDirection = Utils.GetMouseDirection(mousePos, gameObject);
             rb.AddForce(mouseDirection * propulsionForce, ForceMode.Impulse);
@@ -166,7 +177,6 @@ public class PlayerPropulsion : MonoBehaviour
         // adjust other values based off of gas
         float newScale = gas * 0.2f + 1;
         transform.localScale = new Vector3(newScale, newScale, newScale);
-        gasBar.fillAmount = ((float)gas) / 100f;
         rb.mass = newScale;
     }
     
