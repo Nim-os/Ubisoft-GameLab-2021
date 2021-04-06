@@ -149,10 +149,13 @@ public class TutorialManager : MonoBehaviour
         }
         // Proceeds to the next stage if players are close enough wehether due to gravity or propulsion.
         else if (players.Length < 2) return;
-        else if (holdingRMB && player.GetComponent<PlayerGravitation>().currentSelection.gameObject.tag == "Player" && Vector3.Distance(players[0].transform.position, players[1].transform.position) < 15 && markers[state].enabled)
+        else if (player.GetComponent<PlayerGravitation>().currentSelection != null)
         {
-            TearDown();
-            previousMass = player.GetComponent<Rigidbody>().mass;
+            if (holdingRMB && player.GetComponent<PlayerGravitation>().currentSelection.gameObject.tag == "Player" && Vector3.Distance(players[0].transform.position, players[1].transform.position) < 15 && markers[state].enabled)
+            {
+                TearDown();
+                previousMass = player.GetComponent<Rigidbody>().mass;
+            }
         }
     }
     void Ping()
@@ -202,9 +205,12 @@ public class TutorialManager : MonoBehaviour
             {
                 canv.transform.GetChild(state).transform.position = Camera.main.WorldToScreenPoint(firstPlanet.transform.position);
             }
-            if (player.GetComponent<PlayerGravitation>().currentSelection.gameObject.tag != "Player")
+            if (player.GetComponent<PlayerGravitation>().currentSelection != null)
             {
-                canv.transform.GetChild(state).transform.GetChild(0).GetComponent<Text>().text = "Keep going!";
+                if (player.GetComponent<PlayerGravitation>().currentSelection.gameObject.tag != "Player")
+                {
+                    canv.transform.GetChild(state).transform.GetChild(0).GetComponent<Text>().text = "Keep going!";
+                }
             }
         }
         

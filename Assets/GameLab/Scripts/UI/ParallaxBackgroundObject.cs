@@ -4,10 +4,8 @@ using UnityEngine;
 
 public class ParallaxBackgroundObject : MonoBehaviour
 {
-    [SerializeField]
-    private float _width, _height;
-
-
+    // This script works on a different plane than "Parallax Main Menu"
+    
     // Sprite size & position
     private float spriteLength, spriteWidth;
     Vector3 startPosition;
@@ -20,10 +18,9 @@ public class ParallaxBackgroundObject : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        transform.eulerAngles = new Vector3(90, 0, 0);
         startPosition = transform.position;
-        spriteLength = GetComponent<SpriteRenderer>().bounds.size.z/2 ;
-        spriteWidth = GetComponent<SpriteRenderer>().bounds.size.x/2 ;
+        spriteLength = GetComponent<SpriteRenderer>().bounds.size.x / 3;
+        spriteWidth = GetComponent<SpriteRenderer>().bounds.size.z / 3;
     }
 
     // Update is called once per frame
@@ -34,7 +31,7 @@ public class ParallaxBackgroundObject : MonoBehaviour
         // Frame of reference for observer
         Vector3 distance = (cam.transform.position * _parallaxEffect);
         // Galilean transform to compute parallax
-        transform.position = new Vector3(startPosition.x + distance.x, 0, startPosition.z + distance.z);
+        transform.position = new Vector3(startPosition.x + distance.x, transform.position.y, startPosition.z + distance.z);
 
         // Limits on galilean transform for parallax on x axis
         if (galilean.x > startPosition.x + spriteLength) startPosition.x += spriteLength;

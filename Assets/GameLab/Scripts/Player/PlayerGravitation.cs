@@ -55,23 +55,17 @@ public class PlayerGravitation : MonoBehaviour
         {
             BaseGravitation o = SelectGravitationalObject();
 
-
             // if selects an object
             if (o != null){
                 o.playerSelected = true;
                 currentSelection = o;
-                o.ShowIndicator();
             }
-        }
         // else not holding RMB OR no objects to select
-        else
-        {
+        }else {
             if (currentSelection != null){
                 currentSelection.playerSelected = false;
-                currentSelection.HideIndicator();
             }
             currentSelection = null;
-
         }
     }
 

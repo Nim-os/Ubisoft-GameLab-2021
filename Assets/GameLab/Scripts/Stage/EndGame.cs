@@ -6,25 +6,27 @@ using UnityEngine.SceneManagement;
 
 public class EndGame : MonoBehaviour
 {
-    public GameObject endZone;
-    public GameObject keyManager;
-    public GameObject warpTime;
+    public KeyManager keyManager;
     private int ct;
 
     void Start()
     {
-        warpTime.SetActive(false);
-        endZone.SetActive(false);
-        keyManager = GameObject.FindGameObjectWithTag("Key-m");
+        this.gameObject.SetActive(false);
+        keyManager = GameObject.FindGameObjectWithTag("Key-m").GetComponent<KeyManager>();
     }
 
     void Update()
     {
-        ct = keyManager.transform.childCount;
-        if (ct == 0) {
-            warpTime.SetActive(true);
-            endZone.SetActive(true);
-        }
+        ct = keyManager.GetKeysCount();
+
+        if (ct == 0) this.gameObject.SetActive(true);
     }
+
+    void OnTriggerEnter(Collider col)
+    {
+        if (col.gameObject.tag == "Player") SceneManager.LoadScene(4);
+
+    }
+
 
 }

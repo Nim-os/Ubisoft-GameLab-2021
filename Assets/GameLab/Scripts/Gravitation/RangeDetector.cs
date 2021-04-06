@@ -18,14 +18,13 @@ public class RangeDetector : MonoBehaviour
     private void OnTriggerEnter(Collider other) {
         var hitObject = other.gameObject;
         // if gravitational object && not a planet
-        if (hitObject.GetComponent<BaseGravitation>() && hitObject.GetComponent<BaseGravitation>().enabled && (hitObject.tag != "Planet" || hitObject.tag != "mass")){
+        if (hitObject.GetComponent<BaseGravitation>() && hitObject.GetComponent<BaseGravitation>().enabled && (hitObject.tag != "Planet")){
             body.AddWithinRange(hitObject.GetComponent<BaseGravitation>());
         }
     }
 
     private void OnTriggerExit(Collider other) {
         var hitObject = other.gameObject;
-        if (!hitObject.CompareTag("mass"))
-            body.RemoveWithinRange(hitObject.GetComponent<BaseGravitation>());
+        body.RemoveWithinRange(hitObject.GetComponent<BaseGravitation>());
     }
 }
