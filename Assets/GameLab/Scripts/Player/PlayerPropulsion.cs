@@ -68,21 +68,23 @@ public class PlayerPropulsion : MonoBehaviour
 
 	private void Update()
 	{
-        _gasBar.value = gas;
-        particleRPCDecay -= Time.deltaTime;
+        if(!PauseMenu.GameIsPaused){
+            _gasBar.value = gas;
+            particleRPCDecay -= Time.deltaTime;
 
-        // Check if we should update other players on if we are propulsing or not visually
-        if (particleRPCDecay < 0 && particlesEnabled != particlesLastState)
-		{
-            // Reset RPC decay
-            particleRPCDecay = 0.33f;
+            // Check if we should update other players on if we are propulsing or not visually
+            if (particleRPCDecay < 0 && particlesEnabled != particlesLastState)
+		    {
+                // Reset RPC decay
+                particleRPCDecay = 0.33f;
 
-            // Set the new state of the particles to save ourselves from multiple similar RPC calls
-            particlesLastState = particlesEnabled;
+                // Set the new state of the particles to save ourselves from multiple similar RPC calls
+                particlesLastState = particlesEnabled;
 
-            // Send RPC to other players
-            photonView.RPC("ParticlesRPC", RpcTarget.Others, new object[] { particlesEnabled });
-		}
+                // Send RPC to other players
+                photonView.RPC("ParticlesRPC", RpcTarget.Others, new object[] { particlesEnabled });
+		    }
+        }
 	}
 
 	void FixedUpdate()
