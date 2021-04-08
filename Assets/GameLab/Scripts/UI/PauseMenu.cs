@@ -16,8 +16,6 @@ public class PauseMenu : MonoBehaviour
 
     public GameObject PauseMenuUI;
     public GameObject gasbarUI;
-    public GameObject gastextUI;
-    public GameObject gasBoarder;
 
 	private void Awake()
 	{
@@ -44,8 +42,6 @@ public class PauseMenu : MonoBehaviour
     public void Resume(){
         PauseMenuUI.SetActive(false);
         gasbarUI.SetActive(true);
-        gastextUI.SetActive(true);
-        gasBoarder.SetActive(true);
         Time.timeScale=1f;
         GameIsPaused=false;
     }
@@ -54,8 +50,6 @@ public class PauseMenu : MonoBehaviour
     void Pause(){
         PauseMenuUI.SetActive(true);
         gasbarUI.SetActive(false);
-        gastextUI.SetActive(false);
-        gasBoarder.SetActive(false);
         Time.timeScale=0f;
         GameIsPaused=true;
     }

@@ -63,6 +63,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 			// Replace room code
 			inputField.SetTextWithoutNotify(PhotonNetwork.CurrentRoom.Name);
 		}
+		else
+		{
+			Log("Connected to game server");
+			SetConnectionState(ConnectionState.Idle);
+		}
 	}
 
 	#region Room Logic

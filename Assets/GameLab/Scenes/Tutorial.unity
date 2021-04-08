@@ -8373,9 +8373,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PauseMenuUI: {fileID: 1295294518}
-  gasbarUI: {fileID: 0}
-  gastextUI: {fileID: 0}
-  gasBoarder: {fileID: 327449148}
+  gasbarUI: {fileID: 1586109477}
 --- !u!1 &1343159866
 GameObject:
   m_ObjectHideFlags: 0

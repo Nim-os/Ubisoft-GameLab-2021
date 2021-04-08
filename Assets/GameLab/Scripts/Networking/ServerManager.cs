@@ -66,12 +66,11 @@ public class ServerManager : MonoBehaviourPunCallbacks
 	/// </summary>
 	public void Close()
 	{
-		instance = null;
 		PhotonNetwork.AutomaticallySyncScene = false;
 
-		PhotonNetwork.Disconnect();
+		PhotonNetwork.LeaveRoom();
 
-		Destroy(this);
+		PhotonNetwork.AutomaticallySyncScene = true;
 	}
 
 	#region Logic
@@ -107,7 +106,20 @@ public class ServerManager : MonoBehaviourPunCallbacks
 
 	public void KickAll()
 	{
+		Time.timeScale = 1f; // Edge case
+
 		photonView.RPC("LeaveLevel", RpcTarget.Others);
+
+		StartCoroutine(WaitToReturn());
+	}
+
+	private IEnumerator WaitToReturn()
+	{
+		// Wait for all other players to leave
+		while (PhotonNetwork.PlayerList.Length > 1)
+		{
+			yield return new WaitForSeconds(0.15f);
+		}
 
 		LeaveLevel();
 	}
@@ -115,7 +127,7 @@ public class ServerManager : MonoBehaviourPunCallbacks
 	[PunRPC]
 	private void LeaveLevel()
 	{
-		Time.timeScale = 1f;
+		Time.timeScale = 1f; // Another edge case
 
 		Close();
 
@@ -160,9 +172,11 @@ public class ServerManager : MonoBehaviourPunCallbacks
 
 	public override void OnLeftRoom()
 	{
- 
-    UnityEngine.SceneManagement.SceneManager.LoadScene(1);
-	base.OnLeftRoom();
+		if (PhotonNetwork.IsConnectedAndReady)
+		{
+			base.OnLeftRoom();
+			UnityEngine.SceneManagement.SceneManager.LoadScene(1);
+		}
 	}
 
 
