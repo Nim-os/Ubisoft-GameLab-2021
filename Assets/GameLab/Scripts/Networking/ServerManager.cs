@@ -16,6 +16,8 @@ public class ServerManager : MonoBehaviourPunCallbacks
 
 	public Mode serverMode = Mode.Online;
 
+	private int playerCount = 0;
+
 	void Awake()
 	{
 		// Keep ServerManager as an instance that carries over to multiple scenes
@@ -107,7 +109,20 @@ public class ServerManager : MonoBehaviourPunCallbacks
 
 	public void KickAll()
 	{
+		Time.timeScale = 1f; // Edge case
+
 		photonView.RPC("LeaveLevel", RpcTarget.Others);
+
+		StartCoroutine(WaitToReturn());
+	}
+
+	private IEnumerator WaitToReturn()
+	{
+		// Wait for all other players to leave
+		while (PhotonNetwork.PlayerList.Length > 1)
+		{
+			yield return new WaitForSeconds(0.25f);
+		}
 
 		LeaveLevel();
 	}
@@ -115,7 +130,7 @@ public class ServerManager : MonoBehaviourPunCallbacks
 	[PunRPC]
 	private void LeaveLevel()
 	{
-		Time.timeScale = 1f;
+		Time.timeScale = 1f; // Another edge case
 
 		Close();
 
@@ -160,9 +175,11 @@ public class ServerManager : MonoBehaviourPunCallbacks
 
 	public override void OnLeftRoom()
 	{
- 
-    UnityEngine.SceneManagement.SceneManager.LoadScene(1);
-	base.OnLeftRoom();
+		if (PhotonNetwork.IsConnectedAndReady)
+		{
+			base.OnLeftRoom();
+			UnityEngine.SceneManagement.SceneManager.LoadScene(1);
+		}
 	}
 
 
