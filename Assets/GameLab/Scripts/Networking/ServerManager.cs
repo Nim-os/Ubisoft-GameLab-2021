@@ -16,8 +16,6 @@ public class ServerManager : MonoBehaviourPunCallbacks
 
 	public Mode serverMode = Mode.Online;
 
-	private int playerCount = 0;
-
 	void Awake()
 	{
 		// Keep ServerManager as an instance that carries over to multiple scenes
@@ -68,12 +66,11 @@ public class ServerManager : MonoBehaviourPunCallbacks
 	/// </summary>
 	public void Close()
 	{
-		instance = null;
 		PhotonNetwork.AutomaticallySyncScene = false;
 
-		PhotonNetwork.Disconnect();
+		PhotonNetwork.LeaveRoom();
 
-		Destroy(this);
+		PhotonNetwork.AutomaticallySyncScene = true;
 	}
 
 	#region Logic
@@ -121,7 +118,7 @@ public class ServerManager : MonoBehaviourPunCallbacks
 		// Wait for all other players to leave
 		while (PhotonNetwork.PlayerList.Length > 1)
 		{
-			yield return new WaitForSeconds(0.25f);
+			yield return new WaitForSeconds(0.15f);
 		}
 
 		LeaveLevel();
