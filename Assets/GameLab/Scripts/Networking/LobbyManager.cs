@@ -165,8 +165,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 			SetConnectionState(ConnectionState.Started);
 
 
-			// Loads the initial level
-			PhotonNetwork.LoadLevel(2); // Currently set to scene 2: Tutorial
+			// Loads the last stored level initialised to 2
+			PhotonNetwork.LoadLevel(ServerManager.instance.lastLevel); // Currently set to scene 2: Tutorial
 		}
 	}
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(PhotonView))]
 public class ServerManager : MonoBehaviourPunCallbacks
@@ -15,6 +16,8 @@ public class ServerManager : MonoBehaviourPunCallbacks
 	public static ServerManager instance;
 
 	public Mode serverMode = Mode.Online;
+
+	public int lastLevel = 2;
 
 	void Awake()
 	{
@@ -78,6 +81,9 @@ public class ServerManager : MonoBehaviourPunCallbacks
 	/// <summary>
 	/// Loads the level of all players in the room.
 	/// </summary>
+	/// <remarks>
+	/// If you want to return to the lobby scene, use RestartLevel() instead.
+	/// </remarks>
 	/// <param name="nextLevel">The desired level index</param>
 	public void LoadRoomLevel(int nextLevel)
 	{
@@ -104,6 +110,16 @@ public class ServerManager : MonoBehaviourPunCallbacks
 		PhotonNetwork.LoadLevel(level);
 	}
 
+	/// <summary>
+	/// Sends a message to all players to restart the level
+	/// </summary>
+	public void RestartLevel()
+	{
+		lastLevel = SceneManager.GetActiveScene().buildIndex;
+
+		PhotonNetwork.LoadLevel(1);
+	}
+
 	public void KickAll()
 	{
 		Time.timeScale = 1f; // Edge case
@@ -128,10 +144,12 @@ public class ServerManager : MonoBehaviourPunCallbacks
 	private void LeaveLevel()
 	{
 		Time.timeScale = 1f; // Another edge case
+		lastLevel = 2; // Reset lastLevel
+
 
 		Close();
 
-		UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+		SceneManager.LoadScene(0);
 	}
 
 	#endregion
