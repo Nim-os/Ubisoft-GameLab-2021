@@ -29,7 +29,7 @@ public class ServerManager : MonoBehaviourPunCallbacks
 		}
 		else
 		{
-			Destroy(this);
+			DestroyImmediate(gameObject, true);
 			return;
 		}
 
@@ -117,12 +117,13 @@ public class ServerManager : MonoBehaviourPunCallbacks
 	{
 		lastLevel = SceneManager.GetActiveScene().buildIndex;
 
-		PhotonNetwork.LoadLevel(1);
+		LoadRoomLevel(1);
 	}
 
 	public void KickAll()
 	{
 		Time.timeScale = 1f; // Edge case
+		PauseMenu.GameIsPaused = false; // Other edge case
 
 		photonView.RPC("LeaveLevel", RpcTarget.Others);
 
@@ -143,7 +144,6 @@ public class ServerManager : MonoBehaviourPunCallbacks
 	[PunRPC]
 	private void LeaveLevel()
 	{
-		Time.timeScale = 1f; // Another edge case
 		lastLevel = 2; // Reset lastLevel
 
 

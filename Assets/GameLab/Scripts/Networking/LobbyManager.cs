@@ -65,7 +65,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 		}
 		else
 		{
-			Log("Connected to game server");
+			Log("Connected to game server.");
 			SetConnectionState(ConnectionState.Idle);
 		}
 	}
@@ -187,8 +187,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 	/// </summary>
 	public void BackToMain()
 	{
-		ServerManager.instance.Close();
-
 		UnityEngine.SceneManagement.SceneManager.LoadScene(0);
 	}
 
