@@ -49,13 +49,13 @@ public class PlayerGravitation : MonoBehaviour
     }
 
     /// <summary> Removes gravitational object from playerGravityCheck list</summary>
-    private void ToggleOnGravity(){
+    private void ToggleOnGravity()
+    {
+        BaseGravitation o;
+
         // holding RMB
-        if (holdingRMB)
+        if (holdingRMB && (o = SelectGravitationalObject()) != null) // In theory this should work - Holding RMB & No objects nearly -> Else statement executed
         {
-            BaseGravitation o = SelectGravitationalObject();
-
-
             // if selects an object
             if (o != null){
                 o.playerSelected = true;
@@ -66,7 +66,8 @@ public class PlayerGravitation : MonoBehaviour
         // else not holding RMB OR no objects to select
         else
         {
-            if (currentSelection != null){
+            if (currentSelection != null)
+            {
                 currentSelection.playerSelected = false;
                 currentSelection.HideIndicator();
             }
