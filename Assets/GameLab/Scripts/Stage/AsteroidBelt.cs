@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AsteroidBelt : MonoBehaviour
 {
-    public const float maxWait = 5f;
+    public const float maxWait = 15f;
     private float wait;
     
     // [SerializeField]
@@ -19,7 +19,7 @@ public class AsteroidBelt : MonoBehaviour
             return;
 		}
 
-        wait = Random.Range(1, maxWait);
+        wait = Random.Range(5, maxWait);
     }
 
     void Update()

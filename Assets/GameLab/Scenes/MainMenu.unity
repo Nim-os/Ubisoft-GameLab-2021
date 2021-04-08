@@ -1334,7 +1334,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Worldlines
+  m_text: The Third Law
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 733200d30eacf1a45858e109180cd10e, type: 2}
   m_sharedMaterial: {fileID: -7297798557118548583, guid: 733200d30eacf1a45858e109180cd10e,
