@@ -9,6 +9,7 @@ public class EndGame : MonoBehaviour
     public GameObject endZone;
     public GameObject keyManager;
     public GameObject warpTime;
+    public GameObject removeBorder;
     private int ct;
 
     void Start()
@@ -23,6 +24,7 @@ public class EndGame : MonoBehaviour
         ct = keyManager.transform.childCount;
         if (ct == 0) {
             warpTime.SetActive(true);
+            removeBorder.SetActive(false);
             endZone.SetActive(true);
         }
     }
