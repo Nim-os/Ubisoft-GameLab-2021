@@ -16,7 +16,7 @@ public class Keys : MonoBehaviour
 
     void OnTriggerEnter(Collider col)
     {
-        if (col.gameObject.tag == "Player") {
+        if (col.gameObject.CompareTag("Player")) {
             PhotonNetwork.Destroy(this.gameObject);
             stageManager.GetComponent<LevelManager>().NewKey();
         }    
