@@ -245,7 +245,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 2
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &39527506
 MeshRenderer:
@@ -431,7 +431,7 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 0.4764151, g: 1, b: 0.6964581, a: 1}
-  m_Intensity: 0.75
+  m_Intensity: 1
   m_Range: 8
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -615,7 +615,7 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 0.4764151, g: 1, b: 0.6964581, a: 1}
-  m_Intensity: 0.75
+  m_Intensity: 1
   m_Range: 8
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -707,7 +707,7 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 0.4764151, g: 1, b: 0.6964581, a: 1}
-  m_Intensity: 0.75
+  m_Intensity: 1
   m_Range: 8
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -955,7 +955,7 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 0.4764151, g: 1, b: 0.6964581, a: 1}
-  m_Intensity: 0.75
+  m_Intensity: 1
   m_Range: 8
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -1245,7 +1245,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 2
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &158430204
 MeshRenderer:
@@ -1876,7 +1876,7 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 0.4764151, g: 1, b: 0.6964581, a: 1}
-  m_Intensity: 0.75
+  m_Intensity: 1
   m_Range: 8
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -2257,7 +2257,7 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 0.4764151, g: 1, b: 0.6964581, a: 1}
-  m_Intensity: 0.75
+  m_Intensity: 1
   m_Range: 8
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -3805,7 +3805,7 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 0.4764151, g: 1, b: 0.6964581, a: 1}
-  m_Intensity: 0.75
+  m_Intensity: 1
   m_Range: 8
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -4181,7 +4181,7 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 0.4764151, g: 1, b: 0.6964581, a: 1}
-  m_Intensity: 0.75
+  m_Intensity: 1
   m_Range: 8
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -5152,7 +5152,7 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 0.4764151, g: 1, b: 0.6964581, a: 1}
-  m_Intensity: 0.75
+  m_Intensity: 1
   m_Range: 8
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -5819,7 +5819,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 2
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &826413561
 MeshRenderer:
@@ -6576,7 +6576,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 2
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &975565910
 MeshRenderer:
@@ -6749,7 +6749,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 2
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &993531816
 MeshRenderer:
@@ -6879,7 +6879,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 2
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &1014489561
 MeshRenderer:
@@ -7633,7 +7633,7 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 0.4764151, g: 1, b: 0.6964581, a: 1}
-  m_Intensity: 0.75
+  m_Intensity: 1
   m_Range: 8
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -7955,7 +7955,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 2
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &1296474949
 MeshRenderer:
@@ -8537,7 +8537,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 2
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &1356491578
 MeshRenderer:
@@ -8986,7 +8986,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 2
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &1404765485
 MeshRenderer:
@@ -9127,7 +9127,7 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 0.4764151, g: 1, b: 0.6964581, a: 1}
-  m_Intensity: 0.75
+  m_Intensity: 1
   m_Range: 8
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -11164,7 +11164,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 2
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &1812193180
 MeshRenderer:
@@ -11392,7 +11392,7 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 0.4764151, g: 1, b: 0.6964581, a: 1}
-  m_Intensity: 0.75
+  m_Intensity: 1
   m_Range: 8
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -11925,7 +11925,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 2
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &1852728220
 MeshRenderer:
@@ -12017,7 +12017,7 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 0.4764151, g: 1, b: 0.6964581, a: 1}
-  m_Intensity: 0.75
+  m_Intensity: 1
   m_Range: 8
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -12763,7 +12763,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 2
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &1984283210
 MeshRenderer:
@@ -13490,7 +13490,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 2
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &2107478659
 MeshRenderer:
