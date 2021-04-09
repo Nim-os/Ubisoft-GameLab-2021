@@ -77,6 +77,12 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 	/// </summary>
 	public void CreateRoom()
 	{
+		// Creates a default name if the player does not enter one
+		if (string.IsNullOrWhiteSpace(PhotonNetwork.LocalPlayer.NickName))
+		{
+			PhotonNetwork.LocalPlayer.NickName = RandomPhysicist();
+		}
+		
 		Log($"Creating room...");
 
 		SetConnectionState(ConnectionState.Connecting);
@@ -131,7 +137,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 		// Creates a default name if the player does not enter one
 		if (string.IsNullOrWhiteSpace(PhotonNetwork.LocalPlayer.NickName))
 		{
-			PhotonNetwork.LocalPlayer.NickName = "Player " + Random.Range(0x2710, 0xFFFF); 
+			PhotonNetwork.LocalPlayer.NickName = RandomPhysicist(); 
 		}
 		else
 		{
@@ -350,6 +356,27 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 	{
 		logPanel.text += $"\n{text}";
 		autoScroll.ScrollToBottom();
+	}
+
+	/// <summary>
+	/// Generates a random Physicist if player gave no nickname code.
+	/// </summary>
+	/// <returns>A string + number  with range [10, 100)</returns>
+	private string RandomPhysicist()
+	{
+		string[] smarties = {"Einstein", "Newton", "Maxwell", "Bohr", 
+			"Heisenberg", "Galileo", "Feynman", "Sagan", "Hawking", 
+			"Dirac", "Curie", "Schrodinger", "Schwarzschild", "Kerr", 
+			"Lagrange", "Hooke", "Rutherford", "Ragan", "Landau", "Oppenheimer",
+			"Hubble", "Planck", "Volt", "Ampere", "Watt", "Noether", "Riemann", "Ricci", 
+			"Eddington", "Susskind", "Thorne", "Zeldovich", "Kepler", "Copernicus",
+			"Halley", "Messier", "Laplace", "Hilbert", "Chandrasekhar", "Minkowski", 
+			"Kuiper", "Wheeler", "de Sitter", "Van Allen", "Penrose", "Wu"};
+
+		int item = Random.Range(0, smarties.Length);
+		int number = Random.Range(10, 100);
+
+		return smarties[item] + " " + number;
 	}
 
 	/// <summary>
