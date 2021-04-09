@@ -12,19 +12,18 @@ public class Rocks : MonoBehaviourPun
         rb = this.GetComponent<Rigidbody>();
     }
 
-    void OnTriggerEnter(Collider col) {
+    void OnTriggerEnter(Collider col)
+    {
         if (col.gameObject.CompareTag("Player"))
         {
             PlayerPropulsion pp = col.gameObject.GetComponent<PlayerPropulsion>();
-            pp.ChangeMass(rb.mass);
-            photonView.RPC("Delete", RpcTarget.Others);
-            Delete();
-        }
-    }
 
-    [PunRPC]
-    void Delete()
-    {
-        Destroy(gameObject);
+            if (gameObject.GetComponent<PhotonView>().IsMine)
+            {
+                pp.ChangeMass(rb.mass);
+            }
+
+            Destroy(gameObject);
+        }
     }
 }
