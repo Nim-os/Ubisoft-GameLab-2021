@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class BaseAsteroid : MonoBehaviour
+public class BaseAsteroid : MonoBehaviourPun
 {
     public float xthurst = 10f;
     public float zthrust = -15f;
@@ -11,14 +12,21 @@ public class BaseAsteroid : MonoBehaviour
 
     void Start()
     {
+        
         // Set private variables
         rb = gameObject.GetComponent<Rigidbody>();
 
-        Destroy(this, 5f);
+        Invoke("MyDestroy", 5);
     }
 
     private void Update()
     {
         rb.AddForce(new Vector3 (xthurst, 1, zthrust));
+    }
+
+    private void MyDestroy()
+    {
+        PhotonView pv = this.photonView;
+        PhotonNetwork.Destroy(pv);
     }
 }
