@@ -15,8 +15,9 @@ public class Rocks : MonoBehaviour
     void OnTriggerEnter(Collider col) {
         if (col.gameObject.CompareTag("Player"))
         {
-            col.gameObject.GetComponent<PlayerPropulsion>().ChangeMass(rb.mass);
-            Destroy(this.gameObject);
+            PlayerPropulsion pp = col.gameObject.GetComponent<PlayerPropulsion>();
+            pp.ChangeMass(rb.mass);
+            PhotonNetwork.Destroy(this.gameObject);
         }
     }
 }
