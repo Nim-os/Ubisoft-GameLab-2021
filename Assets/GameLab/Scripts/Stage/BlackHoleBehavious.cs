@@ -27,9 +27,8 @@ public class BlackHoleBehavious : MonoBehaviourPun
             GameObject player = players[i];
             if(Vector3.Distance(player.transform.position, transform.position) <= swallowRange)
             {   
-                Destroy(player);
-                i--;
-
+                // Destroy(player);
+                Debug.Log("Black Hole collision detected successfully.");
             }else{
                     //add force to the object, but only for its x&z plane
                     player.GetComponent<Rigidbody>().AddForce(new Vector3(transform.position.x-player.transform.position.x, 0, transform.position.z-player.transform.position.z)*forceAdd, ForceMode.Force);
