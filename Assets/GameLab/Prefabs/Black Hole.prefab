@@ -133,7 +133,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41facd282e3bc439e9a1c3b26ddc1fa3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  forceAdd: 0.00001
+  forceAdd: 0.01
   swallowRange: 2
 --- !u!114 &-3928380992695759583
 MonoBehaviour:
