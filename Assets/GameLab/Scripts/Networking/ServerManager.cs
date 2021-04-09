@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(PhotonView))]
 public class ServerManager : MonoBehaviourPunCallbacks
@@ -16,6 +17,8 @@ public class ServerManager : MonoBehaviourPunCallbacks
 
 	public Mode serverMode = Mode.Online;
 
+	public int lastLevel = 2;
+
 	void Awake()
 	{
 		// Keep ServerManager as an instance that carries over to multiple scenes
@@ -26,7 +29,7 @@ public class ServerManager : MonoBehaviourPunCallbacks
 		}
 		else
 		{
-			Destroy(this);
+			DestroyImmediate(gameObject, true);
 			return;
 		}
 
@@ -66,12 +69,11 @@ public class ServerManager : MonoBehaviourPunCallbacks
 	/// </summary>
 	public void Close()
 	{
-		instance = null;
 		PhotonNetwork.AutomaticallySyncScene = false;
 
-		PhotonNetwork.Disconnect();
+		PhotonNetwork.LeaveRoom();
 
-		Destroy(this);
+		PhotonNetwork.AutomaticallySyncScene = true;
 	}
 
 	#region Logic
@@ -79,6 +81,9 @@ public class ServerManager : MonoBehaviourPunCallbacks
 	/// <summary>
 	/// Loads the level of all players in the room.
 	/// </summary>
+	/// <remarks>
+	/// If you want to return to the lobby scene, use RestartLevel() instead.
+	/// </remarks>
 	/// <param name="nextLevel">The desired level index</param>
 	public void LoadRoomLevel(int nextLevel)
 	{
@@ -105,9 +110,33 @@ public class ServerManager : MonoBehaviourPunCallbacks
 		PhotonNetwork.LoadLevel(level);
 	}
 
+	/// <summary>
+	/// Sends a message to all players to restart the level
+	/// </summary>
+	public void RestartLevel()
+	{
+		lastLevel = SceneManager.GetActiveScene().buildIndex;
+
+		LoadRoomLevel(1);
+	}
+
 	public void KickAll()
 	{
+		Time.timeScale = 1f; // Edge case
+		PauseMenu.GameIsPaused = false; // Other edge case
+
 		photonView.RPC("LeaveLevel", RpcTarget.Others);
+
+		StartCoroutine(WaitToReturn());
+	}
+
+	private IEnumerator WaitToReturn()
+	{
+		// Wait for all other players to leave
+		while (PhotonNetwork.PlayerList.Length > 1)
+		{
+			yield return new WaitForSeconds(0.15f);
+		}
 
 		LeaveLevel();
 	}
@@ -115,11 +144,12 @@ public class ServerManager : MonoBehaviourPunCallbacks
 	[PunRPC]
 	private void LeaveLevel()
 	{
-		Time.timeScale = 1f;
+		lastLevel = 2; // Reset lastLevel
+
 
 		Close();
 
-		UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+		SceneManager.LoadScene(0);
 	}
 
 	#endregion
@@ -160,9 +190,11 @@ public class ServerManager : MonoBehaviourPunCallbacks
 
 	public override void OnLeftRoom()
 	{
- 
-    UnityEngine.SceneManagement.SceneManager.LoadScene(1);
-	base.OnLeftRoom();
+		if (PhotonNetwork.IsConnectedAndReady)
+		{
+			base.OnLeftRoom();
+			UnityEngine.SceneManagement.SceneManager.LoadScene(1);
+		}
 	}
 
 

@@ -63,6 +63,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 			// Replace room code
 			inputField.SetTextWithoutNotify(PhotonNetwork.CurrentRoom.Name);
 		}
+		else
+		{
+			Log("Connected to game server.");
+			SetConnectionState(ConnectionState.Idle);
+		}
 	}
 
 	#region Room Logic
@@ -72,6 +77,12 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 	/// </summary>
 	public void CreateRoom()
 	{
+		// Creates a default name if the player does not enter one
+		if (string.IsNullOrWhiteSpace(PhotonNetwork.LocalPlayer.NickName))
+		{
+			PhotonNetwork.LocalPlayer.NickName = RandomPhysicist();
+		}
+		
 		Log($"Creating room...");
 
 		SetConnectionState(ConnectionState.Connecting);
@@ -114,7 +125,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 	}
 
 	/// <summary>
-	/// Handles the player attempting to join a room.
+	/// Handles the player attempting to join a room
 	/// </summary>
 	public void JoinRoom()
 	{
@@ -122,6 +133,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 		if (string.IsNullOrWhiteSpace(inputField.text))
 		{
 			Log("Must provide a room to join.");
+		}
+		// Creates a default name if the player does not enter one
+		if (string.IsNullOrWhiteSpace(PhotonNetwork.LocalPlayer.NickName))
+		{
+			PhotonNetwork.LocalPlayer.NickName = RandomPhysicist(); 
 		}
 		else
 		{
@@ -138,7 +154,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 	}
 
 	/// <summary>
-	/// Handles starting the game if player criterion is met.
+	/// Handles starting the game if player criterion is met
 	/// </summary>
 	public void PlayGame()
 	{
@@ -160,8 +176,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 			SetConnectionState(ConnectionState.Started);
 
 
-			// Loads the initial level
-			PhotonNetwork.LoadLevel(2); // Currently set to scene 2: Tutorial
+			// Loads the last stored level initialised to 2
+			PhotonNetwork.LoadLevel(ServerManager.instance.lastLevel); // Currently set to scene 2: Tutorial
 		}
 	}
 
@@ -182,8 +198,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 	/// </summary>
 	public void BackToMain()
 	{
-		ServerManager.instance.Close();
-
 		UnityEngine.SceneManagement.SceneManager.LoadScene(0);
 	}
 
@@ -342,6 +356,27 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 	{
 		logPanel.text += $"\n{text}";
 		autoScroll.ScrollToBottom();
+	}
+
+	/// <summary>
+	/// Generates a random Physicist if player gave no nickname code.
+	/// </summary>
+	/// <returns>A string + number  with range [10, 100)</returns>
+	private string RandomPhysicist()
+	{
+		string[] smarties = {"Einstein", "Newton", "Maxwell", "Bohr", 
+			"Heisenberg", "Galileo", "Feynman", "Sagan", "Hawking", 
+			"Dirac", "Curie", "Schrodinger", "Schwarzschild", "Kerr", 
+			"Lagrange", "Hooke", "Rutherford", "Ragan", "Landau", "Oppenheimer",
+			"Hubble", "Planck", "Volt", "Ampere", "Watt", "Noether", "Riemann", "Ricci", 
+			"Eddington", "Susskind", "Thorne", "Zeldovich", "Kepler", "Copernicus",
+			"Halley", "Messier", "Laplace", "Hilbert", "Chandrasekhar", "Minkowski", 
+			"Kuiper", "Wheeler", "de Sitter", "Van Allen", "Penrose", "Wu"};
+
+		int item = Random.Range(0, smarties.Length);
+		int number = Random.Range(10, 100);
+
+		return smarties[item] + " " + number;
 	}
 
 	/// <summary>

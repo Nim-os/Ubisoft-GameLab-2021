@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: a6ed8c61ce286b84f8e548fcc1adf62a, type: 2}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 0846f7afe53f1a6438793e92139bc903, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -1138,6 +1138,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1844874253}
     m_Modifications:
+    - target: {fileID: 1103166707788171620, guid: 5b4d614869cef1d4e8c72f17e69defb5,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1828997230809920386, guid: 5b4d614869cef1d4e8c72f17e69defb5,
         type: 3}
       propertyPath: m_Mass
@@ -1232,6 +1237,11 @@ PrefabInstance:
     - target: {fileID: 2455899176743096068, guid: 5b4d614869cef1d4e8c72f17e69defb5,
         type: 3}
       propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8811791578623716138, guid: 5b4d614869cef1d4e8c72f17e69defb5,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -1377,6 +1387,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1844874253}
     m_Modifications:
+    - target: {fileID: 1103166707788171620, guid: 5b4d614869cef1d4e8c72f17e69defb5,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1828997230809920386, guid: 5b4d614869cef1d4e8c72f17e69defb5,
         type: 3}
       propertyPath: m_Mass
@@ -1473,6 +1488,11 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8811791578623716138, guid: 5b4d614869cef1d4e8c72f17e69defb5,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5b4d614869cef1d4e8c72f17e69defb5, type: 3}
 --- !u!1001 &284054216
@@ -1482,6 +1502,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1844874253}
     m_Modifications:
+    - target: {fileID: 1103166707788171620, guid: 5b4d614869cef1d4e8c72f17e69defb5,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1828997230809920386, guid: 5b4d614869cef1d4e8c72f17e69defb5,
         type: 3}
       propertyPath: m_Mass
@@ -1576,6 +1601,11 @@ PrefabInstance:
     - target: {fileID: 2455899176743096068, guid: 5b4d614869cef1d4e8c72f17e69defb5,
         type: 3}
       propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8811791578623716138, guid: 5b4d614869cef1d4e8c72f17e69defb5,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -2581,6 +2611,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 465d719e2cccdae46960c8a0660483cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _width: 0
+  _height: 0
+  _yValue: -10
   cam: {fileID: 1844874250}
   _parallaxEffect: 1.3
 --- !u!212 &681066476
@@ -3609,6 +3642,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 465d719e2cccdae46960c8a0660483cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _width: 0
+  _height: 0
+  _yValue: -10
   cam: {fileID: 1844874250}
   _parallaxEffect: 0.5
 --- !u!212 &868010423
@@ -4488,6 +4524,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serverMode: 0
+  lastLevel: 2
 --- !u!4 &1228304619
 Transform:
   m_ObjectHideFlags: 0
@@ -4521,7 +4558,7 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   ObservedComponents: []
-  viewIdField: 2
+  viewIdField: 500
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!1 &1337245463
@@ -4555,11 +4592,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
+  m_IgnoreReversedGraphics: 0
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 0
 --- !u!114 &1337245465
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5146,7 +5183,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1844874250}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 4, y: -1208.7794, z: -342.76917}
+  m_LocalPosition: {x: 4, y: -1811.7999, z: -490.29868}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 61049158}
@@ -6053,6 +6090,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 465d719e2cccdae46960c8a0660483cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _width: 0
+  _height: 0
+  _yValue: -10
   cam: {fileID: 1844874250}
   _parallaxEffect: 0.8
 --- !u!212 &2092864037

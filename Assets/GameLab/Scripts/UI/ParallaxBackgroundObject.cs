@@ -7,7 +7,8 @@ public class ParallaxBackgroundObject : MonoBehaviour
     [SerializeField]
     private float _width, _height;
 
-
+    [SerializeField]
+    private float _yValue;
     // Sprite size & position
     private float spriteLength, spriteWidth;
     Vector3 startPosition;
@@ -17,11 +18,14 @@ public class ParallaxBackgroundObject : MonoBehaviour
     public float _parallaxEffect;
 
 
+    private float yValue;
+
     // Start is called before the first frame update
     void Start()
     {
+        yValue = cam.transform.position.y + _yValue;
         transform.eulerAngles = new Vector3(90, 0, 0);
-        startPosition = transform.position;
+        startPosition = cam.transform.position;
         spriteLength = GetComponent<SpriteRenderer>().bounds.size.z/2 ;
         spriteWidth = GetComponent<SpriteRenderer>().bounds.size.x/2 ;
     }
@@ -34,7 +38,7 @@ public class ParallaxBackgroundObject : MonoBehaviour
         // Frame of reference for observer
         Vector3 distance = (cam.transform.position * _parallaxEffect);
         // Galilean transform to compute parallax
-        transform.position = new Vector3(startPosition.x + distance.x, 0, startPosition.z + distance.z);
+        transform.position = new Vector3(startPosition.x + distance.x, _yValue, startPosition.z + distance.z);
 
         // Limits on galilean transform for parallax on x axis
         if (galilean.x > startPosition.x + spriteLength) startPosition.x += spriteLength;

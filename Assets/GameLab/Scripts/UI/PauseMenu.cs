@@ -15,12 +15,12 @@ public class PauseMenu : MonoBehaviour
     public InputSystem input;
 
     public GameObject PauseMenuUI;
-    public GameObject gasbarUI;
-    public GameObject gastextUI;
-    public GameObject gasBoarder;
+    [SerializeField]
+    private GameObject gasbarUI;
 
 	private void Awake()
 	{
+        gasbarUI = GameObject.Find("GasBar");
         input = new InputSystem();
 
         input.Game.Pause.performed += x =>
@@ -44,8 +44,6 @@ public class PauseMenu : MonoBehaviour
     public void Resume(){
         PauseMenuUI.SetActive(false);
         gasbarUI.SetActive(true);
-        gastextUI.SetActive(true);
-        gasBoarder.SetActive(true);
         Time.timeScale=1f;
         GameIsPaused=false;
     }
@@ -54,8 +52,6 @@ public class PauseMenu : MonoBehaviour
     void Pause(){
         PauseMenuUI.SetActive(true);
         gasbarUI.SetActive(false);
-        gastextUI.SetActive(false);
-        gasBoarder.SetActive(false);
         Time.timeScale=0f;
         GameIsPaused=true;
     }
@@ -63,10 +59,19 @@ public class PauseMenu : MonoBehaviour
 
     public void backToLobby()
     {
-        disconnecting = true;
+        Time.timeScale = 1f;
+        GameIsPaused = false;
 
         ServerManager.instance.KickAll();
     }
+
+    public void Restart()
+	{
+        Time.timeScale = 1f;
+        GameIsPaused = false;
+
+        ServerManager.instance.RestartLevel();
+	}
 
 	private void OnEnable()
 	{
