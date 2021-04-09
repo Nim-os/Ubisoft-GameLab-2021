@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class Rocks : MonoBehaviour
+public class Rocks : MonoBehaviourPun
 {
     private Rigidbody rb;
 
@@ -17,8 +17,14 @@ public class Rocks : MonoBehaviour
         {
             PlayerPropulsion pp = col.gameObject.GetComponent<PlayerPropulsion>();
             pp.ChangeMass(rb.mass);
-            PhotonNetwork.Destroy(this.gameObject);
-            if (this.gameObject != null) Destroy(this.gameObject);
+            photonView.RPC("Delete", RpcTarget.Others);
+            Delete();
         }
+    }
+
+    [PunRPC]
+    void Delete()
+    {
+        Destroy(gameObject);
     }
 }
