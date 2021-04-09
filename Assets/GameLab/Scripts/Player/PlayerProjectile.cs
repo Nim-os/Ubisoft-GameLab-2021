@@ -4,7 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class PlayerProjectile : MonoBehaviour
+public class PlayerProjectile : MonoBehaviourPunCallbacks
 {
     public InputSystem input;
 
@@ -103,12 +103,12 @@ public class PlayerProjectile : MonoBehaviour
         }
     }
 
-    private void OnEnable()
+    public override void OnEnable()
     {
         input.Enable();
     }
 
-	private void OnDisable()
+	public override void OnDisable()
 	{
         input.Disable();
 	}
