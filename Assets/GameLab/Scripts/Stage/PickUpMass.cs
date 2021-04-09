@@ -23,8 +23,8 @@ public class PickUpMass : MonoBehaviour
     void SetTextObject()
     {
         text = GameObject.FindGameObjectWithTag("GasBar").transform.GetChild(4).gameObject;
-        if (text != null) Debug.Log("Gas Bar read correctly.");
-        else Debug.LogError("Gas bar not being read");
+        // if (text != null) Debug.Log("Gas Bar read correctly.");
+        // else Debug.LogError("Gas bar not being read");
     }
 
     void OnTriggerEnter(Collider col) {
