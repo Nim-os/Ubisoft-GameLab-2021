@@ -65,7 +65,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 		}
 		else
 		{
-			Log("Connected to game server");
+			Log("Connected to game server.");
 			SetConnectionState(ConnectionState.Idle);
 		}
 	}
@@ -165,8 +165,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 			SetConnectionState(ConnectionState.Started);
 
 
-			// Loads the initial level
-			PhotonNetwork.LoadLevel(2); // Currently set to scene 2: Tutorial
+			// Loads the last stored level initialised to 2
+			PhotonNetwork.LoadLevel(ServerManager.instance.lastLevel); // Currently set to scene 2: Tutorial
 		}
 	}
 
@@ -187,8 +187,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 	/// </summary>
 	public void BackToMain()
 	{
-		ServerManager.instance.Close();
-
 		UnityEngine.SceneManagement.SceneManager.LoadScene(0);
 	}
 

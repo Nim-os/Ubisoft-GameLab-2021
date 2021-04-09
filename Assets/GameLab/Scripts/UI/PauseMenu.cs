@@ -57,10 +57,19 @@ public class PauseMenu : MonoBehaviour
 
     public void backToLobby()
     {
-        disconnecting = true;
+        Time.timeScale = 1f;
+        GameIsPaused = false;
 
         ServerManager.instance.KickAll();
     }
+
+    public void Restart()
+	{
+        Time.timeScale = 1f;
+        GameIsPaused = false;
+
+        ServerManager.instance.RestartLevel();
+	}
 
 	private void OnEnable()
 	{
