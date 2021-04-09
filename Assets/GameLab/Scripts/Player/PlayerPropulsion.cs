@@ -75,7 +75,7 @@ public class PlayerPropulsion : MonoBehaviourPunCallbacks
         particleRPCDecay -= Time.deltaTime;
 
         // Check if we should update other players on if we are propulsing or not visually
-        if (particleRPCDecay < 0 && particlesEnabled != particlesLastState)
+        if (particleRPCDecay < 0 && particlesEnabled != particlesLastState && !PauseMenu.GameIsPaused) 
 		{
             // Reset RPC decay
             particleRPCDecay = 0.33f;
