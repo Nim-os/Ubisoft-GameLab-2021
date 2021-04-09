@@ -1,6 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using Photon.Pun;
+
+
 
 public class WinCanvas : MonoBehaviour
 {
@@ -10,9 +15,9 @@ public class WinCanvas : MonoBehaviour
     //public GameObject gasbarUI;
 
 
-   // void Awake(){
-     //   gasbarUI = GameObject.Find("GasBar");
-   // }
+    //void Awake(){
+        //PauseMenu.GameIsPaused=true;
+    //}
 
     void OnEnable(){
         Time.timeScale=0f;
@@ -46,7 +51,8 @@ public class WinCanvas : MonoBehaviour
         PauseMenu.GameIsPaused=false;
 
 
-        UnityEngine.SceneManagement.SceneManager.LoadScene(2);
+        //UnityEngine.SceneManagement.SceneManager.LoadScene(2);
+        ServerManager.instance.LoadRoomLevel(2);
         canvas.SetActive(false);
     }
 }
