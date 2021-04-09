@@ -13,10 +13,9 @@ public class Rocks : MonoBehaviourPun
     }
 
     void OnTriggerEnter(Collider col) {
-        if (col.gameObject.CompareTag("Player"))
+        if (col.gameObject.CompareTag("Player") && this.photonView.IsMine)
         {
             col.gameObject.GetComponent<PlayerPropulsion>().ChangeMass(rb.mass);
-            this.photonView.TransferOwnership(PhotonNetwork.LocalPlayer);
             PhotonNetwork.Destroy(this.gameObject);
         }
     }
