@@ -36,10 +36,7 @@ public class PickUpMass : MonoBehaviour
                 pp.ChangeMass(rb.mass);
                 meshRenderer.enabled = false;
                 StartCoroutine(WaitingCoroutine());
-            } else {
-                Debug.Log("Testing Function");
-                StartCoroutine(ShowCantPickUp());
-            }
+            } 
         }
     }
 
@@ -50,12 +47,4 @@ public class PickUpMass : MonoBehaviour
         meshRenderer.enabled = true;
     }
 
-    IEnumerator ShowCantPickUp()
-    {
-        Debug.Log("Function works");
-        text.SetActive( true);
-        yield return new WaitForSeconds(5);
-        text.SetActive(false);
-
-    }
 }
