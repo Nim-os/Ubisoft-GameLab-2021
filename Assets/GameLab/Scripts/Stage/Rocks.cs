@@ -16,8 +16,7 @@ public class Rocks : MonoBehaviourPun
         if (col.gameObject.CompareTag("Player"))
         {
             col.gameObject.GetComponent<PlayerPropulsion>().ChangeMass(rb.mass);
-            PhotonView pv = this.photonView;
-            PhotonNetwork.Destroy(pv);
+            PhotonNetwork.Destroy(this.gameObject);
         }
     }
 }
