@@ -145,7 +145,7 @@ public class TutorialManager : MonoBehaviour
     {
         if (markers.Count == state)
         {
-            SetUp("Hold RMB to gravitate to your friend. You can take turns propulsing and gravitating to save resources. Careful: Don't crash!");
+            SetUp("Hold RMB to gravitate to your friend. You can take turns propulsing and gravitating to save resources.");
         }
         // Proceeds to the next stage if players are close enough wehether due to gravity or propulsion.
         else if (players.Length < 2) return;

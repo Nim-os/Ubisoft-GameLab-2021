@@ -4995,7 +4995,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gasBarPrefab: {fileID: 8523834744737117572, guid: 43feb2c4fe9dc1a499396df0c12646fe,
     type: 3}
-  propulsionForce: 5
+  propulsionForce: 4
   startingGas: 30
   holdingPower: 5
   _massLossRatio: 0.5
