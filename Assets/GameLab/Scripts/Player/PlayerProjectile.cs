@@ -53,7 +53,7 @@ public class PlayerProjectile : MonoBehaviourPunCallbacks
 
         if (propulsionScript.gas > 0){
             // create rock
-            currentRock = PhotonNetwork.Instantiate(rockPrefab.name, transform.position + mouseDir*(playerSize+2), transform.rotation);
+            currentRock = PhotonNetwork.Instantiate(rockPrefab.name, transform.position + mouseDir*(playerSize+5), transform.rotation);
             currentRock.transform.localScale = new Vector3(1, 1, 1);
         } 
     }
@@ -69,11 +69,11 @@ public class PlayerProjectile : MonoBehaviourPunCallbacks
             holdingPower++;
             float length = 1 + holdingPower*0.1f*0.2f;
             currentRock.transform.localScale = new Vector3(length, length, length);
-            currentRock.transform.localPosition = transform.position + mouseDir*(playerSize+2);
+            currentRock.transform.localPosition = transform.position + mouseDir*(playerSize+5);
         
         // holding but not growing
         }else if (holding && (holdingPower == rockSizeLimit)){
-            currentRock.transform.localPosition = transform.position + mouseDir*(playerSize+2);
+            currentRock.transform.localPosition = transform.position + mouseDir*(playerSize+5);
         }
     }
 

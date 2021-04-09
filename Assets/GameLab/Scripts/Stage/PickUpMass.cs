@@ -15,7 +15,7 @@ public class PickUpMass : MonoBehaviour
     void Start()
     {
         // Delay getting GasNot text object by 100ms.
-        Invoke("SetTextObject",0.1f);
+        Invoke("SetTextObject",0.5f);
         rb = this.GetComponent<Rigidbody>();
         meshRenderer = this.GetComponent<MeshRenderer>();
     }
