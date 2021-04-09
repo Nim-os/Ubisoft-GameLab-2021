@@ -6,17 +6,20 @@ public class WinCanvas : MonoBehaviour
 {
     // Start is called before the first frame update
     public GameObject canvas;
+    public GameObject inGameCanvas;
     public GameObject gasbarUI;
-    public GameObject gastextUI;
-    public GameObject gasBoarder;
+
 
     void OnEnable(){
         Time.timeScale=0f;
         PauseMenu.GameIsPaused=true;
 
+        gasbarUI = GameObject.Find("GasBar");
+
+
         gasbarUI.SetActive(false);
-        gastextUI.SetActive(false);
-        gasBoarder.SetActive(false);
+        inGameCanvas.SetActive(false);
+
     }
 
     public void BacktoLobby(){
@@ -24,8 +27,8 @@ public class WinCanvas : MonoBehaviour
         PauseMenu.GameIsPaused=false;
 
         gasbarUI.SetActive(true);
-        gastextUI.SetActive(true);
-        gasBoarder.SetActive(true);
+        inGameCanvas.SetActive(true);
+
 
         ServerManager.instance.KickAll();
     }
@@ -33,8 +36,7 @@ public class WinCanvas : MonoBehaviour
 
     public void RestartLevel(){
         gasbarUI.SetActive(true);
-        gastextUI.SetActive(true);
-        gasBoarder.SetActive(true);
+        inGameCanvas.SetActive(true);
 
         Time.timeScale=1f;
         PauseMenu.GameIsPaused=false;
