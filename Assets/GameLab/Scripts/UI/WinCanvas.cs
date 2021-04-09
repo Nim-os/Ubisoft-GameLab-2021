@@ -52,7 +52,7 @@ public class WinCanvas : MonoBehaviour
 
 
         //UnityEngine.SceneManagement.SceneManager.LoadScene(2);
-        ServerManager.instance.LoadRoomLevel(2);
+        ServerManager.instance.LoadRoomLevel(3);
         canvas.SetActive(false);
     }
 }

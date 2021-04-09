@@ -28,7 +28,7 @@ public class EndGame : MonoBehaviour
     void Update()
     {
         ct = keyManager.transform.childCount;
-        if (ct <= 12) { //change
+        if (ct ==0) { //change
             warpTime.SetActive(true);
             removeBorder.SetActive(false);
             endZone.SetActive(true);

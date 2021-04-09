@@ -300,7 +300,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6758897528770587647
 RectTransform:
   m_ObjectHideFlags: 0
@@ -605,6 +605,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvas: {fileID: 6758897530664277318}
-  gasbarUI: {fileID: 0}
-  gastextUI: {fileID: 0}
-  gasBoarder: {fileID: 0}
+  inGameCanvas: {fileID: 0}
