@@ -132,10 +132,9 @@ GameObject:
   - component: {fileID: -259947647004732247}
   - component: {fileID: 7938066167103103702}
   - component: {fileID: 1931232593522704598}
-  - component: {fileID: 5341348237025410978}
   - component: {fileID: 3233282542210786542}
   m_Layer: 9
-  m_Name: Player
+  m_Name: Player 2
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -184,7 +183,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7b548eba7f74181429f8eaee3e56233a, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4977,9 +4976,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a835b0a3bd34bf44489ba14db3dce51c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gasBarPrefab: {fileID: 5098856984900798923, guid: 9893e0cbed8c14771ab37c0cb46d8889,
+    type: 3}
   propulsionForce: 5
-  gas: 25
+  startingGas: 30
   holdingPower: 0
+  _massLossRatio: 0
   rockPrefab: {fileID: 2682222205282339131, guid: 9c81ee6cad40bef428bf18990e458408,
     type: 3}
   rb: {fileID: 4120421440658146701}
@@ -4995,6 +4997,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f65fc4a78354324a9346398c2f6a922, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rend: {fileID: 0}
+  selectionIndicator: {fileID: 0}
   freezePosition: 0
   playerSelected: 0
   beginRotating: 1
@@ -5039,7 +5043,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   host_mesh: {fileID: -2432090755550338912, guid: 9ce2a9daa3211e543ad4336ed86e204d,
     type: 3}
-  host_mat: {fileID: 2100000, guid: db2e4be659b9209419ebb6333c0ca543, type: 2}
+  host_mat: {fileID: 0}
+  client_mesh: {fileID: 0}
+  client_mat: {fileID: 0}
 --- !u!114 &-259947647004732247
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5049,10 +5055,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 4120421440658146743}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2207ed3bc157a4f54842726bbacbc4ea, type: 3}
+  m_Script: {fileID: 11500000, guid: 49b0c7521f60c7d438a5e74f422052e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: 4120421440658146701}
+  host_mesh: {fileID: 0}
+  host_mat: {fileID: 0}
+  client_mesh: {fileID: 0}
+  client_mat: {fileID: 0}
 --- !u!199 &7938066167103103702
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -5131,19 +5140,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   arrowPrefab: {fileID: 6824493199263688449, guid: d83595f56f715f0488e948b140741d94,
     type: 3}
---- !u!114 &5341348237025410978
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4120421440658146743}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2207ed3bc157a4f54842726bbacbc4ea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rb: {fileID: 4120421440658146701}
 --- !u!114 &3233282542210786542
 MonoBehaviour:
   m_ObjectHideFlags: 0
