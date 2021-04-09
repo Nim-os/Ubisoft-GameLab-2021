@@ -32,7 +32,7 @@ public class PickUpMass : MonoBehaviour
         {
             PlayerPropulsion pp =  col.gameObject.GetComponent<PlayerPropulsion>();
             //Prevents player from becoming to large.
-            if (pp.gas + rb.mass <= pp.startingGas) 
+            if (pp.gas + rb.mass <= 30) 
             {
                 Debug.Log("Enough room");
                 pp.ChangeMass(rb.mass);
