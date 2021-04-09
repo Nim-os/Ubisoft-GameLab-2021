@@ -15,10 +15,12 @@ public class PauseMenu : MonoBehaviour
     public InputSystem input;
 
     public GameObject PauseMenuUI;
-    public GameObject gasbarUI;
+    [SerializeField]
+    private GameObject gasbarUI;
 
 	private void Awake()
 	{
+        gasbarUI = GameObject.Find("GasBar");
         input = new InputSystem();
 
         input.Game.Pause.performed += x =>
