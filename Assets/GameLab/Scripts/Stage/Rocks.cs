@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class Rocks : MonoBehaviour
+public class Rocks : MonoBehaviourPun
 {
     private Rigidbody rb;
 
@@ -12,11 +12,18 @@ public class Rocks : MonoBehaviour
         rb = this.GetComponent<Rigidbody>();
     }
 
-    void OnTriggerEnter(Collider col) {
+    void OnTriggerEnter(Collider col)
+    {
         if (col.gameObject.CompareTag("Player"))
         {
-            col.gameObject.GetComponent<PlayerPropulsion>().ChangeMass(rb.mass);
-            Destroy(this.gameObject);
+            PlayerPropulsion pp = col.gameObject.GetComponent<PlayerPropulsion>();
+
+            if (gameObject.GetComponent<PhotonView>().IsMine)
+            {
+                pp.ChangeMass(rb.mass);
+            }
+
+            Destroy(gameObject);
         }
     }
 }
