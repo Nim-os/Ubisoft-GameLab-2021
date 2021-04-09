@@ -7,25 +7,24 @@ using Photon.Pun;
 using Photon.Realtime;
 
 /// <summary> Contains all methods related to self propulsion </summary>
-public class PlayerPropulsion : MonoBehaviour
+public class PlayerPropulsion : MonoBehaviourPunCallbacks
 {
-    private Slider _gasBar;
+
+    [SerializeField]
+    public GameObject gasBarPrefab;
     public InputSystem input;
-
     public float propulsionForce;
-
     [Range(0, 100)]
     public float startingGas = 30;
     public float gas { get;private set; }
-
     public int holdingPower;
-    [SerializeField]
-    private float _massLossRatio;
     public float MassLossRatio 
     {
         get {return _massLossRatio;}
         set {_massLossRatio = Mathf.Clamp(_massLossRatio, 0, 1);}
     }
+    [SerializeField]
+    private float _massLossRatio;
     [SerializeField] private GameObject rockPrefab;
     private float rockDespawnTime = 10;
     [SerializeField] private Rigidbody rb;
@@ -35,15 +34,13 @@ public class PlayerPropulsion : MonoBehaviour
     private ParticleSystem propulsionParticles;
     private Vector2 mousePos = Vector2.zero;
     private bool propulsing = false, particlesEnabled = false, particlesLastState = false;
-
-    private PhotonView photonView;
+    // Changed to public to allow "GasBarUI.cs" to access photonView;
+    // Wouldn't work otherwise.
     private float particleRPCDecay = 0.33f;
 
 	void Awake()
     {
         input = new InputSystem();
-
-        photonView = GetComponent<PhotonView>();
 
         if (photonView.IsMine)
         {
@@ -57,8 +54,15 @@ public class PlayerPropulsion : MonoBehaviour
 
 	void Start()
     {
-        _gasBar = GameObject.FindGameObjectWithTag("GasBar").GetComponent<Slider>();
-        _gasBar.maxValue = 30;
+        if (gasBarPrefab != null && PhotonNetwork.LocalPlayer.Equals(photonView.Owner))
+        {
+            GameObject _uiGB = Instantiate(this.gasBarPrefab);
+            _uiGB.SendMessage("SetTarget", this, SendMessageOptions.RequireReceiver);
+        }
+        
+        else
+            Debug.LogError("<Color=Red><a>Missing</a></Color> gasBarPrefab reference on player Prefab.", this);
+
         cameraTransposer = GameObject.Find("CM vcam1").GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineTransposer>();
         cameraHeight = cameraTransposer.m_FollowOffset.y;
         propulsionParticles = this.GetComponent<ParticleSystem>();
@@ -68,7 +72,6 @@ public class PlayerPropulsion : MonoBehaviour
 
 	private void Update()
 	{
-        _gasBar.value = gas;
         particleRPCDecay -= Time.deltaTime;
 
         // Check if we should update other players on if we are propulsing or not visually
@@ -220,12 +223,18 @@ public class PlayerPropulsion : MonoBehaviour
         }
     }
 
-    private void OnEnable()
+    void CalledOnLevelWasLoaded()
+    {
+        GameObject _uiGB = Instantiate(this.gasBarPrefab);
+        _uiGB.SendMessage("Set Target", this, SendMessageOptions.RequireReceiver);
+    }
+
+    public override void OnEnable()
     {
         input.Enable();
     }
 
-	private void OnDisable()
+	public override void OnDisable()
 	{
         input.Disable();
 	}
