@@ -5991,6 +5991,7 @@ MonoBehaviour:
   keyManager: {fileID: 861313073}
   warpTime: {fileID: 695053006}
   removeBorder: {fileID: 40500289}
+  win_canvas: {fileID: 1489697730}
 --- !u!1 &890407802
 GameObject:
   m_ObjectHideFlags: 0
@@ -7469,7 +7470,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 559a87d9cfe0fa04fade747cab6e0807, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serverMode: 0
+  serverMode: 1
   lastLevel: 2
 --- !u!4 &1228304619
 Transform:
@@ -9154,6 +9155,12 @@ Light:
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!1 &1489697730 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6758897530664277318, guid: 0d6f9315226b44a76a9b1c3f1881eea0,
+    type: 3}
+  m_PrefabInstance: {fileID: 1786366416}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1542441950
 GameObject:
   m_ObjectHideFlags: 0

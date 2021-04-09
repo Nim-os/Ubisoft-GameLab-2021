@@ -7,17 +7,21 @@ public class WinCanvas : MonoBehaviour
     // Start is called before the first frame update
     public GameObject canvas;
     public GameObject inGameCanvas;
-    public GameObject gasbarUI;
+    //public GameObject gasbarUI;
 
+
+   // void Awake(){
+     //   gasbarUI = GameObject.Find("GasBar");
+   // }
 
     void OnEnable(){
         Time.timeScale=0f;
         PauseMenu.GameIsPaused=true;
 
-        gasbarUI = GameObject.Find("GasBar");
+        //gasbarUI = GameObject.Find("GasBar");
 
 
-        gasbarUI.SetActive(false);
+        //gasbarUI.SetActive(false);
         inGameCanvas.SetActive(false);
 
     }
@@ -26,7 +30,7 @@ public class WinCanvas : MonoBehaviour
         Time.timeScale=1f;
         PauseMenu.GameIsPaused=false;
 
-        gasbarUI.SetActive(true);
+        //gasbarUI.SetActive(true);
         inGameCanvas.SetActive(true);
 
 
@@ -35,14 +39,14 @@ public class WinCanvas : MonoBehaviour
 
 
     public void RestartLevel(){
-        gasbarUI.SetActive(true);
+        //gasbarUI.SetActive(true);
         inGameCanvas.SetActive(true);
 
         Time.timeScale=1f;
         PauseMenu.GameIsPaused=false;
 
 
-        UnityEngine.SceneManagement.SceneManager.LoadScene(3);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(2);
         canvas.SetActive(false);
     }
 }

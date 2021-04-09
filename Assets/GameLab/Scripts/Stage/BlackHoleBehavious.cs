@@ -11,6 +11,11 @@ public class BlackHoleBehavious : MonoBehaviourPun
     // Start is called before the first frame update
 
     // Update is called once per frame
+    public GameObject lose_canvas;
+
+    void Start(){
+        lose_canvas=GameObject.Find("Lose-Canvas");
+    }
     void Update()
     {
             // Will now only work on objects tagged "Player" on scene.
@@ -29,6 +34,8 @@ public class BlackHoleBehavious : MonoBehaviourPun
             {   
                 // Destroy(player);
                 Debug.Log("Black Hole collision detected successfully.");
+                lose_canvas.SetActive(true);
+
             }else{
                     //add force to the object, but only for its x&z plane
                     player.GetComponent<Rigidbody>().AddForce(new Vector3(transform.position.x-player.transform.position.x, 0, transform.position.z-player.transform.position.z)*forceAdd, ForceMode.Force);

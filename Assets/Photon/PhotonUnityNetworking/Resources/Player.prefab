@@ -4993,7 +4993,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a835b0a3bd34bf44489ba14db3dce51c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gasBarPrefab: {fileID: 8523834744737117572, guid: 43feb2c4fe9dc1a499396df0c12646fe,
+  gasBarPrefab: {fileID: 8523834744737117572, guid: 355270fc7379048738b23134f9db0975,
     type: 3}
   propulsionForce: 5
   startingGas: 30
