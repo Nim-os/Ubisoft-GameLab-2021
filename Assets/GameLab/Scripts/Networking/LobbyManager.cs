@@ -119,7 +119,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 	}
 
 	/// <summary>
-	/// Handles the player attempting to join a room.
+	/// Handles the player attempting to join a room
 	/// </summary>
 	public void JoinRoom()
 	{
@@ -127,6 +127,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 		if (string.IsNullOrWhiteSpace(inputField.text))
 		{
 			Log("Must provide a room to join.");
+		}
+		// Creates a default name if the player does not enter one
+		if (string.IsNullOrWhiteSpace(PhotonNetwork.LocalPlayer.NickName))
+		{
+			PhotonNetwork.LocalPlayer.NickName = "Player " + Random.Range(0x2710, 0xFFFF); 
 		}
 		else
 		{
@@ -143,7 +148,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 	}
 
 	/// <summary>
-	/// Handles starting the game if player criterion is met.
+	/// Handles starting the game if player criterion is met
 	/// </summary>
 	public void PlayGame()
 	{
