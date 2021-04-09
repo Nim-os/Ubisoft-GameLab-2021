@@ -18,6 +18,7 @@ public class Rocks : MonoBehaviour
             PlayerPropulsion pp = col.gameObject.GetComponent<PlayerPropulsion>();
             pp.ChangeMass(rb.mass);
             PhotonNetwork.Destroy(this.gameObject);
+            if (this.gameObject != null) Destroy(this.gameObject);
         }
     }
 }
