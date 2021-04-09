@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class AsteroidBelt : MonoBehaviour
+public class AsteroidBelt : MonoBehaviourPun
 {
     public const float maxWait = 15f;
     private float wait;
@@ -13,7 +14,7 @@ public class AsteroidBelt : MonoBehaviour
     void Start()
     {
         // Want only the host to handle asteroids, destroy if not host
-        if (!Photon.Pun.PhotonNetwork.IsMasterClient)
+        if (!PhotonNetwork.IsMasterClient)
 		{
             Destroy(this);
             return;
@@ -36,6 +37,6 @@ public class AsteroidBelt : MonoBehaviour
 
     void SpawnAsteroid()
     {
-        Photon.Pun.PhotonNetwork.Instantiate("BasicAsteroid", transform.position, Quaternion.identity);
+        PhotonNetwork.Instantiate("BasicAsteroid", transform.position, Quaternion.identity);
     }
 }
