@@ -6,23 +6,25 @@ using Photon.Pun;
 public class PickUpMass : MonoBehaviour
 {
 
-    public GameObject text;
+    [SerializeField]
+    private GameObject text;
     private Rigidbody rb;
     private float respawnTime = 30;
     private MeshRenderer meshRenderer;
 
     void Start()
     {
+        // Delay getting GasNot text object by 100ms.
+        Invoke("SetTextObject",0.1f);
         rb = this.GetComponent<Rigidbody>();
         meshRenderer = this.GetComponent<MeshRenderer>();
     }
 
-    void Update()
+    void SetTextObject()
     {
-        if (text == null)
-        {
-            text = GameObject.FindGameObjectWithTag("GasNot");
-        }
+        text = GameObject.FindGameObjectWithTag("GasBar").transform.GetChild(4).gameObject;
+        if (text != null) Debug.Log("Gas Bar read correctly.");
+        else Debug.LogError("Gas bar not being read");
     }
 
     void OnTriggerEnter(Collider col) {
