@@ -26,18 +26,19 @@ public class WinCanvas : MonoBehaviour
         gasbarUI.SetActive(true);
         gastextUI.SetActive(true);
         gasBoarder.SetActive(true);
-        
+
         ServerManager.instance.KickAll();
     }
 
 
     public void RestartLevel(){
-        Time.timeScale=1f;
-        PauseMenu.GameIsPaused=false;
-
         gasbarUI.SetActive(true);
         gastextUI.SetActive(true);
         gasBoarder.SetActive(true);
+
+        Time.timeScale=1f;
+        PauseMenu.GameIsPaused=false;
+
 
         UnityEngine.SceneManagement.SceneManager.LoadScene(3);
         canvas.SetActive(false);

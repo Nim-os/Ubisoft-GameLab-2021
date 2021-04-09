@@ -30,5 +30,5 @@ EditorBuildSettings:
     path: Assets/GameLab/Scenes/IndividualTestScenes/LevelOne 1.unity
     guid: 8458e3a54f39d054f850858191f2d7e1
   m_configObjects:
-    com.unity.input.settings: {fileID: 11400000, guid: 415ed48c452b62541bc418c71c3ddf18,
+    com.unity.input.settings: {fileID: 11400000, guid: cae2ee766b474480ea159d6414340103,
       type: 2}
