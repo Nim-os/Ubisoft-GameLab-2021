@@ -226,7 +226,7 @@ public class PlayerPropulsion : MonoBehaviourPunCallbacks
     void CalledOnLevelWasLoaded()
     {
         GameObject _uiGB = Instantiate(this.gasBarPrefab);
-        _uiGB.SendMessage("Set Target", this, SendMessageOptions.RequireReceiver);
+        _uiGB.SendMessage("SetTarget", this, SendMessageOptions.RequireReceiver);
     }
 
     public override void OnEnable()
